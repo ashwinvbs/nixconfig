@@ -44,7 +44,7 @@
   services.xserver.desktopManager.gnome.enable = true;
   services.gnome.core-utilities.enable = false;
   programs.gnome-terminal.enable = true;
-  environment.gnome.excludePackages = with pkgs.gnome; [
+  environment.gnome.excludePackages = with pkgs; [
     gnome-tour
     gnome-user-docs
     orca
@@ -56,7 +56,7 @@
   # services.xserver.xkbOptions = "eurosign:e";
 
   # Enable CUPS to print documents.
-  # services.printing.enable = true;
+  services.printing.enable = false;
 
   # Enable sound.
   # sound.enable = true;
