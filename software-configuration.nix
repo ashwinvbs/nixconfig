@@ -43,6 +43,12 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
   services.gnome.core-utilities.enable = false;
+  environment.gnome.excludePackages = with pkgs.gnome; [
+    gnome-tour
+    gnome-user-docs
+    orca
+  ];
+
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
