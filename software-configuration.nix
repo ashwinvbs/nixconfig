@@ -43,6 +43,7 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
   services.gnome.core-utilities.enable = false;
+  programs.gnome-terminal.enable = true;
   environment.gnome.excludePackages = with pkgs.gnome; [
     gnome-tour
     gnome-user-docs
