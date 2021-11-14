@@ -9,6 +9,7 @@
     ./components/base.nix
     ./components/dev-software.nix
     ./components/gnome.nix
+    ./components/keychron-fix.nix
     ./components/misc.nix
     ./components/nuc.nix
     ./components/users.nix
