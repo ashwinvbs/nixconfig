@@ -7,4 +7,9 @@
   time.timeZone = "America/New_York";
 
   i18n.defaultLocale = "en_US.UTF-8";
+
+  # Git is required for pulling nix configuration
+  environment.systemPackages = with pkgs; [
+    git
+  ];
 }

@@ -2,8 +2,10 @@
 
 {
   nixpkgs.config.allowUnfree = true;
+
   environment.systemPackages = with pkgs; [
-    git
     vscode
+    # firefox for maintaining work profiles
+    firefox
   ];
 }
