@@ -9,7 +9,7 @@
     ./components/base.nix
     ./components/gnome.nix
     ./components/keychron-fix.nix
-    ./components/nuc.nix
+    ./components/nuc-config.nix
     ./components/work.nix
   ];
 }
