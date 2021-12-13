@@ -8,6 +8,12 @@
 
   i18n.defaultLocale = "en_US.UTF-8";
 
+  nix.gc = {
+    automatic = true;
+    dates = "hourly";
+    options = "--delete-older-than 1d";
+  };
+
   # Git is required for pulling nix configuration
   environment.systemPackages = with pkgs; [
     git
