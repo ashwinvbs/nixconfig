@@ -21,6 +21,10 @@
     usbutils
   ];
 
+  # https://github.com/NixOS/nixpkgs/issues/87802
+  boot.kernelParams = [ "ipv6.disable=1" ]
+  networking.enableIPv6 = false
+
   users.users.ashwin = {
     isNormalUser = true;
     description = "Ashwin Balasubramaniyan";
