@@ -14,13 +14,6 @@
     options = "--delete-older-than 1d";
   };
 
-  # Git is required for pulling nix configuration
-  environment.systemPackages = with pkgs; [
-    git
-    pciutils
-    usbutils
-  ];
-
   # https://github.com/NixOS/nixpkgs/issues/87802
   boot.kernelParams = [ "ipv6.disable=1" ];
   networking.enableIPv6 = false;
@@ -30,5 +23,33 @@
     description = "Ashwin Balasubramaniyan";
     password = "password"; # Change this ASAP!
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+  };
+
+  # Git is required for pulling nix configuration
+  environment.systemPackages = with pkgs; [
+    git
+    pciutils
+    usbutils
+  ];
+
+  programs.tmux = {
+    enable = true;
+    shortcut = "k";
+    aggressiveResize = true;
+    baseIndex = 1;
+
+    extraConfig = ''
+      # Split panes using | and -
+      bind | split-window -h
+      bind - split-window -v
+      unbind '"'
+      unbind %
+
+      # Enable mouse control (clickable windows, panes, resizable panes)
+      set -g mouse on
+
+      # Don't rename windows automatically
+      set-option -g allow-rename off
+    '';
   };
 }
