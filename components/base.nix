@@ -1,6 +1,14 @@
 { config, pkgs, ... }:
 
-{
+let
+  impermanence = builtins.fetchTarball {
+    url =
+      "https://github.com/nix-community/impermanence/archive/master.tar.gz";
+  };
+in {
+  fileSystems."/".options = [ "defaults" "size=2G" "mode=755" ];
+  fileSystems."/state".neededForBoot = true;
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -26,13 +34,6 @@
   # https://github.com/NixOS/nixpkgs/issues/87802
   boot.kernelParams = [ "ipv6.disable=1" ];
   networking.enableIPv6 = false;
-
-  users.users.ashwin = {
-    isNormalUser = true;
-    description = "Ashwin Balasubramaniyan";
-    password = "password"; # Change this ASAP!
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-  };
 
   # Git is required for pulling nix configuration
   environment.systemPackages = with pkgs; [
@@ -68,4 +69,12 @@
       set-option -g allow-rename off
     '';
   };
+
+  imports = [ "${impermanence}/nixos.nix" ];
+  environment.persistence."/state" = {
+    directories = [
+      "/var/log"
+    ];
+  };
+  environment.etc."machine-id".source = "/state/machine-id";
 }
