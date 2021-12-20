@@ -8,6 +8,15 @@
 
   i18n.defaultLocale = "en_US.UTF-8";
 
+  # Disable sleep suspend and hibernate.
+  # Power management is wonky at times and broken at worst
+  systemd.targets = {
+    sleep.enable = false;
+    suspend.enable = false;
+    hibernate.enable = false;
+    hybrid-sleep.enable = false;
+  };
+
   nix.gc = {
     automatic = true;
     dates = "hourly";
