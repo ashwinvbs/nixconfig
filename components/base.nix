@@ -75,6 +75,8 @@ in {
     directories = [
       "/var/log"
     ];
+    files = [
+      "/etc/machine-id"
+    ];
   };
-  environment.etc."machine-id".source = "/state/machine-id";
 }
