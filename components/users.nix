@@ -29,7 +29,7 @@ in {
     script = ''
       mkdir -p /state/home/ashwin
       chown 1000:100 /state/home/ashwin
-    ''
+    '';
   };
   systemd.services.home-manager-ashwin.wants = [ "userdir_ashwin" ];
 
