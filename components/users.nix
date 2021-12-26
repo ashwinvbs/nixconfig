@@ -21,20 +21,17 @@ in {
     extraGroups = [ "wheel" ];
   };
 
-  systemd.services.ashwinrequirements = {
+  systemd.services.userdir_ashwin = {
     enable = true;
     description = "Creates the directories required by primary users's persistent files";
     requires = [ "state.mount" ];
-    wantedBy = [ "home-manager-ashwin" ];
-    serviceConfig = {
-      ExecStart = [
-        ""
-        "mkdir -p /state/home/ashwin"
-        "chown 1000:100 /state/home/ashwin"
-      ];
-      Type = "oneshot";
-    };
+    wantedBy = [ "home-manager-ashwin.service" ];
+    script = ''
+      mkdir -p /state/home/ashwin
+      chown 1000:100 /state/home/ashwin
+    ''
   };
+  systemd.services.home-manager-ashwin.wants = [ "userdir_ashwin" ];
 
   home-manager.users.ashwin = { pkgs, ... }: {
     # New: Import a persistence module for home-manager.
