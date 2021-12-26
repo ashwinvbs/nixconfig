@@ -14,21 +14,21 @@ in {
   imports = [ "${home-manager}/nixos" ];
 
   users.mutableUsers = false;
-  users.users.ash = {
+  users.users.ashwin = {
     isNormalUser = true;
     description = "Ashwin Balasubramaniyan";
-    password = (builtins.readFile ../secrets/ashpass.txt);
+    initialPassword = (builtins.readFile ../secrets/ashpass.txt);
     extraGroups = [ "wheel" ];
   };
 
-  home-manager.users.ash = { pkgs, ... }: {
+  home-manager.users.ashwin = { pkgs, ... }: {
     # New: Import a persistence module for home-manager.
     imports = [ "${impermanence}/home-manager.nix" ];
 
     programs.home-manager.enable = true;
 
     # New: Now we can use the "home.persistence" module, here's an example:
-    home.persistence."/state/home/ash" = {
+    home.persistence."/state/home/ashwin" = {
       directories = [
         ".config"
         ".gnome/apps"
