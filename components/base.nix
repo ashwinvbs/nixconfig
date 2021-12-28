@@ -73,6 +73,7 @@ in {
   imports = [ "${impermanence}/nixos.nix" ];
   environment.persistence."/state" = {
     directories = [
+      "/home"
       "/var/log"
     ];
     files = [
