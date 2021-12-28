@@ -42,6 +42,7 @@
 
     # move to users on merge from statless branch
     gnupg
+    pinentry
     yadm
   ];
 
