@@ -39,6 +39,9 @@
     git
     pciutils
     usbutils
+
+    # move to users on merge from statless branch
+    gnupg
     yadm
   ];
 
