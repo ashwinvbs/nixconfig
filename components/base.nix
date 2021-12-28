@@ -39,6 +39,7 @@
     git
     pciutils
     usbutils
+    yadm
   ];
 
   programs.tmux = {
