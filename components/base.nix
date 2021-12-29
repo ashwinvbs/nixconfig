@@ -40,14 +40,7 @@ in {
     git
     pciutils
     usbutils
-
-    # move to users on merge from statless branch
-    gnupg
-    pinentry
-    yadm
   ];
-
-  programs.gnupg.agent.enable = true;
 
   programs.tmux = {
     enable = true;
