@@ -46,6 +46,8 @@
     yadm
   ];
 
+  programs.gnupg.agent.enable = true;
+
   programs.tmux = {
     enable = true;
     shortcut = "k";
