@@ -6,10 +6,14 @@
 
 {
   imports = [
+    # Common configuration
     ./components/base.nix
     ./components/gnome.nix
     ./components/keychron-fix.nix
-    ./components/nuc-config.nix
+    ./components/users.nix
     ./components/work.nix
+
+    # Machine specific configuration
+    ./components/nuc-config.nix
   ];
 }
