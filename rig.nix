@@ -14,6 +14,7 @@
     ./components/work.nix
 
     # Machine specific configuration
-    ./components/nuc-config.nix
+    ./components/rig-config.nix
+    ./components/ssh-host.nix
   ];
 }

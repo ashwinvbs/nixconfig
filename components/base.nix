@@ -1,6 +1,14 @@
 { config, pkgs, ... }:
 
-{
+let
+  impermanence = builtins.fetchTarball {
+    url =
+      "https://github.com/nix-community/impermanence/archive/master.tar.gz";
+  };
+in {
+  fileSystems."/".options = [ "defaults" "size=2G" "mode=755" ];
+  fileSystems."/state".neededForBoot = true;
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -27,26 +35,12 @@
   boot.kernelParams = [ "ipv6.disable=1" ];
   networking.enableIPv6 = false;
 
-  users.users.ashwin = {
-    isNormalUser = true;
-    description = "Ashwin Balasubramaniyan";
-    password = "password"; # Change this ASAP!
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-  };
-
   # Git is required for pulling nix configuration
   environment.systemPackages = with pkgs; [
     git
     pciutils
     usbutils
-
-    # move to users on merge from statless branch
-    gnupg
-    pinentry
-    yadm
   ];
-
-  programs.gnupg.agent.enable = true;
 
   programs.tmux = {
     enable = true;
@@ -67,5 +61,16 @@
       # Don't rename windows automatically
       set-option -g allow-rename off
     '';
+  };
+
+  imports = [ "${impermanence}/nixos.nix" ];
+  environment.persistence."/state" = {
+    directories = [
+      "/home"
+      "/var/log"
+    ];
+    files = [
+      "/etc/machine-id"
+    ];
   };
 }
