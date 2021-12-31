@@ -10,7 +10,7 @@ in {
   services.openssh = {
     enable = true;
     passwordAuthentication = false;
-    permitRootLogin = false;
+    permitRootLogin = "no";
   };
 
   imports = [ "${impermanence}/nixos.nix" ];
