@@ -7,7 +7,11 @@ let
   };
 in {
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    passwordAuthentication = false;
+    permitRootLogin = "no";
+  };
 
   imports = [ "${impermanence}/nixos.nix" ];
   environment.persistence."/state" = {
@@ -18,4 +22,6 @@ in {
       "/etc/ssh/ssh_host_ed25519_key.pub"
     ];
   };
+
+  security.sudo.wheelNeedsPassword = false;
 }
