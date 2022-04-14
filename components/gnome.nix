@@ -23,5 +23,6 @@
   environment.systemPackages = with pkgs; [
     google-chrome
     gnome.nautilus
+    vscode
   ];
 }
