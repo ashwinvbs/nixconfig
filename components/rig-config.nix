@@ -15,7 +15,4 @@
     rocm-opencl-icd
     rocm-opencl-runtime
   ];
-
-  virtualisation.docker.enable = true;
-  users.users.ashwin.extraGroups = [ "docker" ];
 }

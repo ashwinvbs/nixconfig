@@ -12,8 +12,9 @@
     ./components/users.nix
 
     # Machine specific configuration
+    ./components/docker.nix
+    ./components/node-server-fix.nix
     ./components/rig-config.nix
     ./components/ssh-host.nix
-    ./components/node-server-fix.nix
   ];
 }
