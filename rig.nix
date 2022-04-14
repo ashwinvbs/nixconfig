@@ -14,5 +14,6 @@
     # Machine specific configuration
     ./components/rig-config.nix
     ./components/ssh-host.nix
+    ./components/node-server-fix.nix
   ];
 }
