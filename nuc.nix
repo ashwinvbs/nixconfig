@@ -8,11 +8,18 @@
   imports = [
     # Common configuration
     ./components/base.nix
-    ./components/gnome.nix
-    ./components/keychron-fix.nix
     ./components/users.nix
 
     # Machine specific configuration
-    ./components/nuc-config.nix
+    ./components/gnome.nix
+    ./components/keychron-fix.nix
   ];
+
+  networking.hostName = "nuc";
+
+  networking.useDHCP = false;
+  networking.interfaces.eno1.useDHCP = true;
+  networking.interfaces.wlp0s20f3.useDHCP = true;
+
+  users.users.ashwin.initialPassword = (builtins.readFile secrets/ashpass.txt);
 }
