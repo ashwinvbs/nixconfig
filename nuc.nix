@@ -11,6 +11,7 @@
     ./components/users.nix
 
     # Machine specific configuration
+    ./components/bluetooth.nix
     ./components/gnome.nix
     ./components/keychron-fix.nix
   ];
