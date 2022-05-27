@@ -21,5 +21,5 @@
   networking.interfaces.eno1.useDHCP = true;
   networking.interfaces.wlp0s20f3.useDHCP = true;
 
-  users.users.ashwin.initialPassword = (builtins.readFile secrets/ashpass.txt);
+  users.users.ashwin.hashedPassword = lib.strings.fileContents secrets/ashpass.txt;
 }
