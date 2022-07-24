@@ -21,7 +21,6 @@
   # Replace the default browser with google-chrome.
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
-    google-chrome
     gnome-console
     gnome.nautilus
     vscode
