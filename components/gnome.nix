@@ -17,6 +17,7 @@
     gnome-user-docs
     orca
   ];
+  networking.firewall.allowedTCPPorts = [ 3389 ];
 
   # Replace the default browser with google-chrome.
   nixpkgs.config.allowUnfree = true;
