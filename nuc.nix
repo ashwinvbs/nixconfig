@@ -14,7 +14,6 @@
     ./components/bluetooth.nix
     ./components/gnome.nix
     ./components/keychron-fix.nix
-    ./components/vm.nix
   ];
 
   networking.hostName = "nuc";
