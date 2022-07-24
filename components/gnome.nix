@@ -11,7 +11,6 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
   services.gnome.core-utilities.enable = false;
-  programs.gnome-terminal.enable = true;
   environment.gnome.excludePackages = with pkgs; [
     gnome-tour
     gnome-user-docs
@@ -23,6 +22,7 @@
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     google-chrome
+    gnome-console
     gnome.nautilus
     vscode
   ];
