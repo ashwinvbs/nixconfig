@@ -11,10 +11,10 @@
     ./components/users.nix
 
     # Machine specific configuration
-    ./components/bluetooth.nix
     ./components/chromium.nix
     ./components/gnome.nix
     ./components/keychron-fix.nix
+    ./components/radio.nix
   ];
 
   networking.hostName = "nuc";

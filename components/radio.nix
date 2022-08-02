@@ -10,6 +10,7 @@ in {
   environment.persistence."/state" = {
     directories = [
       "/var/lib/bluetooth"
+      "/etc/NetworkManager/system-connections"
     ];
   };
 }
