@@ -15,6 +15,7 @@
     ./components/gnome.nix
     ./components/keychron-fix.nix
     ./components/radio.nix
+    ./components/raspi-host.nix
   ];
 
   networking.hostName = "nuc";
