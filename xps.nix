@@ -24,4 +24,6 @@
   networking.interfaces.wlp2s0.useDHCP = true;
 
   users.users.ashwin.hashedPassword = lib.strings.fileContents secrets/ashpass.txt;
+
+  powerManagement.powertop.enable = true;
 }
