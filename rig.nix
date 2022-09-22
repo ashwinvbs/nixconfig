@@ -12,7 +12,6 @@
 
     # Machine specific configuration
     ./components/docker.nix
-    ./components/node-server-fix.nix
     ./components/ssh-host.nix
   ];
 

@@ -18,11 +18,8 @@
   ];
   networking.firewall.allowedTCPPorts = [ 3389 ];
 
-  # Replace the default browser with google-chrome.
-  nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
     gnome-console
     gnome.nautilus
-    vscode
   ];
 }
