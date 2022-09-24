@@ -43,6 +43,7 @@ in {
   # Git is required for pulling nix configuration
   environment.systemPackages = with pkgs; [
     git
+    nixos-option
     pciutils
     usbutils
   ];
