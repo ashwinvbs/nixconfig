@@ -20,6 +20,7 @@
 
   environment.systemPackages = with pkgs; [
     gnome-console
+    gnome-text-editor
     gnome.nautilus
   ];
 }
