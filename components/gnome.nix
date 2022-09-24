@@ -11,6 +11,8 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
   services.gnome.core-utilities.enable = false;
+  services.gnome.tracker-miners.enable = false;
+  services.gnome.tracker.enable = false;
   environment.gnome.excludePackages = with pkgs; [
     gnome-tour
     gnome-user-docs
