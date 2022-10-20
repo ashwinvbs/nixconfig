@@ -69,6 +69,10 @@ in {
     '';
   };
 
+  services.udev.packages = [
+    pkgs.android-udev-rules
+  ];
+
   imports = [ "${impermanence}/nixos.nix" ];
   environment.persistence."/state" = {
     directories = [
