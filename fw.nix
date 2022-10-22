@@ -24,4 +24,6 @@
   networking.interfaces.wlp166s0.useDHCP = true;
 
   users.users.ashwin.hashedPassword = lib.strings.fileContents secrets/ashpass.txt;
+
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 }
