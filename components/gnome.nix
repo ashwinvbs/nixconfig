@@ -15,6 +15,8 @@
   services.gnome.tracker-miners.enable = false;
   services.gnome.tracker.enable = false;
 
+  programs.gnome-terminal.enable = true;
+
   environment.gnome.excludePackages = with pkgs; [
     gnome-tour
     gnome-user-docs
@@ -23,7 +25,6 @@
   networking.firewall.allowedTCPPorts = [ 3389 ];
 
   environment.systemPackages = with pkgs; [
-    gnome-console
     gnome-text-editor
     gnome.nautilus
   ];
