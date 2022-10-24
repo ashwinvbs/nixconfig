@@ -6,6 +6,11 @@ let
       "https://github.com/nix-community/impermanence/archive/master.tar.gz";
   };
 in {
+  imports = [
+    "${impermanence}/nixos.nix"
+    ./autoupdate.nix
+  ];
+
   fileSystems."/".options = [ "defaults" "size=2G" "mode=755" ];
   fileSystems."/state".neededForBoot = true;
 
@@ -27,12 +32,6 @@ in {
     suspend.enable = false;
     hibernate.enable = false;
     hybrid-sleep.enable = false;
-  };
-
-  nix.gc = {
-    automatic = true;
-    dates = "hourly";
-    options = "--delete-older-than 1d";
   };
 
   # https://github.com/NixOS/nixpkgs/issues/87802
@@ -73,7 +72,6 @@ in {
     pkgs.android-udev-rules
   ];
 
-  imports = [ "${impermanence}/nixos.nix" ];
   environment.persistence."/state" = {
     directories = [
       "/home"
