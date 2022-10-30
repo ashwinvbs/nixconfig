@@ -42,6 +42,20 @@
     description = "Auto Update: The upgrade task and the corresponding log line";
     wantedBy = [ "autoupdate_safe.target" ];
     serviceConfig.Type = "oneshot";
+    environment = config.nix.envVars // {
+      inherit (config.environment.sessionVariables) NIX_PATH;
+      HOME = "/root";
+    } // config.networking.proxy.envVars;
+    path = with pkgs; [
+      coreutils
+      gnutar
+      xz.bin
+      gzip
+      gitMinimal
+      nixos-rebuild
+      config.nix.package.out
+      config.programs.ssh.package
+    ];
     script = ''
       nixos-rebuild boot --upgrade
       echo $(date --rfc-3339=seconds): Attempted upgrade. Current generation is $(readlink /nix/var/nix/profiles/system | cut -d- -f2) >> /var/log/autoupdate 
