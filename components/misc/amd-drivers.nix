@@ -5,10 +5,12 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ./components/remote.nix
+  boot.initrd.kernelModules = [ "amdgpu" ];
+  services.xserver.videoDrivers = [ "amdgpu" ];
 
-    ./components/misc/amd-drivers.nix
+  hardware.opengl.driSupport = true;
+  hardware.opengl.extraPackages = with pkgs; [
+    rocm-opencl-icd
+    rocm-opencl-runtime
   ];
-  networking.hostName = "rig2";
 }
