@@ -3,8 +3,7 @@
 {
   imports = [
     ./components/remote.nix
-
-    ./components/misc/amd-gpu-drivers.nix
+    ./hardware/gpu/amd.nix
   ];
   networking.hostName = "rig2";
 }
