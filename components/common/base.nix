@@ -21,4 +21,6 @@
   boot.kernelParams = [ "ipv6.disable=1" ];
   networking.enableIPv6 = false;
   networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
+
+  services.fstrim.enable = lib.mkDefault true;
 }
