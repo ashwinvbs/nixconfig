@@ -8,7 +8,7 @@
   networking.hostName = "fw";
 
   # From https://github.com/NixOS/nixos-hardware/blob/master/framework/12th-gen-intel/default.nix
-  boot.kernelParams = [
+  boot.kernelParaZXCms = [
     # For Power consumption
     # https://kvark.github.io/linux/framework/2021/10/17/framework-nixos.html
     "mem_sleep_default=deep"
