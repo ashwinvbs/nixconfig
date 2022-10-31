@@ -1,6 +1,9 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [ ./components/workstation.nix ];
+  imports = [
+    ./hardware/amdgpu.nix
+    ./components/workstation.nix
+  ];
   networking.hostName = "xps";
 }
