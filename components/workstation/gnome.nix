@@ -29,15 +29,15 @@ in
   security.polkit.enable = true;
   services.accounts-daemon.enable = true;
   services.gnome.gnome-keyring.enable = true;
-  services.hardware.bolt.enable = mkDefault true;
-  services.power-profiles-daemon.enable = mkDefault true;
+  services.hardware.bolt.enable = true;
+  services.power-profiles-daemon.enable = true;
   services.udisks2.enable = true;
   services.upower.enable = config.powerManagement.enable;
-  services.xserver.libinput.enable = mkDefault true; # for controlling touchpad settings via gnome control center
+  services.xserver.libinput.enable = true; # for controlling touchpad settings via gnome control center
   services.xserver.updateDbusEnvironment = true;
   nixpkgs.config.vim.gui = "gtk3";
   services.gnome.glib-networking.enable = true;
-  services.gnome.gnome-browser-connector.enable = mkDefault true;
+  services.gnome.gnome-browser-connector.enable = true;
   services.gnome.gnome-settings-daemon.enable = true;
   services.gvfs.enable = true;
 
@@ -53,9 +53,9 @@ in
 
   # Harmonize Qt5 application style and also make them use the portal for file chooser dialog.
   qt5 = {
-    enable = mkDefault true;
-    platformTheme = mkDefault "gnome";
-    style = mkDefault "adwaita";
+    enable = true;
+    platformTheme = "gnome";
+    style = "adwaita";
   };
   fonts.fonts = with pkgs; [
     cantarell-fonts
@@ -64,7 +64,7 @@ in
     source-sans
   ];
 
-  services.geoclue2.enable = mkDefault true;
+  services.geoclue2.enable = true;
   services.geoclue2.enableDemoAgent = false; # GNOME has its own geoclue agent
 
   services.geoclue2.appConfig.gnome-datetime-panel = {
