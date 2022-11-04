@@ -24,10 +24,7 @@ in
 
   networking.networkmanager.enable = true;
 
-  services.gnome.tracker-miners.enable = false;
-  services.gnome.tracker.enable = false;
-
-  programs.gnome-terminal.enable = true;
+  hardware.bluetooth.enable = true;
 
   environment.systemPackages = with pkgs.gnome; [
     adwaita-icon-theme
