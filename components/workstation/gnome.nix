@@ -45,7 +45,7 @@ in
   ];
 
       # VTE shell integration for gnome-console
-      programs.bash.vteIntegration = mkDefault true;
+      programs.bash.vteIntegration = true;
       # Override default mimeapps for nautilus
       environment.sessionVariables.XDG_DATA_DIRS = [ "${mimeAppsList}/share" ];
 }
