@@ -37,7 +37,6 @@ in
   services.xserver.updateDbusEnvironment = true;
   nixpkgs.config.vim.gui = "gtk3";
   services.gnome.glib-networking.enable = true;
-  services.gnome.gnome-browser-connector.enable = true;
   services.gnome.gnome-settings-daemon.enable = true;
   services.gvfs.enable = true;
 
