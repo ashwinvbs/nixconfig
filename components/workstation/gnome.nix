@@ -22,7 +22,7 @@ in
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.displayManager.sessionPackages = [ pkgs.gnome.gnome-session.sessions ];
 
-  networking.networkmanager.enable = mkDefault true;
+  networking.networkmanager.enable = true;
 
   services.gnome.tracker-miners.enable = false;
   services.gnome.tracker.enable = false;
