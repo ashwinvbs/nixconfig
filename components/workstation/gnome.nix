@@ -11,13 +11,30 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.displayManager.sessionPackages = [ pkgs.gnome.gnome-session.sessions ];
 
+  networking.networkmanager.enable = mkDefault true;
+
   services.gnome.tracker-miners.enable = false;
   services.gnome.tracker.enable = false;
 
   programs.gnome-terminal.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    gnome-text-editor
-    gnome.nautilus
+  environment.systemPackages = with pkgs.gnome; [
+    adwaita-icon-theme
+    gnome-backgrounds
+    gnome-bluetooth
+    gnome-themes-extra
+    nautilus
+    nixos-background-info
+    pkgs.glib # for gsettings program
+    pkgs.gnome-console
+    pkgs.gnome-menus
+    pkgs.gnome-text-editor
+    pkgs.gtk3.out # for gtk-launch program
+    pkgs.xdg-user-dirs # Update user dirs as described in http://freedesktop.org/wiki/Software/xdg-user-dirs/
   ];
+
+      # VTE shell integration for gnome-console
+      programs.bash.vteIntegration = mkDefault true;
+      # Override default mimeapps for nautilus
+      environment.sessionVariables.XDG_DATA_DIRS = [ "${mimeAppsList}/share" ];
 }
