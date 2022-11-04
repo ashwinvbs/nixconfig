@@ -88,6 +88,7 @@ in
     adwaita-icon-theme
     gnome-backgrounds
     gnome-bluetooth
+    gnome-control-center
     gnome-themes-extra
     nautilus
     pkgs.glib # for gsettings program
