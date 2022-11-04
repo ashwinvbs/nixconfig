@@ -35,7 +35,6 @@ in
     gnome-bluetooth
     gnome-themes-extra
     nautilus
-    nixos-background-info
     pkgs.glib # for gsettings program
     pkgs.gnome-console
     pkgs.gnome-menus
