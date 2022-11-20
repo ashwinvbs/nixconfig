@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./hardware/amdgpu.nix
+    ./hardware/intel.nix
     ./components/workstation.nix
   ];
   networking.hostName = "xps";
