@@ -7,7 +7,7 @@
   nixpkgs.config = {
     allowUnfree = true;
     chromium.enableWideVine = true;
-  }
+  };
   programs.chromium = {
     enable = true;
     extraOpts = {
