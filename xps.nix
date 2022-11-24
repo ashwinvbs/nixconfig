@@ -5,7 +5,7 @@
     ./hardware/intel.nix
     ./components/workstation.nix
 
-    ./misc/additional-users.nix
+    ./components/misc/additional-users.nix
   ];
   networking.hostName = "xps";
 }
