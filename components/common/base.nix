@@ -13,8 +13,5 @@
   networking.enableIPv6 = false;
   networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
 
-  # install Tailscale service by default. long live tailscale!
-  services.tailscale.enable = true;
-
   services.fstrim.enable = lib.mkDefault true;
 }

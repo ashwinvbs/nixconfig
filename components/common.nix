@@ -6,6 +6,7 @@
     ./common/nix-gc.nix
     ./common/programs.nix
     ./common/ssh-host.nix
+    ./common/tailscale.nix
     ./common/users.nix
   ];
 }
