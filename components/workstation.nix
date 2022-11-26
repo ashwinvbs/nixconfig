@@ -6,6 +6,5 @@
     ./workstation/gnome.nix
     ./workstation/keychron-fix.nix
     ./workstation/radio.nix
-    ./workstation/userpass.nix
   ];
 }

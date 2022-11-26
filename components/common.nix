@@ -5,6 +5,7 @@
     ./common/filesystem.nix
     ./common/nix-gc.nix
     ./common/programs.nix
+    ./common/ssh-host.nix
     ./common/users.nix
   ];
 }

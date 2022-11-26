@@ -4,7 +4,7 @@
   imports = [
     ./hardware/amdgpu.nix
     ./hardware/intel.nix
-    ./components/remote.nix
+    ./components/common.nix
   ];
   networking.hostName = "rig2";
 }
