@@ -23,6 +23,4 @@ in {
       "/etc/ssh/ssh_host_ed25519_key.pub"
     ];
   };
-
-  security.sudo.wheelNeedsPassword = false;
 }
