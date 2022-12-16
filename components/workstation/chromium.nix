@@ -9,7 +9,7 @@
     chromium = {
       enableWideVine = true;
       # From https://bbs.archlinux.org/viewtopic.php?id=277116
-      commandLineArgs = "--enable-features=VaapiVideoDecoder,VaapiVideoEncoder --ignore-gpu-blocklist --enable-zero-copy --enable-gpu-rasterization --disable-features=UseChromeOSDirectVideoDecoder";
+      commandLineArgs = "--enable-features=VaapiVideoDecoder,VaapiVideoEncoder --ignore-gpu-blocklist --enable-zero-copy --enable-gpu-rasterization";
     };
   };
   programs.chromium = {
