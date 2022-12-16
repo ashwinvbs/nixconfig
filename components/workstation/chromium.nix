@@ -6,7 +6,10 @@
   ];
   nixpkgs.config = {
     allowUnfree = true;
-    chromium.enableWideVine = true;
+    chromium = {
+      enableWideVine = true;
+      commandLineArgs = "--enable-features=VaapiVideoDecoder,VaapiVideoEncoder";
+    };
   };
   programs.chromium = {
     enable = true;

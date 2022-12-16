@@ -62,4 +62,5 @@ in
 
   # Override default mimeapps for nautilus
   environment.sessionVariables.XDG_DATA_DIRS = [ "${mimeAppsList}/share" ];
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 }
