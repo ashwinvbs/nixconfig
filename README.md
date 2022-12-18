@@ -9,3 +9,7 @@
 ### Post install
 * Home directory should be created as needed manually. Use `mkhomedir_helper [user]`.
 * Upgrade with `sudo nixos-rebuild boot --upgrade --option tarball-ttl 0`
+### Upgrading branches.
+* Change system.stateVersion.
+* nix-channel --add https://channels.nixos.org/nixos-<version\> nixos
+* nixos-rebuild as usual
