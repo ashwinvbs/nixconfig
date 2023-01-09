@@ -13,5 +13,5 @@ in {
     ];
   };
 
-  services.fprintd.enable = lib.mkDefault true;
+  services.fprintd.enable = true;
 }
