@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware/intel.nix
+    ./hardware/fprint.nix
     ./components/workstation.nix
   ];
   networking.hostName = "fw";
@@ -29,9 +30,6 @@
   boot.extraModprobeConfig = ''
     options snd-hda-intel model=dell-headset-multi
   '';
-
-  # For fingerprint support
-  services.fprintd.enable = lib.mkDefault true;
 
   # Fix headphone noise when on powersave
   # https://community.frame.work/t/headphone-jack-intermittent-noise/5246/55
