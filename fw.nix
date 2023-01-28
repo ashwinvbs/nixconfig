@@ -3,7 +3,6 @@
 {
   imports = [
     ./hardware/intel.nix
-    ./hardware/fprint.nix
     ./components/workstation.nix
   ];
   networking.hostName = "fw";

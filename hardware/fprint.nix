@@ -1,5 +1,8 @@
 { ... }:
 
+# Fprint makes login and other auth processes slow and clunky. Better to stick to password based login.
+# https://www.reddit.com/r/Ubuntu/comments/rhi13u/comment/hot1c88/?utm_source=share&utm_medium=web2x&context=3
+
 let
   impermanence = builtins.fetchTarball {
     url =
