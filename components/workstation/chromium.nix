@@ -55,6 +55,4 @@
   # Ref: https://bugs.chromium.org/p/chromium/issues/detail?id=1326754&q=wayland%20vaapi&can=2
   # Disable wayland and use X11
   services.xserver.displayManager.gdm.wayland = false;
-  # Ref: From https://bbs.archlinux.org/viewtopic.php?id=277116
-  nixpkgs.config.chromium.commandLineArgs = "--enable-features=VaapiVideoDecoder,VaapiVideoEncoder --ignore-gpu-blocklist --enable-zero-copy --enable-gpu-rasterization --use-gl=desktop --disable-features=UseChromeOSDirectVideoDecoder";
 }
