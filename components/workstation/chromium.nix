@@ -50,9 +50,4 @@
       "ShowHomeButton" = false;
     };
   };
-
-  ## Flags and workarounds to enable hardware decoding of video.
-  # Ref: https://bugs.chromium.org/p/chromium/issues/detail?id=1326754&q=wayland%20vaapi&can=2
-  # Disable wayland and use X11
-  services.xserver.displayManager.gdm.wayland = false;
 }
