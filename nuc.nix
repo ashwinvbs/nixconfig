@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware/intel.nix
-    ./components/workstation.nix
+    ./components/common.nix
   ];
   networking.hostName = "nuc";
 }
