@@ -18,7 +18,7 @@
       Unit = "autoupdate_safe.target";
     };
   };
-  systemd.targets.autoupdate_safe = {};
+  systemd.targets.autoupdate_safe = { };
 
   systemd.services.autoupdate_mark_safe = {
     description = "Auto Update: Once current boot is determined to be safe, log that it is safe";
