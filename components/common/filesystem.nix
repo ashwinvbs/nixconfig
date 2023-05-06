@@ -5,7 +5,8 @@ let
     url =
       "https://github.com/nix-community/impermanence/archive/master.tar.gz";
   };
-in {
+in
+{
   fileSystems."/".options = [ "defaults" "size=2G" "mode=755" ];
   fileSystems."/state".neededForBoot = true;
 

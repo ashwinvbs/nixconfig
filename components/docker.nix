@@ -5,7 +5,8 @@ let
     url =
       "https://github.com/nix-community/impermanence/archive/master.tar.gz";
   };
-in {
+in
+{
   virtualisation.docker.enable = true;
   users.users.ashwin.extraGroups = [ "docker" ];
 

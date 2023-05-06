@@ -5,7 +5,8 @@ let
     url =
       "https://github.com/nix-community/impermanence/archive/master.tar.gz";
   };
-in {
+in
+{
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
   environment.systemPackages = with pkgs; [ virt-manager ];

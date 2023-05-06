@@ -5,10 +5,6 @@
   hardware.cpu.intel.updateMicrocode =
     lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  # Alder Lake CPUs benefit from kernel 5.18 for ThreadDirector
-  # https://www.tomshardware.com/news/intel-thread-director-coming-to-linux-5-18
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
   # GPU configuration
   boot.initrd.kernelModules = [ "i915" ];
 
