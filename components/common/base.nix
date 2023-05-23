@@ -4,7 +4,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  time.timeZone = lib.mkDefault "America/New_York";
+  # enable automatic timemzone setting
+  services.geoclue2.enableDemoAgent = true;
+  services.localtime.enable = true;
 
   i18n.defaultLocale = "en_US.UTF-8";
 
