@@ -6,7 +6,7 @@
 
   # enable automatic timemzone setting
   services.geoclue2.enableDemoAgent = lib.mkForce true;
-  services.localtime.enable = true;
+  services.localtimed.enable = true;
 
   i18n.defaultLocale = "en_US.UTF-8";
 
