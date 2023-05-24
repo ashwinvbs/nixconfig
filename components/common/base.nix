@@ -5,7 +5,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # enable automatic timemzone setting
-  services.geoclue2.enableDemoAgent = true;
+  services.geoclue2.enableDemoAgent = lib.mkForce true;
   services.localtime.enable = true;
 
   i18n.defaultLocale = "en_US.UTF-8";
