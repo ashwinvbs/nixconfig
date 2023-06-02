@@ -53,6 +53,7 @@ in
     nautilus
     pkgs.gnome-console
     pkgs.gnome-text-editor
+    pkgs.guake
   ];
 
   programs.file-roller.enable = true;
