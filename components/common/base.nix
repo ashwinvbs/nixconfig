@@ -5,6 +5,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # enable automatic timemzone setting
+  services.geoclue2.enable = lib.mkForce true;
   services.geoclue2.enableDemoAgent = lib.mkForce true;
   services.localtimed.enable = true;
 
