@@ -63,4 +63,6 @@ in
 
   # Override default mimeapps for nautilus
   environment.sessionVariables.XDG_DATA_DIRS = [ "${mimeAppsList}/share" ];
+
+  services.geoclue2.enableDemoAgent = lib.mkForce true;
 }
