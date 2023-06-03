@@ -1,11 +1,5 @@
 { config, pkgs, ... }:
 
-let
-  impermanence = builtins.fetchTarball {
-    url =
-      "https://github.com/nix-community/impermanence/archive/master.tar.gz";
-  };
-in
 {
   # Enable the OpenSSH daemon.
   services.openssh = {
@@ -15,7 +9,7 @@ in
     permitRootLogin = "no";
   };
 
-  imports = [ "${impermanence}/nixos.nix" ];
+  imports = [ "${builtins.fetchTarball { url = "https://github.com/nix-community/impermanence/archive/master.tar.gz"; }}/nixos.nix" ];
   environment.persistence."/state" = {
     files = [
       "/etc/ssh/ssh_host_rsa_key"

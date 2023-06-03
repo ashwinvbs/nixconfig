@@ -1,13 +1,7 @@
 { ... }:
 
-let
-  impermanence = builtins.fetchTarball {
-    url =
-      "https://github.com/nix-community/impermanence/archive/master.tar.gz";
-  };
-in
 {
-  imports = [ "${impermanence}/nixos.nix" ];
+  imports = [ "${builtins.fetchTarball { url = "https://github.com/nix-community/impermanence/archive/master.tar.gz"; }}/nixos.nix" ];
   environment.persistence."/state" = {
     directories = [
       "/var/lib/bluetooth"
