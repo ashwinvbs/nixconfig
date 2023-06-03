@@ -4,8 +4,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # enable automatic timemzone setting
-  services.localtimed.enable = true;
+  # Set default timezone to EST
+  time.timeZone = lib.mkDefault "America/New_York";
 
   i18n.defaultLocale = "en_US.UTF-8";
 
