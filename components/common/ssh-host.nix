@@ -7,7 +7,7 @@
     settings = {
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
-      ermitRootLogin = "no";
+      PermitRootLogin = "no";
     };
   };
 
