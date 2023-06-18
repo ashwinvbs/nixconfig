@@ -46,7 +46,7 @@ cat >/mnt/etc/nixos/configuration.nix <<EOL
   imports =
     [
       ./hardware-configuration.nix
-      "${builtins.fetchGit { url = "https://gitlab.com/ashwin.vbs-workspace/nixconfig.git"; ref = "branch"; }}/machine.nix"
+      "\${builtins.fetchGit { url = "https://gitlab.com/ashwin.vbs-workspace/nixconfig.git"; ref = "branch"; }}/machine.nix"
     ];
 }
 EOL
