@@ -15,4 +15,18 @@
   networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
 
   services.fstrim.enable = true;
+
+  # File system defines
+  fileSystems."/".options = [ "defaults" "size=2G" "mode=755" ];
+
+  imports = [ "${builtins.fetchTarball { url = "https://github.com/nix-community/impermanence/archive/master.tar.gz"; }}/nixos.nix" ];
+  environment.persistence."/nix/state" = {
+    directories = [
+      "/etc/nixos"
+      "/var/log"
+    ];
+    files = [
+      "/etc/machine-id"
+    ];
+  };
 }
