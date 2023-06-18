@@ -31,12 +31,8 @@ pushd /etc/nixos
 ln -sf ../../mnt/nix/state/etc/nixos/secrets
 popd
 
-function genpass() {
-  mkpasswd -m sha-512 > /mnt/etc/nixos/secrets/${1}.txt
-}
-
 echo 'Enter password for user ashwin'
-genpass ashpass
+mkpasswd -m sha-512 > /mnt/etc/nixos/secrets/ashpass.txt
 
 nixos-generate-config --root /mnt
 
@@ -54,7 +50,7 @@ EOL
 cd /mnt/etc/nixos
 
 echo 'Notes'
-echo '1. Generate additional passwords with function genpass <filename>'
+echo '1. Generate additional passwords with function: mkpasswd -m sha-512 > [filename]'
 echo '2. Initialized configuration.nix, update branch and machine as needed'
 
 bash
