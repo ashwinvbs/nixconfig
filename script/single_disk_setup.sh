@@ -10,12 +10,16 @@ sgdisk -n 0:0:0 -t 0:8300 -c 0:nixsystem $NIXDISK
 sleep 10
 
 mkfs.fat -F 32 -n nixboot /dev/disk/by-partlabel/nixboot
-mkfs.ext4 -F -L nixsystem /dev/disk/by-partlabel/nixsystem
+
+cryptsetup luksFormat /dev/disk/by-partlabel/nixsystem
+cryptsetup luksOpen /dev/disk/by-partlabel/nixsystem nixsystem
+mkfs.ext4 -F -L nixsystem /dev/mapper/nixsystem
 
 mount -t tmpfs none /mnt
 mkdir -p /mnt/{boot,nix,etc}
+
 mount /dev/disk/by-partlabel/nixboot /mnt/boot
-mount /dev/disk/by-partlabel/nixsystem /mnt/nix
+mount /dev/mapper/nixsystem /mnt/nix
 
 mkdir -p /mnt/nix/state/etc/nixos/secrets
 # Need this to sidestep impermanence
@@ -26,6 +30,9 @@ popd
 pushd /etc/nixos
 ln -sf ../../mnt/nix/state/etc/nixos/secrets
 popd
+
+echo 'Enter password for user ashwin'
+mkpasswd -m sha-512 > /mnt/etc/nixos/secrets/ashpass.txt
 
 nixos-generate-config --root /mnt
 cd /mnt/etc/nixos
