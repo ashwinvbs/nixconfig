@@ -1,19 +1,21 @@
-{ pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
-  systemd.services.tzupdate = {
-    description = "attempts updating timezone, fails if network is unavailable";
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.tzupdate}/bin/tzupdate -z /etc/zoneinfo -d /dev/null";
+  config = lib.mkIf config.installconfig.workstation-components.enable {
+    systemd.services.tzupdate = {
+      description = "attempts updating timezone, fails if network is unavailable";
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.tzupdate}/bin/tzupdate -z /etc/zoneinfo -d /dev/null";
+      };
     };
-  };
-  systemd.timers.tzupdate = {
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnBootSec = "1m";
-      OnUnitActiveSec = "10m";
-      Unit = "tzupdate.service";
+    systemd.timers.tzupdate = {
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnBootSec = "1m";
+        OnUnitActiveSec = "10m";
+        Unit = "tzupdate.service";
+      };
     };
   };
 }

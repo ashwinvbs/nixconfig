@@ -3,7 +3,7 @@
 { config, lib, pkgs, ... }:
 let
   setupfs-script = pkgs.writeShellScriptBin "setupfs" (lib.strings.fileContents ./setupfs.sh);
-  setupnixos-script = pkgs.writeShellScriptBin "setupnixos" "nixos-install --no-root-passwd";
+  setupnixos-script = pkgs.writeShellScriptBin "setupnixos" "nixos-install --no-root-passwd --option tarball-ttl 0";
 in {
   imports = [
     <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix>
