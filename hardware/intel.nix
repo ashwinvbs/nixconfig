@@ -1,20 +1,24 @@
 { config, lib, pkgs, ... }:
 
 {
-  # CPU configuration
-  hardware.cpu.intel.updateMicrocode =
-    lib.mkDefault config.hardware.enableRedistributableFirmware;
+  options.installconfig.hardware.intel = lib.mkEnableOption "Enable driver support for intel cpu/gpu";
 
-  # GPU configuration
-  boot.initrd.kernelModules = [ "i915" ];
+  config = lib.mkIf config.installconfig.hardware.intel {
+    # CPU configuration
+    hardware.cpu.intel.updateMicrocode =
+      config.hardware.enableRedistributableFirmware;
 
-  environment.variables = {
-    VDPAU_DRIVER = lib.mkIf config.hardware.opengl.enable (lib.mkDefault "va_gl");
+    # GPU configuration
+    boot.initrd.kernelModules = [ "i915" ];
+
+    environment.variables = {
+      VDPAU_DRIVER = lib.mkIf config.hardware.opengl.enable (lib.mkDefault "va_gl");
+    };
+
+    hardware.opengl.extraPackages = with pkgs; [
+      vaapiIntel
+      libvdpau-va-gl
+      intel-media-driver
+    ];
   };
-
-  hardware.opengl.extraPackages = with pkgs; [
-    vaapiIntel
-    libvdpau-va-gl
-    intel-media-driver
-  ];
 }

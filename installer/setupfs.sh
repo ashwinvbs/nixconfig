@@ -58,10 +58,11 @@ post_disk_ready() {
 { ... }:
 {
 imports =
-    [
+  [
     ./hardware-configuration.nix
-    "\${builtins.fetchGit { url = "https://gitlab.com/ashwin.vbs-workspace/nixconfig.git"; ref = "main"; }}/$MACHINE.nix"
-    ];
+    "\${builtins.fetchGit { url = "https://gitlab.com/ashwin.vbs-workspace/nixconfig.git"; ref = "main"; }}/config.nix"
+  ];
+  networking.hostName = "$MACHINE";
 }
 EOL
 

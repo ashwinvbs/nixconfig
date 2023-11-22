@@ -1,12 +1,16 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
-  boot.initrd.kernelModules = [ "amdgpu" ];
-  services.xserver.videoDrivers = [ "amdgpu" ];
+  options.installconfig.hardware.amdgpu = lib.mkEnableOption "Enable driver support for amdgpu";
 
-  hardware.opengl.driSupport = true;
-  hardware.opengl.extraPackages = with pkgs; [
-    rocm-opencl-icd
-    rocm-opencl-runtime
-  ];
+  config = lib.mkIf config.installconfig.hardware.amdgpu {
+    boot.initrd.kernelModules = [ "amdgpu" ];
+    services.xserver.videoDrivers = [ "amdgpu" ];
+
+    hardware.opengl.driSupport = true;
+    hardware.opengl.extraPackages = with pkgs; [
+      rocm-opencl-icd
+      rocm-opencl-runtime
+    ];
+  };
 }
