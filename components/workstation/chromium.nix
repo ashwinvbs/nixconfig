@@ -2,6 +2,10 @@
 
 {
   config = lib.mkIf config.installconfig.workstation-components.enable {
+    # programs.chromium.enable = true only enables policy o.0 :| ???
+    environment.systemPackages = with pkgs; [
+      chromium
+    ];
     nixpkgs.config = {
       allowUnfree = true;
       chromium.enableWideVine = true;
