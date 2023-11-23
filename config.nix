@@ -29,9 +29,12 @@
     } )
 
     ( lib.mkIf ( config.networking.hostName == "rig" ) {
-      installconfig.hardware = {
-        intel = true;
-        amdgpu = true;
+      installconfig = {
+        hardware = {
+          intel = true;
+          amdgpu = true;
+        };
+        workstation-components.enable = true;
       };
     } )
 
