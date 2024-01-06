@@ -29,6 +29,7 @@
         ".local"
         "Documents"
         "Downloads"
+        "Music"
         "Workspaces"
         { directory = ".ssh"; mode = "0700"; }
       ];
