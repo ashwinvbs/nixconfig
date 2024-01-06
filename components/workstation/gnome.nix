@@ -25,8 +25,6 @@ in
     services.xserver.desktopManager.gnome.enable = true;
 
     # gnome.core-os-services overrides
-    services.dleyna-renderer.enable = false;
-    services.dleyna-server.enable = false;
     services.gnome.gnome-online-accounts.enable = false;
     services.gnome.tracker-miners.enable = false;
     services.gnome.tracker.enable = false;
