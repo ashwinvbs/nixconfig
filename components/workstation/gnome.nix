@@ -26,8 +26,6 @@ in
 
     # gnome.core-os-services overrides
     services.gnome.gnome-online-accounts.enable = false;
-    services.gnome.tracker-miners.enable = false;
-    services.gnome.tracker.enable = false;
     # Would like to disable but cannot
     # services.gnome.at-spi2-core.enable = true;
     # services.gnome.evolution-data-server.enable = true;
