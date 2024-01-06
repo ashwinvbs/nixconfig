@@ -50,7 +50,9 @@ in
     # disable gnome.core-utilities and include minimal replacements
     services.gnome.core-utilities.enable = false;
     environment.systemPackages = with pkgs.gnome; [
+      gnome-music
       nautilus
+      pkgs.freetube
       pkgs.gnome-console
       pkgs.gnome-text-editor
     ];
