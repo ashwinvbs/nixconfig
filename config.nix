@@ -6,6 +6,7 @@
 
     ./components/docker.nix
     ./components/flatpak.nix
+    ./components/gaming.nix
     ./components/vm.nix
 
     ./components/radhulya.nix
