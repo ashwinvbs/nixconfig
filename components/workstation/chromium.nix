@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  config = lib.mkIf config.installconfig.workstation-components.enable {
+  config = lib.mkIf config.installconfig.components.workstation {
     # programs.chromium.enable = true only enables policy o.0 :| ???
     environment.systemPackages = with pkgs; [
       chromium

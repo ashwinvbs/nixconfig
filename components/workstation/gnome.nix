@@ -12,7 +12,7 @@ let
   };
 in
 {
-  config = lib.mkIf config.installconfig.workstation-components.enable {
+  config = lib.mkIf config.installconfig.components.workstation {
     # Enable the X11 windowing system.
     services.xserver.enable = true;
     services.xserver.excludePackages = [ pkgs.xterm ];

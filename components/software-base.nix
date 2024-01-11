@@ -17,5 +17,5 @@
     ./workstation/radio.nix
   ];
 
-  options.installconfig.workstation-components.enable = lib.mkEnableOption "Configure the machine to be a workstation";
+  options.installconfig.components.workstation = lib.mkEnableOption "Configure the machine to be a workstation";
 }

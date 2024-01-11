@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 {
-  config = lib.mkIf config.installconfig.workstation-components.enable {
+  config = lib.mkIf config.installconfig.components.workstation {
     systemd.services.tzupdate = {
       description = "attempts updating timezone, fails if network is unavailable";
       serviceConfig = {
