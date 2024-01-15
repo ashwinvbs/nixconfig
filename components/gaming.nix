@@ -6,6 +6,7 @@
   config = lib.mkIf config.installconfig.components.gaming {
     environment.systemPackages = with pkgs; [
       heroic
+      scanmem
     ];
 
     programs.steam.enable = true;
