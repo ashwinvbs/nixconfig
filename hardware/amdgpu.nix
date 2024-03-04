@@ -1,6 +1,10 @@
 { config, lib, pkgs, ... }:
 
 {
+  environment.systemPackages = with pkgs; [
+    radeontop
+  ];
+
   options.installconfig.hardware.amdgpu = lib.mkEnableOption "Enable driver support for amdgpu";
 
   config = lib.mkIf config.installconfig.hardware.amdgpu {
