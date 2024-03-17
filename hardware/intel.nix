@@ -12,13 +12,17 @@
     boot.initrd.kernelModules = [ "i915" ];
 
     environment.variables = {
-      VDPAU_DRIVER = lib.mkIf config.hardware.opengl.enable (lib.mkDefault "va_gl");
+      VDPAU_DRIVER = "va_gl";
     };
 
-    hardware.opengl.extraPackages = with pkgs; [
-      vaapiIntel
-      libvdpau-va-gl
-      intel-media-driver
-    ];
+    hardware.opengl = {
+      enable = true;
+      driSupport = true;
+      extraPackages = with pkgs; [
+        vaapiIntel
+        libvdpau-va-gl
+        intel-media-driver
+      ];
+    };
   };
 }
