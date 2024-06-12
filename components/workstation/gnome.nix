@@ -18,7 +18,7 @@ in
     services.xserver.excludePackages = [ pkgs.xterm ];
 
     # Configure keymap in X11
-    services.xserver.layout = "us";
+    services.xserver.xkb.layout = "us";
 
     # Enable the GNOME Desktop Environment.
     services.xserver.displayManager.gdm.enable = true;
