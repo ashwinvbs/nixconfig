@@ -8,7 +8,11 @@
     ];
     nixpkgs.config = {
       allowUnfree = true;
-      chromium.enableWideVine = true;
+      chromium = {
+        enableWideVine = true;
+        # From https://chromium.googlesource.com/chromium/src/+/master/docs/gpu/vaapi.md
+        commandLineArgs = "--use-gl=angle --use-angle=gl --enable-features=VaapiVideoDecodeLinuxGL,VaapiVideoEncoder,VaapiOnNvidiaGPUs --ignore-gpu-blocklist --disable-gpu-driver-bug-workaround";
+      };
     };
     programs.chromium = {
       enable = true;
