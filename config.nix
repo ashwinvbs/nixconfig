@@ -2,6 +2,8 @@
 
 {
   imports = [
+    ./base.nix
+
     ./components/software-base.nix
 
     ./components/docker.nix

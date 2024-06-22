@@ -2,11 +2,6 @@
 
 {
   imports = [
-    ./common/base.nix
-    ./common/nix-gc.nix
-    ./common/programs.nix
-    ./common/ssh-host.nix
-
     ./workstation/auto-timezone.nix
     ./workstation/chromium.nix
     ./workstation/gnome.nix
