@@ -62,10 +62,8 @@ in
     # disable gnome.core-utilities and include minimal replacements
     services.gnome.core-utilities.enable = false;
     environment.systemPackages = with pkgs; [
-      freetube
       gnome-console
       gnome-text-editor
-      gnome.gnome-music
       gnome.nautilus
 
       # programs.chromium.enable = true only enables policy o.0 :| ???
