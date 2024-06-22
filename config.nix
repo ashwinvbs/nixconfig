@@ -6,10 +6,7 @@
 
     ./components/software-base.nix
 
-    ./components/docker.nix
-    ./components/flatpak.nix
     ./components/gaming.nix
-    ./components/vm.nix
 
     ./hardware/amdgpu.nix
     ./hardware/intel.nix

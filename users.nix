@@ -76,5 +76,19 @@
         };
       };
     } )
+
+    ( lib.mkIf config.virtualisation.libvirtd.enable {
+      users.users.ashwin.extraGroups = [ "libvirtd" ];
+    } )
+
+    ( lib.mkIf config.virtualisation.docker.enable {
+      users.users.ashwin.extraGroups = [ "docker" ];
+    } )
+
+    ( lib.mkIf config.services.flatpak.enable {
+      environment.persistence."/nix/state" = {
+        users.ashwin.directories = [ ".var/app" ];
+      };
+    } )
   ];
 }
