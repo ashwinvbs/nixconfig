@@ -5,12 +5,9 @@
     ./base.nix
 
     ./components/software-base.nix
-
     ./components/gaming.nix
 
-    ./hardware/amdgpu.nix
-    ./hardware/intel.nix
-
+    ./hardware.nix
     ./impermanence.nix
     ./users.nix
   ];
