@@ -143,6 +143,11 @@ in
     #################################################################################################
     # Misc peripheral configuration
     #################################################################################################
+    hardware.steam-hardware.enable
+    services.udev.packages = [
+      pkgs.android-udev-rules
+    ];
+
     # This config is required to enable function keys in Keychron K1 keyboard
     environment.etc."modprobe.d/keychron.conf".text = "options hid_apple fnmode=0";
   };

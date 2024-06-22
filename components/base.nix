@@ -94,9 +94,5 @@
     Defaults        lecture=never
   '';
 
-  services.udev.packages = [
-    pkgs.android-udev-rules
-  ];
-
   environment.shellAliases.reboot_to_firmware = "systemctl reboot --firmware-setup";
 }
