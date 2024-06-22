@@ -53,20 +53,20 @@ in
       alsa.enable = true;
     };
 
-    environment.gnome.excludePackages = [
-      pkgs.gnome-tour
-      pkgs.gnome-user-docs
-      pkgs.orca
+    environment.gnome.excludePackages = with pkgs [
+      gnome-tour
+      gnome-user-docs
+      orca
     ];
 
     # disable gnome.core-utilities and include minimal replacements
     services.gnome.core-utilities.enable = false;
-    environment.systemPackages = with pkgs.gnome; [
-      gnome-music
-      nautilus
-      pkgs.freetube
-      pkgs.gnome-console
-      pkgs.gnome-text-editor
+    environment.systemPackages = with pkgs; [
+      freetube
+      gnome-console
+      gnome-text-editor
+      gnome.gnome-music
+      gnome.nautilus
 
       # programs.chromium.enable = true only enables policy o.0 :| ???
       chromium
