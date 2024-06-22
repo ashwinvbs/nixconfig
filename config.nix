@@ -9,12 +9,11 @@
     ./components/gaming.nix
     ./components/vm.nix
 
-    ./components/radhulya.nix
-
     ./hardware/amdgpu.nix
     ./hardware/intel.nix
 
     ./impermanence.nix
+    ./users.nix
   ];
 
   config = lib.mkMerge [
