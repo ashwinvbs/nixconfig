@@ -143,7 +143,7 @@ in
     #################################################################################################
     # Misc peripheral configuration
     #################################################################################################
-    hardware.steam-hardware.enable
+    hardware.steam-hardware.enable = true;
     services.udev.packages = [
       pkgs.android-udev-rules
     ];
