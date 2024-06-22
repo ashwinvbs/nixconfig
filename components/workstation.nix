@@ -78,6 +78,9 @@ in
     # Override default mimeapps for nautilus
     environment.sessionVariables.XDG_DATA_DIRS = [ "${mimeAppsList}/share" ];
 
+    # Enable flatpak on workstation machines.
+    services.flatpak.enable = true;
+
     #################################################################################################
     # Chromium configuration
     #################################################################################################
