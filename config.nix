@@ -12,8 +12,9 @@
     ./components/radhulya.nix
 
     ./hardware/amdgpu.nix
-    ./hardware/fprint.nix
     ./hardware/intel.nix
+
+    ./impermanence.nix
   ];
 
   config = lib.mkMerge [

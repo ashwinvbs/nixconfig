@@ -7,7 +7,6 @@
 
   config = lib.mkIf config.services.flatpak.enable {
     environment.persistence."/nix/state" = {
-      directories = [ "/var/lib/flatpak" ];
       users.ashwin.directories = [ ".var/app" ];
     };
   };
