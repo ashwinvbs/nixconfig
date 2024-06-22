@@ -53,7 +53,7 @@ in
       alsa.enable = true;
     };
 
-    environment.gnome.excludePackages = with pkgs [
+    environment.gnome.excludePackages = with pkgs; [
       gnome-tour
       gnome-user-docs
       orca
