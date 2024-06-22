@@ -21,6 +21,16 @@
       };
     } )
 
+    ( lib.mkIf config.services.tailscale.enable {
+      # https://forum.tailscale.com/t/persist-your-tailscale-darlings/904/4
+      systemd.services.tailscaled.serviceConfig.BindPaths = "/nix/state/var/lib/tailscale:/var/lib/tailscale";
+
+      # Ensure that /nix/state/var/lib/tailscale exists.
+      systemd.tmpfiles.rules = [
+        "d /nix/state/var/lib/tailscale 0700 root root"
+      ];
+    } )
+
     ( lib.mkIf config.virtualisation.libvirtd.enable {
       environment.persistence."/nix/state" = {
         directories = [ "/var/lib/libvirt" ];

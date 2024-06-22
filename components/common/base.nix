@@ -15,4 +15,7 @@
   networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
 
   services.fstrim.enable = true;
+
+  # install Tailscale service by default. long live tailscale!
+  services.tailscale.enable = true;
 }

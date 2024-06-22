@@ -2,12 +2,10 @@
 
 {
   imports = [
-    # ./common/autoupdate.nix
     ./common/base.nix
     ./common/nix-gc.nix
     ./common/programs.nix
     ./common/ssh-host.nix
-    ./common/tailscale.nix
 
     ./workstation/auto-timezone.nix
     ./workstation/chromium.nix
