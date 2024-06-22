@@ -2,14 +2,12 @@
 
 {
   imports = [
-    ./base.nix
-
+    ./components/base.nix
     ./components/gaming.nix
+    ./components/hardware.nix
+    ./components/impermanence.nix
+    ./components/users.nix
     ./components/workstation.nix
-
-    ./hardware.nix
-    ./impermanence.nix
-    ./users.nix
   ];
 
   config = lib.mkMerge [
