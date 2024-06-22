@@ -4,8 +4,8 @@
   imports = [
     ./base.nix
 
-    ./components/software-base.nix
     ./components/gaming.nix
+    ./components/workstation.nix
 
     ./hardware.nix
     ./impermanence.nix
