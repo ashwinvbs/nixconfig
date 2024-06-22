@@ -18,7 +18,7 @@
         files = [
           "/etc/machine-id"
         ];
-      }
+      };
     } )
 
     ( lib.mkIf config.virtualisation.libvirtd.enable {
