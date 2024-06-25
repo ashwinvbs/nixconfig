@@ -3,7 +3,6 @@
 {
   imports = [
     ./components/base.nix
-    ./components/gaming.nix
     ./components/hardware.nix
     ./components/impermanence.nix
     ./components/users.nix
