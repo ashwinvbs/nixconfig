@@ -90,5 +90,9 @@
         users.ashwin.directories = [ ".var/app" ];
       };
     } )
+
+    ( lib.mkIf config.installconfig.components.workstation {
+      users.users.ashwin.extraGroups = [ "adbusers" ];
+    } )
   ];
 }

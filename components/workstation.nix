@@ -148,6 +148,8 @@ in
     services.udev.packages = [
       pkgs.android-udev-rules
     ];
+    # Above rule spams journal if adbusers group does not exist
+    users.groups.adbusers = {};
 
     # This config is required to enable function keys in Keychron K1 keyboard
     environment.etc."modprobe.d/keychron.conf".text = "options hid_apple fnmode=0";
