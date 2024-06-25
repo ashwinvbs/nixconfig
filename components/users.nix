@@ -30,7 +30,6 @@
       };
 
       environment.persistence."/nix/state" = {
-        hideMounts = true;
         users.ashwin = {
           directories = [
             ".android"
@@ -59,7 +58,6 @@
       };
 
       environment.persistence."/nix/state" = {
-        hideMounts = true;
         users.radhulya = {
           directories = [
             ".config"

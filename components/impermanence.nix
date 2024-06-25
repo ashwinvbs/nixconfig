@@ -11,6 +11,7 @@
       fileSystems."/".options = [ "defaults" "size=2G" "mode=755" ];
 
       environment.persistence."/nix/state" = {
+        hideMounts = true;
         directories = [
           "/etc/nixos"
           "/var/log"
