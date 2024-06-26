@@ -11,11 +11,15 @@
 
   config = lib.mkMerge [
     ( lib.mkIf ( config.networking.hostName == "nuc" ) {
-      installconfig.hardware.intel = true;
+      installconfig = {
+        enable_impermanence = true;
+        hardware.intel = true;
+      };
     } )
 
     ( lib.mkIf ( config.networking.hostName == "xps" ) {
       installconfig = {
+        enable_impermanence = true;
         hardware.intel = true;
         workstation_components = true;
         users.allow-rad = true;
@@ -24,6 +28,7 @@
 
     ( lib.mkIf ( config.networking.hostName == "rig" ) {
       installconfig = {
+        enable_impermanence = true;
         hardware = {
           intel = true;
           amdgpu = true;
@@ -34,6 +39,7 @@
 
     ( lib.mkIf ( config.networking.hostName == "fw" ) {
       installconfig = {
+        enable_impermanence = true;
         hardware.intel = true;
         workstation_components = true;
       };
@@ -52,6 +58,13 @@
         SUBSYSTEM=="pci", ATTR{vendor}=="0x8086", ATTR{device}=="0xa0e0", ATTR{power/control}="on"
       '';
       hardware.acpilight.enable = true;
+    } )
+
+    ( lib.mkIf ( config.networking.hostName == "test" ) {
+      installconfig = {
+        enable_impermanence = false;
+        workstation_components = true;
+      };
     } )
   ];
 }

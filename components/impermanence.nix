@@ -5,7 +5,9 @@
 {
   imports = [ "${builtins.fetchTarball { url = "https://github.com/nix-community/impermanence/archive/master.tar.gz"; }}/nixos.nix" ];
 
-  config = lib.mkMerge [
+  options.installconfig.enable_impermanence = lib.mkEnableOption "Enable impermanence";
+
+  config = lib.mkIf config.installconfig.enable_impermanence ( lib.mkMerge [
     ( {
       # File system defines
       fileSystems."/".options = [ "defaults" "size=2G" "mode=755" ];
@@ -66,5 +68,5 @@
         "d /nix/state/var/lib/tailscale 0700 root root"
       ];
     } )
-  ];
+  ] );
 }

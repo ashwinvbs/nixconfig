@@ -29,6 +29,7 @@
         ];
       };
 
+      # TODO: Make this depend on enable_impermanence
       environment.persistence."/nix/state" = {
         users.ashwin = {
           directories = [
@@ -57,6 +58,7 @@
         hashedPassword = lib.strings.fileContents /etc/nixos/secrets/radpass.txt;
       };
 
+      # TODO: Make this depend on enable_impermanence
       environment.persistence."/nix/state" = {
         users.radhulya = {
           directories = [
@@ -83,6 +85,7 @@
       users.users.ashwin.extraGroups = [ "docker" ];
     } )
 
+    # TODO: Make this depend on enable_impermanence
     ( lib.mkIf config.services.flatpak.enable {
       environment.persistence."/nix/state" = {
         users.ashwin.directories = [ ".var/app" ];
