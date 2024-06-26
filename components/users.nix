@@ -89,7 +89,7 @@
       };
     } )
 
-    ( lib.mkIf config.installconfig.components.workstation {
+    ( lib.mkIf config.installconfig.workstation_components {
       users.users.ashwin.extraGroups = [ "adbusers" ];
     } )
   ];

@@ -12,9 +12,9 @@ let
   };
 in
 {
-  options.installconfig.components.workstation = lib.mkEnableOption "Configure the machine to be a workstation";
+  options.installconfig.workstation_components = lib.mkEnableOption "Configure the machine to be a workstation";
 
-  config = lib.mkIf config.installconfig.components.workstation {
+  config = lib.mkIf config.installconfig.workstation_components {
     #################################################################################################
     # Gnome configuration
     #################################################################################################

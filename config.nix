@@ -17,7 +17,7 @@
     ( lib.mkIf ( config.networking.hostName == "xps" ) {
       installconfig = {
         hardware.intel = true;
-        components.workstation = true;
+        workstation_components = true;
         users.allow-rad = true;
       };
     } )
@@ -28,14 +28,14 @@
           intel = true;
           amdgpu = true;
         };
-        components.workstation = true;
+        workstation_components = true;
       };
     } )
 
     ( lib.mkIf ( config.networking.hostName == "fw" ) {
       installconfig = {
         hardware.intel = true;
-        components.workstation = true;
+        workstation_components = true;
       };
 
       # From https://github.com/NixOS/nixos-hardware/blob/master/framework/12th-gen-intel/default.nix
