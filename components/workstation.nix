@@ -84,7 +84,7 @@ in
     #################################################################################################
     # Chromium configuration
     #################################################################################################
-    nixpkgs.config = {
+    nixpkgs.config = lib.mkDefault {
       allowUnfree = true;
       chromium = {
         enableWideVine = true;
