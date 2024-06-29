@@ -28,8 +28,29 @@
           "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBovRDhgavqQPYZYMg70tBP3Ibs1o2qSHSAgz4nW89BQwaosDYvmSK0QvT+J8hDVyvIXyaaHMzHONGavMDLVPhUwe1xt6XzrrFNfpZmquLyP9xMRZkxca/c1ZQpD3pL+n7yvY8DMn+6o6B3LPkwYZqbxPlernS1BYQjQbVBMFrkbMzFtacc+GM+fwku2BueOQuNMlrAKdQBTuDLaMlUQyws0CI9PgbB2NSzsmWWohz/r2nWYZmtVAYAjjdRDuoWgL+sUrCQiiDawctHVNHFfkHK1stY3ywD6FOxnm0tvdX8J0ojdCGZdC/LxdxAfdpbN7VmBM9Gw+uyg/ha6LAXaMFEENTYE6JgaWROJNIULHFq2184lSH0P5MVltcywRSvblZZ1vzVwMFrt5HCrJpRa+ROP/HnSUjzN1BmfJMepEAPQTiXSzRQgo0ymX14Oft95w5m+Q5dV0uhuXtSO6ao66EAXcqgSMChUuqqX7MBIu9xxErezfRgesTJOgvRJrtvUk= ashwin@nuc"
         ];
       };
+    } )
 
-      # TODO: Make this depend on enable_impermanence
+    ( lib.mkIf config.virtualisation.libvirtd.enable {
+      users.users.ashwin.extraGroups = [ "libvirtd" ];
+    } )
+
+    ( lib.mkIf config.virtualisation.docker.enable {
+      users.users.ashwin.extraGroups = [ "docker" ];
+    } )
+
+    ( lib.mkIf config.installconfig.workstation_components {
+      users.users.ashwin.extraGroups = [ "adbusers" ];
+    } )
+
+    ( lib.mkIf config.installconfig.users.allow-rad {
+      users.users.radhulya = {
+        isNormalUser = true;
+        description = "Radhulya Thirumalaisamy";
+        hashedPassword = lib.strings.fileContents /etc/nixos/secrets/radpass.txt;
+      };
+    } )
+
+    ( lib.mkIf config.installconfig.enable_impermanence {
       environment.persistence."/nix/state" = {
         users.ashwin = {
           directories = [
@@ -51,14 +72,8 @@
       };
     } )
 
-    ( lib.mkIf config.installconfig.users.allow-rad {
-      users.users.radhulya = {
-        isNormalUser = true;
-        description = "Radhulya Thirumalaisamy";
-        hashedPassword = lib.strings.fileContents /etc/nixos/secrets/radpass.txt;
-      };
-
-      # TODO: Make this depend on enable_impermanence
+    ( lib.mkIf ( config.installconfig.users.allow-rad &&
+                 config.installconfig.enable_impermanence ) {
       environment.persistence."/nix/state" = {
         users.radhulya = {
           directories = [
@@ -77,23 +92,11 @@
       };
     } )
 
-    ( lib.mkIf config.virtualisation.libvirtd.enable {
-      users.users.ashwin.extraGroups = [ "libvirtd" ];
-    } )
-
-    ( lib.mkIf config.virtualisation.docker.enable {
-      users.users.ashwin.extraGroups = [ "docker" ];
-    } )
-
-    # TODO: Make this depend on enable_impermanence
-    ( lib.mkIf config.services.flatpak.enable {
+    ( lib.mkIf ( config.services.flatpak.enable &&
+                 config.installconfig.enable_impermanence ) {
       environment.persistence."/nix/state" = {
         users.ashwin.directories = [ ".var/app" ];
       };
-    } )
-
-    ( lib.mkIf config.installconfig.workstation_components {
-      users.users.ashwin.extraGroups = [ "adbusers" ];
     } )
   ];
 }
