@@ -1,10 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  options.installconfig.hardware = {
-    intel = lib.mkEnableOption "Enable driver support for intel cpu/gpu";
-    amdgpu = lib.mkEnableOption "Enable driver support for amdgpu";
-  };
+  imports = [ ./installconfig.nix ];
 
   config = lib.mkMerge [
     ( lib.mkIf config.installconfig.hardware.intel {

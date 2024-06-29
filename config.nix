@@ -59,19 +59,5 @@
       '';
       hardware.acpilight.enable = true;
     } )
-
-    ( lib.mkIf ( config.networking.hostName == "enable_all" ) {
-      installconfig = {
-        enable_impermanence = true;
-        hardware = {
-          intel = true;
-          amdgpu = true;
-        };
-        users.allow-rad = true;
-        workstation_components = true;
-      };
-      services.fprintd.enable = true;
-      virtualisation.docker.enable = true;
-    } )
   ];
 }

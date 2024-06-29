@@ -12,7 +12,7 @@ let
   };
 in
 {
-  options.installconfig.workstation_components = lib.mkEnableOption "Configure the machine to be a workstation";
+  imports = [ ./installconfig.nix ];
 
   config = lib.mkIf config.installconfig.workstation_components {
     #################################################################################################

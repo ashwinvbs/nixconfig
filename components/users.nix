@@ -1,9 +1,10 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [ "${builtins.fetchTarball { url = "https://github.com/nix-community/impermanence/archive/master.tar.gz"; }}/nixos.nix" ];
-
-  options.installconfig.users.allow-rad = lib.mkEnableOption "Adds radhulya as a normal user";
+  imports = [
+    ./installconfig.nix
+    "${builtins.fetchTarball { url = "https://github.com/nix-community/impermanence/archive/master.tar.gz"; }}/nixos.nix"
+  ];
 
   config = lib.mkMerge [
     ( {
@@ -22,7 +23,6 @@
       users.users.ashwin = {
         isNormalUser = true;
         description = "Ashwin Balasubramaniyan";
-        hashedPassword = lib.strings.fileContents /etc/nixos/secrets/ashpass.txt;
         extraGroups = [ "wheel" ];
         openssh.authorizedKeys.keys = [
           "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBovRDhgavqQPYZYMg70tBP3Ibs1o2qSHSAgz4nW89BQwaosDYvmSK0QvT+J8hDVyvIXyaaHMzHONGavMDLVPhUwe1xt6XzrrFNfpZmquLyP9xMRZkxca/c1ZQpD3pL+n7yvY8DMn+6o6B3LPkwYZqbxPlernS1BYQjQbVBMFrkbMzFtacc+GM+fwku2BueOQuNMlrAKdQBTuDLaMlUQyws0CI9PgbB2NSzsmWWohz/r2nWYZmtVAYAjjdRDuoWgL+sUrCQiiDawctHVNHFfkHK1stY3ywD6FOxnm0tvdX8J0ojdCGZdC/LxdxAfdpbN7VmBM9Gw+uyg/ha6LAXaMFEENTYE6JgaWROJNIULHFq2184lSH0P5MVltcywRSvblZZ1vzVwMFrt5HCrJpRa+ROP/HnSUjzN1BmfJMepEAPQTiXSzRQgo0ymX14Oft95w5m+Q5dV0uhuXtSO6ao66EAXcqgSMChUuqqX7MBIu9xxErezfRgesTJOgvRJrtvUk= ashwin@nuc"
@@ -46,7 +46,6 @@
       users.users.radhulya = {
         isNormalUser = true;
         description = "Radhulya Thirumalaisamy";
-        hashedPassword = lib.strings.fileContents /etc/nixos/secrets/radpass.txt;
       };
     } )
 
@@ -97,6 +96,15 @@
       environment.persistence."/nix/state" = {
         users.ashwin.directories = [ ".var/app" ];
       };
+    } )
+
+    ( lib.mkIf ( ! config.installconfig.enable_full_codecoverage_for_test ) {
+      users.users.ashwin.hashedPassword = lib.strings.fileContents /etc/nixos/secrets/ashpass.txt;
+    } )
+
+    ( lib.mkIf ( ( ! config.installconfig.enable_full_codecoverage_for_test ) && 
+                 config.installconfig.users.allow-rad ) {
+      users.users.radhulya.hashedPassword = lib.strings.fileContents /etc/nixos/secrets/radpass.txt;
     } )
   ];
 }

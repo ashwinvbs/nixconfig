@@ -3,9 +3,10 @@
 { config, lib, ... }:
 
 {
-  imports = [ "${builtins.fetchTarball { url = "https://github.com/nix-community/impermanence/archive/master.tar.gz"; }}/nixos.nix" ];
-
-  options.installconfig.enable_impermanence = lib.mkEnableOption "Enable impermanence";
+  imports = [
+    ./installconfig.nix
+    "${builtins.fetchTarball { url = "https://github.com/nix-community/impermanence/archive/master.tar.gz"; }}/nixos.nix"
+  ];
 
   config = lib.mkIf config.installconfig.enable_impermanence ( lib.mkMerge [
     ( {

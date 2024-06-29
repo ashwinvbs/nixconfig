@@ -8,5 +8,6 @@
   imports = [
     ../config.nix
   ];
-  networking.hostName = "enable_all";
+  networking.hostName = "testing";
+  installconfig.enable_full_codecoverage_for_test = true;
 }
