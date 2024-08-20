@@ -94,7 +94,5 @@
     Defaults        lecture=never
   '';
 
-  services.fwupd.enable = true;
-
   environment.shellAliases.reboot_to_firmware = "systemctl reboot --firmware-setup";
 }
