@@ -18,6 +18,7 @@
           hideMounts = true;
           directories = [
             "/etc/nixos"
+            "/var/lib/nixos"
             "/var/log"
           ];
           files = [
