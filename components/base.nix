@@ -96,5 +96,8 @@
 
   services.fwupd.enable = true;
 
-  environment.shellAliases.reboot_to_firmware = "systemctl reboot --firmware-setup";
+  environment.shellAliases = {
+    reboot_to_firmware = "systemctl reboot --firmware-setup";
+    debug_kernel_interrupts = "watch -n0.1 -d --no-title cat /proc/interrupts";
+  };
 }
