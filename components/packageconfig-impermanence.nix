@@ -1,4 +1,4 @@
-# To enable docker, set virtualisation.libvirtd.enable = true;
+# Package-wise configuration applied when impermanence is enabled
 
 { config, lib, ... }:
 

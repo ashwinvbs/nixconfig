@@ -21,14 +21,7 @@
   networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
 
   # Enable the OpenSSH daemon.
-  services.openssh = {
-    enable = true;
-    settings = {
-      PasswordAuthentication = false;
-      KbdInteractiveAuthentication = false;
-      PermitRootLogin = "no";
-    };
-  };
+  services.openssh.enable = true;
 
   # install Tailscale service by default. long live tailscale!
   services.tailscale.enable = true;
@@ -69,26 +62,7 @@
     nixos-option
   ];
 
-  programs.tmux = {
-    enable = true;
-    shortcut = "k";
-    aggressiveResize = true;
-    baseIndex = 1;
-
-    extraConfig = ''
-      # Split panes using | and -
-      bind | split-window -h
-      bind - split-window -v
-      unbind '"'
-      unbind %
-
-      # Enable mouse control (clickable windows, panes, resizable panes)
-      set -g mouse on
-
-      # Don't rename windows automatically
-      set-option -g allow-rename off
-    '';
-  };
+  programs.tmux.enable = true;
 
   security.sudo.extraConfig = ''
     Defaults        lecture=never
