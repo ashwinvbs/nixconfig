@@ -78,6 +78,8 @@
           directories = [
             ".config"
             ".local"
+            ".mozilla"
+            ".var/app"
             "Documents"
             "Downloads"
             "Workspaces"
@@ -95,6 +97,13 @@
                  config.installconfig.enable_impermanence ) {
       environment.persistence."/nix/state" = {
         users.ashwin.directories = [ ".var/app" ];
+      };
+    } )
+
+    ( lib.mkIf ( config.programs.firefox.enable &&
+                 config.installconfig.enable_impermanence ) {
+      environment.persistence."/nix/state" = {
+        users.ashwin.directories = [ ".mozilla" ];
       };
     } )
 
