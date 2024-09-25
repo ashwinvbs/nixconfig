@@ -165,13 +165,13 @@ in
             "ImproveSuggest" = false;
           };
           "OfferToSaveLogins" = false;
-          "SearchEngines" = {
-            "Default" = "DuckDuckGo";
-          };
           "UserMessaging" = {
             "ExtensionRecommendations" = false;
             "FeatureRecommendations" = false;
           };
+        };
+        preferences = {
+          "browser.cache.disk.enable" = false;
         };
       };
     } )
