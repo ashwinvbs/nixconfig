@@ -129,7 +129,22 @@ in
       programs.firefox =  {
         languagePacks = [ "en-US" ];
         policies = {
+          "DisableFirefoxStudies" = true;
+          "DisablePocket" = true;
+          "DisableTelemetry" = true;
+          "DNSOverHTTPS" = {
+            "Enabled" = true;
+            "Fallback" = false;
+            "Locked" = true;
+          };
+          "EncryptedMediaExtensions" = {
+            "Enabled" = true;
+          };
           "ExtensionSettings" = {
+            "*" = {
+              "blocked_install_message" = "Extension installation blocked, contact administrator!";
+              "installation_mode" = "blocked";
+            };
             "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
               "installation_mode" = "force_installed";
               "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
@@ -139,9 +154,24 @@ in
               "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
             };
           };
-        };
-        preferences = {
-          "extensions.pocket.enabled" = false;
+          "FirefoxHome" = {
+            "Pocket" = false;
+            "SponsoredPocket" = false;
+            "SponsoredTopSites" = false;
+          };
+          "FirefoxSuggest" = {
+            "WebSuggestions" = false;
+            "SponsoredSuggestions" = false;
+            "ImproveSuggest" = false;
+          };
+          "OfferToSaveLogins" = false;
+          "SearchEngines" = {
+            "Default" = "DuckDuckGo";
+          };
+          "UserMessaging" = {
+            "ExtensionRecommendations" = false;
+            "FeatureRecommendations" = false;
+          };
         };
       };
     } )
