@@ -140,7 +140,9 @@ in
             };
           };
         };
-        preferences = {};
+        preferences = {
+          "extensions.pocket.enabled" = false;
+        };
       };
     } )
   ];
