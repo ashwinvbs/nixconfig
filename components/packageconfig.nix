@@ -121,6 +121,10 @@ in
       environment.sessionVariables.XDG_DATA_DIRS = [ "${mimeAppsList}/share" ];
     } )
 
+    ( lib.mkIf config.hardware.steam-hardware.enable {
+      nixpkgs.config.allowUnfree = lib.mkDefault true;
+    } )
+
     ( lib.mkIf config.programs.firefox.enable {} )
   ];
 }
