@@ -15,6 +15,14 @@
     services.xserver.displayManager.gdm.enable = true;
     services.xserver.desktopManager.gnome.enable = true;
 
+    # disable pulseaudio and enable pipewire
+    hardware.pulseaudio.enable = lib.mkForce false;
+    services.pipewire = {
+      enable = true;
+      pulse.enable = true;
+      alsa.enable = true;
+    };
+
     # Enable flatpak on workstation machines.
     services.flatpak.enable = true;
 
