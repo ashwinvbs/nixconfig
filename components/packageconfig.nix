@@ -15,6 +15,34 @@ let
 in
 {
   config = lib.mkMerge[
+    ( lib.mkIf config.security.sudo.enable {
+      security.sudo.extraConfig = ''
+        Defaults        lecture=never
+      '';
+    } )
+
+    ( lib.mkIf config.nix.enable {
+      nix = {
+        ## Cleanup operations
+        # Specify size constraints for nix store
+        # Free upto 1G when free space falls below 100M
+        extraOptions = ''
+          min-free = ${toString (100 * 1024 * 1024)}
+          max-free = ${toString (1024 * 1024 * 1024)}
+        '';
+
+        # Clean up week old packages
+        # NOTE: It is possible that too many initrd disks are created and /boot runs out of space.
+        # I suspect the logs wont have any indication of the error. Newer generations would just stop appearing.
+        # If this happens, start manually deleting generations.
+        gc = {
+          automatic = true;
+          dates = "daily";
+          options = "--delete-older-than 7d";
+        };
+      };
+    } )
+
     ( lib.mkIf config.services.openssh.enable {
       services.openssh.settings = {
         PasswordAuthentication = false;
@@ -121,7 +149,8 @@ in
       environment.sessionVariables.XDG_DATA_DIRS = [ "${mimeAppsList}/share" ];
     } )
 
-    ( lib.mkIf config.hardware.steam-hardware.enable {
+    ( lib.mkIf ( config.hardware.steam-hardware.enable &&
+                 config.networking.hostName != "testing" ) {
       nixpkgs.config.allowUnfree = lib.mkDefault true;
     } )
 
