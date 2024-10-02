@@ -40,6 +40,9 @@ in
           dates = "daily";
           options = "--delete-older-than 7d";
         };
+
+        # Enable flakes system-wide
+        settings.experimental-features = [ "nix-command" "flakes" ];
       };
     } )
 
