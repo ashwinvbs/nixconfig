@@ -4,7 +4,6 @@
   imports = [
     ./components/base.nix
     ./components/hardware.nix
-    ./components/packageconfig-impermanence.nix
     ./components/packageconfig.nix
     ./components/users.nix
   ];
