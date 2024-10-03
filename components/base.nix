@@ -1,63 +1,134 @@
 { config, lib, pkgs, ... }:
 
 {
-  #################################################################################################
-  # Boot and timezone configuration
-  #################################################################################################
+  imports = [ ./installconfig.nix ];
 
-  # Boot configuration
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  config = lib.mkMerge [
+    ( {
+      #################################################################################################
+      # Boot and timezone configuration
+      #################################################################################################
 
-  # Default timezone and locale
-  time.timeZone = lib.mkDefault "America/New_York";
-  i18n.defaultLocale = "en_US.UTF-8";
+      # Boot configuration
+      boot.loader.systemd-boot.enable = true;
+      boot.loader.efi.canTouchEfiVariables = true;
 
-  #################################################################################################
-  # Network configuration
-  #################################################################################################
+      # Default timezone and locale
+      time.timeZone = lib.mkDefault "America/New_York";
+      i18n.defaultLocale = "en_US.UTF-8";
 
-  # Disable IPV6 https://github.com/NixOS/nixpkgs/issues/87802
-  boot.kernelParams = [ "ipv6.disable=1" ];
-  networking.enableIPv6 = false;
+      #################################################################################################
+      # Network configuration
+      #################################################################################################
 
-  # Default nameservers
-  networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
+      # Disable IPV6 https://github.com/NixOS/nixpkgs/issues/87802
+      boot.kernelParams = [ "ipv6.disable=1" ];
+      networking.enableIPv6 = false;
 
-  #################################################################################################
-  # Default programs and services
-  #################################################################################################
+      # Default nameservers
+      networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
 
-  services = {
-    # Networking/remote access services
-    openssh.enable = true;
-    tailscale.enable = true;
-  };
+      #################################################################################################
+      # Default programs and services
+      #################################################################################################
 
-  programs = {
-    # Git is required for pulling nix configuration
-    git = {
-      enable = true;
-      lfs.enable = true;
-    };
+      services = {
+        # Networking/remote access services
+        openssh.enable = true;
+        tailscale.enable = true;
+      };
 
-    # Custom settings are easier to apply if package is enabled systemwide
-    tmux.enable = true;
+      programs = {
+        # Git is required for pulling nix configuration
+        git = {
+          enable = true;
+          lfs.enable = true;
+        };
 
-    # Enable gnupg
-    gnupg.agent.enable = true;
-  };
+        # Custom settings are easier to apply if package is enabled systemwide
+        tmux.enable = true;
 
-  environment = {
-    sessionVariables = {
-      # Make running non installed commands interactive and painless
-      NIX_AUTO_RUN = 1;
-      NIX_AUTO_RUN_INTERACTIVE = 1;
-    };
+        # Enable gnupg
+        gnupg.agent.enable = true;
+      };
 
-    shellAliases = {
-      reboot_to_firmware = "systemctl reboot --firmware-setup";
-      debug_kernel_interrupts = "watch -n0.1 -d --no-title cat /proc/interrupts";
-    };
-  };
+      environment = {
+        sessionVariables = {
+          # Make running non installed commands interactive and painless
+          NIX_AUTO_RUN = 1;
+          NIX_AUTO_RUN_INTERACTIVE = 1;
+        };
+
+        shellAliases = {
+          reboot_to_firmware = "systemctl reboot --firmware-setup";
+          debug_kernel_interrupts = "watch -n0.1 -d --no-title cat /proc/interrupts";
+        };
+      };
+    } )
+
+    ( lib.mkIf config.installconfig.workstation_components {
+      # Enable the X11 windowing system.
+      services.xserver.enable = true;
+      services.xserver.excludePackages = [ pkgs.xterm ];
+
+      # Configure keymap in X11
+      services.xserver.xkb.layout = "us";
+
+      # Enable the GNOME Desktop Environment.
+      services.xserver.displayManager.gdm.enable = true;
+      services.xserver.desktopManager.gnome.enable = true;
+
+      # disable pulseaudio and enable pipewire
+      hardware.pulseaudio.enable = lib.mkForce false;
+      services.pipewire = {
+        enable = true;
+        pulse.enable = true;
+        alsa.enable = true;
+      };
+
+      # Enable flatpak on workstation machines.
+      services.flatpak.enable = true;
+
+      # Enable firefox
+      programs.firefox.enable = true;
+
+      #################################################################################################
+      # Autotimezone configuration
+      #################################################################################################
+      systemd.services.tzupdate = {
+        description = "attempts updating timezone, fails if network is unavailable";
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = "${pkgs.tzupdate}/bin/tzupdate -z /etc/zoneinfo -d /dev/null";
+        };
+      };
+      systemd.timers.tzupdate = {
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnBootSec = "1m";
+          OnUnitActiveSec = "10m";
+          Unit = "tzupdate.service";
+        };
+      };
+
+
+      #################################################################################################
+      # Misc peripheral configuration
+      #################################################################################################
+      hardware.steam-hardware.enable = true;
+      services.udev.packages = [
+        pkgs.android-udev-rules
+      ];
+      # Above rule spams journal if adbusers group does not exist
+      users.groups.adbusers = {};
+      # Allow workstations to pass usb devices to virtual machines
+      virtualisation.spiceUSBRedirection.enable = true;
+
+      # This config is required to enable function keys in Keychron K1 keyboard
+      environment.etc."modprobe.d/keychron.conf".text = "options hid_apple fnmode=0";
+
+      # Add keyd for misc keyboard configuration
+      services.keyd.enable = true;
+    } )
+  ];
 }

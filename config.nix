@@ -7,7 +7,6 @@
     ./components/packageconfig-impermanence.nix
     ./components/packageconfig.nix
     ./components/users.nix
-    ./components/workstation.nix
   ];
 
   config = lib.mkMerge [
