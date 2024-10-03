@@ -153,7 +153,7 @@ in
     } )
 
     ( lib.mkIf ( config.hardware.steam-hardware.enable &&
-                 config.networking.hostName != "testing" ) {
+                 ! config.installconfig.enable_full_codecoverage_for_test ) {
       nixpkgs.config.allowUnfree = lib.mkDefault true;
     } )
 

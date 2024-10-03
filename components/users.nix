@@ -10,11 +10,9 @@
     ( {
       # gnupg and pinentry required for yadm
       environment.systemPackages = with pkgs; [
-        gnupg
         pinentry
         yadm
       ];
-      programs.gnupg.agent.enable = true;
 
       users.mutableUsers = false;
     } )
