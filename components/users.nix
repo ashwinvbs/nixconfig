@@ -40,7 +40,7 @@
       users.users.ashwin.extraGroups = [ "adbusers" ];
     } )
 
-    ( lib.mkIf config.installconfig.users.allow-rad {
+    ( lib.mkIf config.installconfig.users.allow_rad {
       users.users.radhulya = {
         isNormalUser = true;
         description = "Radhulya Thirumalaisamy";
@@ -69,7 +69,7 @@
       };
     } )
 
-    ( lib.mkIf ( config.installconfig.users.allow-rad &&
+    ( lib.mkIf ( config.installconfig.users.allow_rad &&
                  config.installconfig.enable_impermanence ) {
       environment.persistence."/nix/state" = {
         users.radhulya = {
@@ -110,7 +110,7 @@
     } )
 
     ( lib.mkIf ( ( ! config.installconfig.enable_full_codecoverage_for_test ) && 
-                 config.installconfig.users.allow-rad ) {
+                 config.installconfig.users.allow_rad ) {
       users.users.radhulya.hashedPassword = lib.strings.fileContents /etc/nixos/secrets/radpass.txt;
     } )
   ];
