@@ -76,41 +76,8 @@ in
       };
     } )
 
-    ( lib.mkIf config.programs.chromium.enable {
-      environment.systemPackages = with pkgs; [
-        # programs.chromium.enable = true only enables policy o.0 :| ???
-        chromium
-      ];
-      nixpkgs.config = lib.mkDefault {
-        allowUnfree = true;
-        chromium.enableWideVine = true;
-      };
-
-      programs.chromium.extraOpts = {
-        "AdvancedProtectionAllowed" = false;
-        "AutofillAddressEnabled" = false;
-        "AutofillCreditCardEnabled" = false;
-        "BrowserSignin" = 0;
-        "CloudPrintProxyEnabled" = false;
-        "HideWebStoreIcon" = true;
-        "MetricsReportingEnabled" = false;
-        "PasswordManagerEnabled" = false;
-        "PaymentMethodQueryEnabled" = false;
-        "ProfilePickerOnStartupAvailability" = 1;
-        "RemoteAccessHostAllowRemoteAccessConnections" = false;
-        "RemoteAccessHostAllowRemoteSupportConnections" = false;
-        "RemoteDebuggingAllowed" = false;
-        "SharedClipboardEnabled" = false;
-        "ShowAppsShortcutInBookmarkBar" = false;
-        "ShowHomeButton" = false;
-        "SpellCheckServiceEnabled" = false;
-        "SyncDisabled" = true;
-
-        "ExtensionInstallForcelist" = [
-          "nngceckbapebfimnlniiiahkandclblb" # Bitwarden
-          "apjcbfpjihpedihablmalmbbhjpklbdf" # AdGuard AdBlocker
-        ];
-      };
+    ( lib.mkIf config.services.xserver.enable {
+      services.xserver.excludePackages = [ pkgs.xterm ];
     } )
 
     ( lib.mkIf config.services.xserver.desktopManager.gnome.enable {
@@ -205,6 +172,44 @@ in
         preferences = {
           "browser.cache.disk.enable" = false;
         };
+      };
+    } )
+
+    ( lib.mkIf config.programs.chromium.enable {
+      # TODO: emit unmaintained warning
+      environment.systemPackages = with pkgs; [
+        # programs.chromium.enable = true only enables policy o.0 :| ???
+        chromium
+      ];
+      nixpkgs.config = lib.mkDefault {
+        allowUnfree = true;
+        chromium.enableWideVine = true;
+      };
+
+      programs.chromium.extraOpts = {
+        "AdvancedProtectionAllowed" = false;
+        "AutofillAddressEnabled" = false;
+        "AutofillCreditCardEnabled" = false;
+        "BrowserSignin" = 0;
+        "CloudPrintProxyEnabled" = false;
+        "HideWebStoreIcon" = true;
+        "MetricsReportingEnabled" = false;
+        "PasswordManagerEnabled" = false;
+        "PaymentMethodQueryEnabled" = false;
+        "ProfilePickerOnStartupAvailability" = 1;
+        "RemoteAccessHostAllowRemoteAccessConnections" = false;
+        "RemoteAccessHostAllowRemoteSupportConnections" = false;
+        "RemoteDebuggingAllowed" = false;
+        "SharedClipboardEnabled" = false;
+        "ShowAppsShortcutInBookmarkBar" = false;
+        "ShowHomeButton" = false;
+        "SpellCheckServiceEnabled" = false;
+        "SyncDisabled" = true;
+
+        "ExtensionInstallForcelist" = [
+          "nngceckbapebfimnlniiiahkandclblb" # Bitwarden
+          "apjcbfpjihpedihablmalmbbhjpklbdf" # AdGuard AdBlocker
+        ];
       };
     } )
   ];

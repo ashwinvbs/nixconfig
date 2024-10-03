@@ -67,16 +67,15 @@
     } )
 
     ( lib.mkIf config.installconfig.workstation_components {
-      # Enable the X11 windowing system.
-      services.xserver.enable = true;
-      services.xserver.excludePackages = [ pkgs.xterm ];
 
-      # Configure keymap in X11
-      services.xserver.xkb.layout = "us";
+      services.xserver = {
+        # Enable the X11 windowing system.
+        enable = true;
 
-      # Enable the GNOME Desktop Environment.
-      services.xserver.displayManager.gdm.enable = true;
-      services.xserver.desktopManager.gnome.enable = true;
+        # Enable the GNOME Desktop Environment.
+        displayManager.gdm.enable = true;
+        desktopManager.gnome.enable = true;
+      };
 
       # disable pulseaudio and enable pipewire
       hardware.pulseaudio.enable = lib.mkForce false;
@@ -91,7 +90,6 @@
 
       # Enable firefox
       programs.firefox.enable = true;
-
 
       #################################################################################################
       # Misc peripheral configuration
