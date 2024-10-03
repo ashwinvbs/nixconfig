@@ -32,12 +32,6 @@
     # Networking/remote access services
     openssh.enable = true;
     tailscale.enable = true;
-
-    # Firmware management service
-    fwupd.enable = true;
-
-    # SSD management service
-    fstrim.enable = true;
   };
 
   programs = {

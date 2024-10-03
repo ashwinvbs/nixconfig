@@ -4,6 +4,16 @@
   imports = [ ./installconfig.nix ];
 
   config = lib.mkMerge [
+    ( {
+      services = {
+        # Firmware management service
+        fwupd.enable = true;
+
+        # SSD management service
+        fstrim.enable = true;
+      };
+    } )
+
     ( lib.mkIf config.installconfig.hardware.intel {
       # CPU configuration
       hardware.cpu.intel.updateMicrocode =
