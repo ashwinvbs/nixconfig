@@ -1,11 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [
-    ./installconfig.nix
-    "${builtins.fetchTarball { url = "https://github.com/nix-community/impermanence/archive/master.tar.gz"; }}/nixos.nix"
-  ];
-
   config = lib.mkMerge [
     ( {
       # gnupg and pinentry required for yadm

@@ -5,9 +5,7 @@
 { ... }:
 
 {
-  imports = [
-    ../config.nix
-  ];
+  imports = [ ../components ];
   networking.hostName = "testing";
   installconfig.enable_full_codecoverage_for_test = true;
 }

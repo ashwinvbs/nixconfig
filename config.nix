@@ -1,12 +1,7 @@
 { config, lib, ... }:
 
 {
-  imports = [
-    ./components/base.nix
-    ./components/hardware.nix
-    ./components/packageconfig.nix
-    ./components/users.nix
-  ];
+  imports = [ ./components ];
 
   config = lib.mkMerge [
     ( lib.mkIf ( config.networking.hostName == "nuc" ) {

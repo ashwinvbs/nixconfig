@@ -14,11 +14,6 @@ let
   };
 in
 {
-  imports = [
-    ./installconfig.nix
-    "${builtins.fetchTarball { url = "https://github.com/nix-community/impermanence/archive/master.tar.gz"; }}/nixos.nix"
-  ];
-
   config = lib.mkMerge[
     ( lib.mkIf config.security.sudo.enable {
       security.sudo.extraConfig = ''

@@ -1,8 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [ ./installconfig.nix ];
-
   config = lib.mkMerge [
     ( {
       services = {
