@@ -61,7 +61,30 @@
           reboot_to_firmware = "systemctl reboot --firmware-setup";
           debug_kernel_interrupts = "watch -n0.1 -d --no-title cat /proc/interrupts";
         };
+
+        # TODO: Attempt to do this with options instead of explicit packages
+        systemPackages = with pkgs; [
+          pinentry
+          yadm
+        ];
       };
+
+      users = {
+        mutableUsers = false;
+
+        users.ashwin = {
+          isNormalUser = true;
+          description = "Ashwin Balasubramaniyan";
+          extraGroups = [ "wheel" ];
+          openssh.authorizedKeys.keys = [
+            "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBovRDhgavqQPYZYMg70tBP3Ibs1o2qSHSAgz4nW89BQwaosDYvmSK0QvT+J8hDVyvIXyaaHMzHONGavMDLVPhUwe1xt6XzrrFNfpZmquLyP9xMRZkxca/c1ZQpD3pL+n7yvY8DMn+6o6B3LPkwYZqbxPlernS1BYQjQbVBMFrkbMzFtacc+GM+fwku2BueOQuNMlrAKdQBTuDLaMlUQyws0CI9PgbB2NSzsmWWohz/r2nWYZmtVAYAjjdRDuoWgL+sUrCQiiDawctHVNHFfkHK1stY3ywD6FOxnm0tvdX8J0ojdCGZdC/LxdxAfdpbN7VmBM9Gw+uyg/ha6LAXaMFEENTYE6JgaWROJNIULHFq2184lSH0P5MVltcywRSvblZZ1vzVwMFrt5HCrJpRa+ROP/HnSUjzN1BmfJMepEAPQTiXSzRQgo0ymX14Oft95w5m+Q5dV0uhuXtSO6ao66EAXcqgSMChUuqqX7MBIu9xxErezfRgesTJOgvRJrtvUk="
+          ];
+        };
+      };
+    } )
+
+    ( lib.mkIf ( ! config.installconfig.enable_full_codecoverage_for_test ) {
+      users.users.ashwin.hashedPassword = lib.strings.fileContents /etc/nixos/secrets/ashpass.txt;
     } )
 
     ( lib.mkIf config.installconfig.workstation_components {
@@ -97,7 +120,7 @@
         pkgs.android-udev-rules
       ];
       # Above rule spams journal if adbusers group does not exist
-      users.groups.adbusers = {};
+      users.groups.adbusers.members = [ "ashwin" ];
       # Allow workstations to pass usb devices to virtual machines
       virtualisation.spiceUSBRedirection.enable = true;
 

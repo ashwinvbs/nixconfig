@@ -12,6 +12,25 @@ let
       inode/directory=nautilus.desktop;org.gnome.Nautilus.desktop
     '';
   };
+  homePermanence = {
+    directories = [
+      ".android"
+      ".config"
+      ".local"
+      ".mozilla"
+      ".var/app"
+      "Documents"
+      "Downloads"
+      "Music"
+      "Workspaces"
+      { directory = ".ssh"; mode = "0700"; }
+    ];
+    files = [
+      ".bash_history"
+      ".bashrc"
+      ".gitconfig"
+    ];
+  };
 in
 {
   config = lib.mkMerge[
@@ -213,6 +232,14 @@ in
       };
     } )
 
+    ( lib.mkIf config.virtualisation.docker.enable {
+      users.groups.docker.members = [ "ashwin" ];
+    } )
+
+    ( lib.mkIf config.virtualisation.libvirtd.enable {
+      users.groups.libvirtd.members = [ "ashwin" ];
+    } )
+
     ( lib.mkIf config.installconfig.enable_impermanence ( lib.mkMerge [
       ( {
         # File system defines
@@ -229,6 +256,7 @@ in
             files = [
               "/etc/machine-id"
             ];
+            users.ashwin = homePermanence;
           } )
 
           ( lib.mkIf config.virtualisation.libvirtd.enable {
@@ -274,6 +302,25 @@ in
         systemd.tmpfiles.rules = [
           "d /nix/state/var/lib/tailscale 0700 root root"
         ];
+      } )
+    ] ) )
+
+    ( lib.mkIf config.installconfig.users.allow_rad ( lib.mkMerge [
+      ( {
+        users.users.radhulya = {
+          isNormalUser = true;
+          description = "Radhulya Thirumalaisamy";
+        };
+      } )
+
+      ( lib.mkIf config.installconfig.enable_impermanence {
+        environment.persistence."/nix/state" = {
+          users.radhulya = homePermanence;
+        };
+      } )
+
+      ( lib.mkIf ( ! config.installconfig.enable_full_codecoverage_for_test ) {
+        users.users.radhulya.hashedPassword = lib.strings.fileContents /etc/nixos/secrets/radpass.txt;
       } )
     ] ) )
   ];
