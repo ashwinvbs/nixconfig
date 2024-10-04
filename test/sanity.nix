@@ -10,7 +10,6 @@
 
   installconfig = {
     auto_timezone = true;
-    enable_full_codecoverage_for_test = true;
     enable_impermanence = true;
     hardware = {
       intel = true;

@@ -37,9 +37,6 @@ in
   options.installconfig = {
     enable_impermanence = lib.mkEnableOption "Enable impermanence";
     users.allow_rad = lib.mkEnableOption "Adds radhulya as a normal user";
-
-    # Test only
-    enable_full_codecoverage_for_test = lib.mkEnableOption "Enable full code coverage for testing";
   };
 
   config = lib.mkMerge[
@@ -145,11 +142,6 @@ in
 
       # Override default mimeapps for nautilus
       environment.sessionVariables.XDG_DATA_DIRS = [ "${mimeAppsList}/share" ];
-    } )
-
-    ( lib.mkIf ( config.hardware.steam-hardware.enable &&
-                 ! config.installconfig.enable_full_codecoverage_for_test ) {
-      nixpkgs.config.allowUnfree = lib.mkDefault true;
     } )
 
     ( lib.mkIf config.programs.firefox.enable {

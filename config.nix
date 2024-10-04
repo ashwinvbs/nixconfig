@@ -4,6 +4,12 @@
   imports = [ ./components ];
 
   config = lib.mkMerge [
+    ( {
+      # TODO: Figure our how to move this to components.
+      # For now keep here as this conflicts with test framework.
+      nixpkgs.config.allowUnfree = true;
+    } )
+
     ( lib.mkIf ( config.networking.hostName == "nuc" ) {
       installconfig = {
         enable_impermanence = true;
