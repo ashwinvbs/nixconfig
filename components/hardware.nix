@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, pkgs, ... }:
 
 {
   options.installconfig = {
@@ -26,14 +21,13 @@
 
     (lib.mkIf config.installconfig.hardware.intel {
       # CPU configuration
-      hardware.cpu.intel.updateMicrocode = config.hardware.enableRedistributableFirmware;
+      hardware.cpu.intel.updateMicrocode =
+        config.hardware.enableRedistributableFirmware;
 
       # GPU configuration
       boot.initrd.kernelModules = [ "i915" ];
 
-      environment.variables = {
-        VDPAU_DRIVER = "va_gl";
-      };
+      environment.variables = { VDPAU_DRIVER = "va_gl"; };
 
       hardware.opengl = {
         enable = true;
@@ -55,10 +49,7 @@
       hardware.opengl = {
         enable = true;
         driSupport = true;
-        extraPackages = with pkgs; [
-          rocm-opencl-icd
-          rocm-opencl-runtime
-        ];
+        extraPackages = with pkgs; [ rocm-opencl-icd rocm-opencl-runtime ];
       };
     })
   ];

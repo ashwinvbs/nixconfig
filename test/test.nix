@@ -7,15 +7,11 @@ let
     config.allowUnfree = true;
     overlays = [ ];
   };
-
-in
-pkgs.testers.runNixOSTest {
+in pkgs.testers.runNixOSTest {
   name = "Integration Test";
   nodes.machine = import ./sanity.nix;
-  testScript =
-    { nodes, ... }:
-    ''
-      machine.wait_for_unit("default.target")
-      machine.succeed("su -- ashwin -c 'which chromium'")
-    '';
+  testScript = { nodes, ... }: ''
+    machine.wait_for_unit("default.target")
+    machine.succeed("su -- ashwin -c 'which chromium'")
+  '';
 }

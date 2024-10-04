@@ -1,11 +1,6 @@
 # Package-wise configuration applied with they are enabled.
 
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, lib, pkgs, ... }:
 
 let
   # Prioritize nautilus by default when opening directories
@@ -34,14 +29,9 @@ let
         mode = "0700";
       }
     ];
-    files = [
-      ".bash_history"
-      ".bashrc"
-      ".gitconfig"
-    ];
+    files = [ ".bash_history" ".bashrc" ".gitconfig" ];
   };
-in
-{
+in {
   options.installconfig = {
     enable_impermanence = lib.mkEnableOption "Enable impermanence";
     users.allow_rad = lib.mkEnableOption "Adds radhulya as a normal user";
@@ -75,10 +65,7 @@ in
         };
 
         # Enable flakes system-wide
-        settings.experimental-features = [
-          "nix-command"
-          "flakes"
-        ];
+        settings.experimental-features = [ "nix-command" "flakes" ];
       };
     })
 
@@ -167,21 +154,22 @@ in
             "Fallback" = false;
             "Locked" = true;
           };
-          "EncryptedMediaExtensions" = {
-            "Enabled" = true;
-          };
+          "EncryptedMediaExtensions" = { "Enabled" = true; };
           "ExtensionSettings" = {
             "*" = {
-              "blocked_install_message" = "Extension installation blocked, contact administrator!";
+              "blocked_install_message" =
+                "Extension installation blocked, contact administrator!";
               "installation_mode" = "blocked";
             };
             "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
               "installation_mode" = "force_installed";
-              "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
+              "install_url" =
+                "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
             };
             "uBlock0@raymondhill.net" = {
               "installation_mode" = "force_installed";
-              "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+              "install_url" =
+                "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
             };
           };
           "FirefoxHome" = {
@@ -200,18 +188,17 @@ in
             "FeatureRecommendations" = false;
           };
         };
-        preferences = {
-          "browser.cache.disk.enable" = false;
-        };
+        preferences = { "browser.cache.disk.enable" = false; };
       };
     })
 
     (lib.mkIf config.programs.chromium.enable {
       # TODO: emit unmaintained warning
-      environment.systemPackages = with pkgs; [
-        # programs.chromium.enable = true only enables policy o.0 :| ???
-        chromium
-      ];
+      environment.systemPackages = with pkgs;
+        [
+          # programs.chromium.enable = true only enables policy o.0 :| ???
+          chromium
+        ];
       nixpkgs.config = lib.mkDefault {
         allowUnfree = true;
         chromium.enableWideVine = true;
@@ -252,90 +239,82 @@ in
       users.groups.libvirtd.members = [ "ashwin" ];
     })
 
-    (lib.mkIf config.installconfig.enable_impermanence (
-      lib.mkMerge [
-        ({
-          # File system defines
-          fileSystems."/".options = [
-            "defaults"
-            "size=2G"
-            "mode=755"
-          ];
+    (lib.mkIf config.installconfig.enable_impermanence (lib.mkMerge [
+      ({
+        # File system defines
+        fileSystems."/".options = [ "defaults" "size=2G" "mode=755" ];
 
-          environment.persistence."/nix/state" = lib.mkMerge [
-            ({
-              hideMounts = true;
-              directories = [
-                "/etc/nixos"
-                "/var/lib/nixos"
-                "/var/log"
-              ];
-              files = [ "/etc/machine-id" ];
-              users.ashwin = homePermanence;
-            })
+        environment.persistence."/nix/state" = lib.mkMerge [
+          ({
+            hideMounts = true;
+            directories = [ "/etc/nixos" "/var/lib/nixos" "/var/log" ];
+            files = [ "/etc/machine-id" ];
+            users.ashwin = homePermanence;
+          })
 
-            (lib.mkIf config.virtualisation.libvirtd.enable {
-              directories = [ "/var/lib/libvirt" ];
-            })
+          (lib.mkIf config.virtualisation.libvirtd.enable {
+            directories = [ "/var/lib/libvirt" ];
+          })
 
-            (lib.mkIf config.services.fprintd.enable {
-              directories = [ "/var/lib/fprint" ];
-            })
+          (lib.mkIf config.services.fprintd.enable {
+            directories = [ "/var/lib/fprint" ];
+          })
 
-            (lib.mkIf config.services.flatpak.enable {
-              directories = [ "/var/lib/flatpak" ];
-            })
+          (lib.mkIf config.services.flatpak.enable {
+            directories = [ "/var/lib/flatpak" ];
+          })
 
-            (lib.mkIf config.virtualisation.docker.enable {
-              directories = [ "/var/lib/docker" ];
-            })
+          (lib.mkIf config.virtualisation.docker.enable {
+            directories = [ "/var/lib/docker" ];
+          })
 
-            (lib.mkIf config.hardware.bluetooth.enable {
-              directories = [ "/var/lib/bluetooth" ];
-            })
+          (lib.mkIf config.hardware.bluetooth.enable {
+            directories = [ "/var/lib/bluetooth" ];
+          })
 
-            (lib.mkIf config.networking.networkmanager.enable {
-              directories = [ "/etc/NetworkManager/system-connections" ];
-            })
+          (lib.mkIf config.networking.networkmanager.enable {
+            directories = [ "/etc/NetworkManager/system-connections" ];
+          })
 
-            (lib.mkIf config.services.openssh.enable {
-              files = [
-                "/etc/ssh/ssh_host_rsa_key"
-                "/etc/ssh/ssh_host_rsa_key.pub"
-                "/etc/ssh/ssh_host_ed25519_key"
-                "/etc/ssh/ssh_host_ed25519_key.pub"
-              ];
-            })
-          ];
-        })
+          (lib.mkIf config.services.openssh.enable {
+            files = [
+              "/etc/ssh/ssh_host_rsa_key"
+              "/etc/ssh/ssh_host_rsa_key.pub"
+              "/etc/ssh/ssh_host_ed25519_key"
+              "/etc/ssh/ssh_host_ed25519_key.pub"
+            ];
+          })
+        ];
+      })
 
-        (lib.mkIf config.services.tailscale.enable {
-          # https://forum.tailscale.com/t/persist-your-tailscale-darlings/904/4
-          systemd.services.tailscaled.serviceConfig.BindPaths = "/nix/state/var/lib/tailscale:/var/lib/tailscale";
+      (lib.mkIf config.services.tailscale.enable {
+        # https://forum.tailscale.com/t/persist-your-tailscale-darlings/904/4
+        systemd.services.tailscaled.serviceConfig.BindPaths =
+          "/nix/state/var/lib/tailscale:/var/lib/tailscale";
 
-          # Ensure that /nix/state/var/lib/tailscale exists.
-          systemd.tmpfiles.rules = [ "d /nix/state/var/lib/tailscale 0700 root root" ];
-        })
-      ]
-    ))
+        # Ensure that /nix/state/var/lib/tailscale exists.
+        systemd.tmpfiles.rules =
+          [ "d /nix/state/var/lib/tailscale 0700 root root" ];
+      })
+    ]))
 
-    (lib.mkIf config.installconfig.users.allow_rad (
-      lib.mkMerge [
-        ({
-          users.users.radhulya = {
-            isNormalUser = true;
-            description = "Radhulya Thirumalaisamy";
-            hashedPassword =
-              if builtins.pathExists radpassFile then lib.strings.fileContents radpassFile else null;
-          };
-        })
+    (lib.mkIf config.installconfig.users.allow_rad (lib.mkMerge [
+      ({
+        users.users.radhulya = {
+          isNormalUser = true;
+          description = "Radhulya Thirumalaisamy";
+          hashedPassword = if builtins.pathExists radpassFile then
+            lib.strings.fileContents radpassFile
+          else
+            null;
+        };
+      })
 
-        (lib.mkIf config.installconfig.enable_impermanence {
-          environment.persistence."/nix/state" = {
-            users.radhulya = homePermanence;
-          };
-        })
-      ]
-    ))
+      (lib.mkIf config.installconfig.enable_impermanence {
+        environment.persistence."/nix/state" = {
+          users.radhulya = homePermanence;
+        };
+      })
+    ]))
   ];
 }
