@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   ashpassFile = "/etc/nixos/secrets/ashpass.txt";
@@ -10,7 +15,7 @@ in
   };
 
   config = lib.mkMerge [
-    ( {
+    ({
       #################################################################################################
       # Boot and timezone configuration
       #################################################################################################
@@ -32,7 +37,10 @@ in
       networking.enableIPv6 = false;
 
       # Default nameservers
-      networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
+      networking.nameservers = [
+        "1.1.1.1"
+        "8.8.8.8"
+      ];
 
       #################################################################################################
       # Default programs and services
@@ -87,12 +95,13 @@ in
           openssh.authorizedKeys.keys = [
             "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBovRDhgavqQPYZYMg70tBP3Ibs1o2qSHSAgz4nW89BQwaosDYvmSK0QvT+J8hDVyvIXyaaHMzHONGavMDLVPhUwe1xt6XzrrFNfpZmquLyP9xMRZkxca/c1ZQpD3pL+n7yvY8DMn+6o6B3LPkwYZqbxPlernS1BYQjQbVBMFrkbMzFtacc+GM+fwku2BueOQuNMlrAKdQBTuDLaMlUQyws0CI9PgbB2NSzsmWWohz/r2nWYZmtVAYAjjdRDuoWgL+sUrCQiiDawctHVNHFfkHK1stY3ywD6FOxnm0tvdX8J0ojdCGZdC/LxdxAfdpbN7VmBM9Gw+uyg/ha6LAXaMFEENTYE6JgaWROJNIULHFq2184lSH0P5MVltcywRSvblZZ1vzVwMFrt5HCrJpRa+ROP/HnSUjzN1BmfJMepEAPQTiXSzRQgo0ymX14Oft95w5m+Q5dV0uhuXtSO6ao66EAXcqgSMChUuqqX7MBIu9xxErezfRgesTJOgvRJrtvUk="
           ];
-          hashedPassword = if builtins.pathExists ashpassFile then lib.strings.fileContents ashpassFile else null;
+          hashedPassword =
+            if builtins.pathExists ashpassFile then lib.strings.fileContents ashpassFile else null;
         };
       };
-    } )
+    })
 
-    ( lib.mkIf config.installconfig.workstation_components {
+    (lib.mkIf config.installconfig.workstation_components {
       services.xserver = {
         # Enable the X11 windowing system.
         enable = true;
@@ -120,9 +129,7 @@ in
       # Misc peripheral configuration
       #################################################################################################
       hardware.steam-hardware.enable = true;
-      services.udev.packages = [
-        pkgs.android-udev-rules
-      ];
+      services.udev.packages = [ pkgs.android-udev-rules ];
       # Above rule spams journal if adbusers group does not exist
       users.groups.adbusers.members = [ "ashwin" ];
       # Allow workstations to pass usb devices to virtual machines
@@ -133,9 +140,9 @@ in
 
       # Add keyd for misc keyboard configuration
       services.keyd.enable = true;
-    } )
+    })
 
-    ( lib.mkIf config.installconfig.auto_timezone {
+    (lib.mkIf config.installconfig.auto_timezone {
       #################################################################################################
       # Autotimezone configuration
       #################################################################################################
@@ -154,6 +161,6 @@ in
           Unit = "tzupdate.service";
         };
       };
-    } )
+    })
   ];
 }

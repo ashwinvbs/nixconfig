@@ -5,15 +5,17 @@ let
   nixpkgs = fetchTarball "https://github.com/NixOS/nixpkgs/tarball/nixos-24.05";
   pkgs = import nixpkgs {
     config.allowUnfree = true;
-    overlays = [];
+    overlays = [ ];
   };
-in
 
+in
 pkgs.testers.runNixOSTest {
   name = "Integration Test";
   nodes.machine = import ./sanity.nix;
-  testScript = { nodes, ... }: ''
-    machine.wait_for_unit("default.target")
-    machine.succeed("su -- ashwin -c 'which chromium'")
-  '';
+  testScript =
+    { nodes, ... }:
+    ''
+      machine.wait_for_unit("default.target")
+      machine.succeed("su -- ashwin -c 'which chromium'")
+    '';
 }

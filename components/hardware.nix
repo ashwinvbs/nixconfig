@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   options.installconfig = {
@@ -9,7 +14,7 @@
   };
 
   config = lib.mkMerge [
-    ( {
+    ({
       services = {
         # Firmware management service
         fwupd.enable = true;
@@ -17,12 +22,11 @@
         # SSD management service
         fstrim.enable = true;
       };
-    } )
+    })
 
-    ( lib.mkIf config.installconfig.hardware.intel {
+    (lib.mkIf config.installconfig.hardware.intel {
       # CPU configuration
-      hardware.cpu.intel.updateMicrocode =
-        config.hardware.enableRedistributableFirmware;
+      hardware.cpu.intel.updateMicrocode = config.hardware.enableRedistributableFirmware;
 
       # GPU configuration
       boot.initrd.kernelModules = [ "i915" ];
@@ -40,12 +44,10 @@
           intel-media-driver
         ];
       };
-    } )
+    })
 
-    ( lib.mkIf config.installconfig.hardware.amdgpu {
-      environment.systemPackages = with pkgs; [
-        radeontop
-      ];
+    (lib.mkIf config.installconfig.hardware.amdgpu {
+      environment.systemPackages = with pkgs; [ radeontop ];
 
       boot.initrd.kernelModules = [ "amdgpu" ];
       services.xserver.videoDrivers = [ "amdgpu" ];
@@ -58,6 +60,6 @@
           rocm-opencl-runtime
         ];
       };
-    } )
+    })
   ];
 }

@@ -4,20 +4,20 @@
   imports = [ ./components ];
 
   config = lib.mkMerge [
-    ( {
+    ({
       # TODO: Figure our how to move this to components.
       # For now keep here as this conflicts with test framework.
       nixpkgs.config.allowUnfree = true;
-    } )
+    })
 
-    ( lib.mkIf ( config.networking.hostName == "nuc" ) {
+    (lib.mkIf (config.networking.hostName == "nuc") {
       installconfig = {
         enable_impermanence = true;
         hardware.intel = true;
       };
-    } )
+    })
 
-    ( lib.mkIf ( config.networking.hostName == "xps" ) {
+    (lib.mkIf (config.networking.hostName == "xps") {
       installconfig = {
         auto_timezone = true;
         enable_impermanence = true;
@@ -25,9 +25,9 @@
         workstation_components = true;
         users.allow_rad = true;
       };
-    } )
+    })
 
-    ( lib.mkIf ( config.networking.hostName == "rig" ) {
+    (lib.mkIf (config.networking.hostName == "rig") {
       installconfig = {
         enable_impermanence = true;
         hardware = {
@@ -36,9 +36,9 @@
         };
         workstation_components = true;
       };
-    } )
+    })
 
-    ( lib.mkIf ( config.networking.hostName == "fw" ) {
+    (lib.mkIf (config.networking.hostName == "fw") {
       installconfig = {
         auto_timezone = true;
         enable_impermanence = true;
@@ -60,6 +60,6 @@
         SUBSYSTEM=="pci", ATTR{vendor}=="0x8086", ATTR{device}=="0xa0e0", ATTR{power/control}="on"
       '';
       hardware.acpilight.enable = true;
-    } )
+    })
   ];
 }

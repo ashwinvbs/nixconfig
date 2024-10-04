@@ -1,6 +1,11 @@
 # Package-wise configuration applied with they are enabled.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   # Prioritize nautilus by default when opening directories
@@ -24,7 +29,10 @@ let
       "Downloads"
       "Music"
       "Workspaces"
-      { directory = ".ssh"; mode = "0700"; }
+      {
+        directory = ".ssh";
+        mode = "0700";
+      }
     ];
     files = [
       ".bash_history"
@@ -39,14 +47,14 @@ in
     users.allow_rad = lib.mkEnableOption "Adds radhulya as a normal user";
   };
 
-  config = lib.mkMerge[
-    ( lib.mkIf config.security.sudo.enable {
+  config = lib.mkMerge [
+    (lib.mkIf config.security.sudo.enable {
       security.sudo.extraConfig = ''
         Defaults        lecture=never
       '';
-    } )
+    })
 
-    ( lib.mkIf config.nix.enable {
+    (lib.mkIf config.nix.enable {
       nix = {
         ## Cleanup operations
         # Specify size constraints for nix store
@@ -67,19 +75,22 @@ in
         };
 
         # Enable flakes system-wide
-        settings.experimental-features = [ "nix-command" "flakes" ];
+        settings.experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
       };
-    } )
+    })
 
-    ( lib.mkIf config.services.openssh.enable {
+    (lib.mkIf config.services.openssh.enable {
       services.openssh.settings = {
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
         PermitRootLogin = "no";
       };
-    } )
+    })
 
-    ( lib.mkIf config.programs.tmux.enable {
+    (lib.mkIf config.programs.tmux.enable {
       programs.tmux = {
         shortcut = "k";
         aggressiveResize = true;
@@ -99,13 +110,13 @@ in
           set-option -g allow-rename off
         '';
       };
-    } )
+    })
 
-    ( lib.mkIf config.services.xserver.enable {
+    (lib.mkIf config.services.xserver.enable {
       services.xserver.excludePackages = [ pkgs.xterm ];
-    } )
+    })
 
-    ( lib.mkIf config.services.xserver.desktopManager.gnome.enable {
+    (lib.mkIf config.services.xserver.desktopManager.gnome.enable {
       # gnome.core-os-services overrides
       services.gnome.gnome-online-accounts.enable = false;
       # Would like to disable but cannot
@@ -142,10 +153,10 @@ in
 
       # Override default mimeapps for nautilus
       environment.sessionVariables.XDG_DATA_DIRS = [ "${mimeAppsList}/share" ];
-    } )
+    })
 
-    ( lib.mkIf config.programs.firefox.enable {
-      programs.firefox =  {
+    (lib.mkIf config.programs.firefox.enable {
+      programs.firefox = {
         languagePacks = [ "en-US" ];
         policies = {
           "DisableFirefoxStudies" = true;
@@ -193,9 +204,9 @@ in
           "browser.cache.disk.enable" = false;
         };
       };
-    } )
+    })
 
-    ( lib.mkIf config.programs.chromium.enable {
+    (lib.mkIf config.programs.chromium.enable {
       # TODO: emit unmaintained warning
       environment.systemPackages = with pkgs; [
         # programs.chromium.enable = true only enables policy o.0 :| ???
@@ -231,95 +242,100 @@ in
           "apjcbfpjihpedihablmalmbbhjpklbdf" # AdGuard AdBlocker
         ];
       };
-    } )
+    })
 
-    ( lib.mkIf config.virtualisation.docker.enable {
+    (lib.mkIf config.virtualisation.docker.enable {
       users.groups.docker.members = [ "ashwin" ];
-    } )
+    })
 
-    ( lib.mkIf config.virtualisation.libvirtd.enable {
+    (lib.mkIf config.virtualisation.libvirtd.enable {
       users.groups.libvirtd.members = [ "ashwin" ];
-    } )
+    })
 
-    ( lib.mkIf config.installconfig.enable_impermanence ( lib.mkMerge [
-      ( {
-        # File system defines
-        fileSystems."/".options = [ "defaults" "size=2G" "mode=755" ];
+    (lib.mkIf config.installconfig.enable_impermanence (
+      lib.mkMerge [
+        ({
+          # File system defines
+          fileSystems."/".options = [
+            "defaults"
+            "size=2G"
+            "mode=755"
+          ];
 
-        environment.persistence."/nix/state" = lib.mkMerge [
-          ( {
-            hideMounts = true;
-            directories = [
-              "/etc/nixos"
-              "/var/lib/nixos"
-              "/var/log"
-            ];
-            files = [
-              "/etc/machine-id"
-            ];
-            users.ashwin = homePermanence;
-          } )
+          environment.persistence."/nix/state" = lib.mkMerge [
+            ({
+              hideMounts = true;
+              directories = [
+                "/etc/nixos"
+                "/var/lib/nixos"
+                "/var/log"
+              ];
+              files = [ "/etc/machine-id" ];
+              users.ashwin = homePermanence;
+            })
 
-          ( lib.mkIf config.virtualisation.libvirtd.enable {
-            directories = [ "/var/lib/libvirt" ];
-          } )
+            (lib.mkIf config.virtualisation.libvirtd.enable {
+              directories = [ "/var/lib/libvirt" ];
+            })
 
-          ( lib.mkIf config.services.fprintd.enable {
-            directories = [ "/var/lib/fprint" ];
-          } )
+            (lib.mkIf config.services.fprintd.enable {
+              directories = [ "/var/lib/fprint" ];
+            })
 
-          ( lib.mkIf config.services.flatpak.enable {
-            directories = [ "/var/lib/flatpak" ];
-          } )
+            (lib.mkIf config.services.flatpak.enable {
+              directories = [ "/var/lib/flatpak" ];
+            })
 
-          ( lib.mkIf config.virtualisation.docker.enable {
-            directories = [ "/var/lib/docker" ];
-          } )
+            (lib.mkIf config.virtualisation.docker.enable {
+              directories = [ "/var/lib/docker" ];
+            })
 
-          ( lib.mkIf config.hardware.bluetooth.enable {
-            directories = [ "/var/lib/bluetooth" ];
-          } )
+            (lib.mkIf config.hardware.bluetooth.enable {
+              directories = [ "/var/lib/bluetooth" ];
+            })
 
-          ( lib.mkIf config.networking.networkmanager.enable {
-            directories = [ "/etc/NetworkManager/system-connections" ];
-          } )
+            (lib.mkIf config.networking.networkmanager.enable {
+              directories = [ "/etc/NetworkManager/system-connections" ];
+            })
 
-          ( lib.mkIf config.services.openssh.enable {
-            files = [
-              "/etc/ssh/ssh_host_rsa_key"
-              "/etc/ssh/ssh_host_rsa_key.pub"
-              "/etc/ssh/ssh_host_ed25519_key"
-              "/etc/ssh/ssh_host_ed25519_key.pub"
-            ];
-          } )
-        ];
-      } )
+            (lib.mkIf config.services.openssh.enable {
+              files = [
+                "/etc/ssh/ssh_host_rsa_key"
+                "/etc/ssh/ssh_host_rsa_key.pub"
+                "/etc/ssh/ssh_host_ed25519_key"
+                "/etc/ssh/ssh_host_ed25519_key.pub"
+              ];
+            })
+          ];
+        })
 
-      ( lib.mkIf config.services.tailscale.enable {
-        # https://forum.tailscale.com/t/persist-your-tailscale-darlings/904/4
-        systemd.services.tailscaled.serviceConfig.BindPaths = "/nix/state/var/lib/tailscale:/var/lib/tailscale";
+        (lib.mkIf config.services.tailscale.enable {
+          # https://forum.tailscale.com/t/persist-your-tailscale-darlings/904/4
+          systemd.services.tailscaled.serviceConfig.BindPaths = "/nix/state/var/lib/tailscale:/var/lib/tailscale";
 
-        # Ensure that /nix/state/var/lib/tailscale exists.
-        systemd.tmpfiles.rules = [
-          "d /nix/state/var/lib/tailscale 0700 root root"
-        ];
-      } )
-    ] ) )
+          # Ensure that /nix/state/var/lib/tailscale exists.
+          systemd.tmpfiles.rules = [ "d /nix/state/var/lib/tailscale 0700 root root" ];
+        })
+      ]
+    ))
 
-    ( lib.mkIf config.installconfig.users.allow_rad ( lib.mkMerge [
-      ( {
-        users.users.radhulya = {
-          isNormalUser = true;
-          description = "Radhulya Thirumalaisamy";
-          hashedPassword = if builtins.pathExists radpassFile then lib.strings.fileContents radpassFile else null;
-        };
-      } )
+    (lib.mkIf config.installconfig.users.allow_rad (
+      lib.mkMerge [
+        ({
+          users.users.radhulya = {
+            isNormalUser = true;
+            description = "Radhulya Thirumalaisamy";
+            hashedPassword =
+              if builtins.pathExists radpassFile then lib.strings.fileContents radpassFile else null;
+          };
+        })
 
-      ( lib.mkIf config.installconfig.enable_impermanence {
-        environment.persistence."/nix/state" = {
-          users.radhulya = homePermanence;
-        };
-      } )
-    ] ) )
+        (lib.mkIf config.installconfig.enable_impermanence {
+          environment.persistence."/nix/state" = {
+            users.radhulya = homePermanence;
+          };
+        })
+      ]
+    ))
   ];
 }
