@@ -7,5 +7,23 @@
 {
   imports = [ ../components ];
   networking.hostName = "testing";
-  installconfig.enable_full_codecoverage_for_test = true;
+
+  installconfig = {
+    auto_timezone = true;
+    enable_full_codecoverage_for_test = true;
+    enable_impermanence = true;
+    hardware = {
+      intel = true;
+      amdgpu = true;
+    };
+    users.allow_rad = true;
+    workstation_components = true;
+  };
+
+  programs.chromium.enable = true;
+  services.fprintd.enable = true;
+  virtualisation = {
+    docker.enable = true;
+    libvirtd.enable = true;
+  };
 }

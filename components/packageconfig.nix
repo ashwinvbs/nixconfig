@@ -34,6 +34,14 @@ let
   };
 in
 {
+  options.installconfig = {
+    enable_impermanence = lib.mkEnableOption "Enable impermanence";
+    users.allow_rad = lib.mkEnableOption "Adds radhulya as a normal user";
+
+    # Test only
+    enable_full_codecoverage_for_test = lib.mkEnableOption "Enable full code coverage for testing";
+  };
+
   config = lib.mkMerge[
     ( lib.mkIf config.security.sudo.enable {
       security.sudo.extraConfig = ''

@@ -4,6 +4,11 @@ let
   ashpassFile = "/etc/nixos/secrets/ashpass.txt";
 in
 {
+  options.installconfig = {
+    auto_timezone = lib.mkEnableOption "Enable network based setting of timezone";
+    workstation_components = lib.mkEnableOption "Configure the machine to be a workstation";
+  };
+
   config = lib.mkMerge [
     ( {
       #################################################################################################
