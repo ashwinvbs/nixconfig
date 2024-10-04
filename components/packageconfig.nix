@@ -12,6 +12,7 @@ let
       inode/directory=nautilus.desktop;org.gnome.Nautilus.desktop
     '';
   };
+  radpassFile = "/etc/nixos/secrets/radpass.txt";
   homePermanence = {
     directories = [
       ".android"
@@ -310,6 +311,7 @@ in
         users.users.radhulya = {
           isNormalUser = true;
           description = "Radhulya Thirumalaisamy";
+          hashedPassword = if builtins.pathExists radpassFile then lib.strings.fileContents radpassFile else null;
         };
       } )
 
@@ -317,10 +319,6 @@ in
         environment.persistence."/nix/state" = {
           users.radhulya = homePermanence;
         };
-      } )
-
-      ( lib.mkIf ( ! config.installconfig.enable_full_codecoverage_for_test ) {
-        users.users.radhulya.hashedPassword = lib.strings.fileContents /etc/nixos/secrets/radpass.txt;
       } )
     ] ) )
   ];
