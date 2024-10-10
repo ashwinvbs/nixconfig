@@ -129,7 +129,6 @@ in {
       services.gnome.core-utilities.enable = false;
       environment.systemPackages = with pkgs; [
         gnome-console
-        gnome-text-editor
         gnome.nautilus
       ];
 

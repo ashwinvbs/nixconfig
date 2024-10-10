@@ -117,6 +117,11 @@ in {
       # Enable firefox
       programs.firefox.enable = true;
 
+      # IDE configuration
+      environment.systemPackages = with pkgs; [
+        vscodium
+      ];
+
       #################################################################################################
       # Misc peripheral configuration
       #################################################################################################
