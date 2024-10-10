@@ -20,6 +20,7 @@ let
       ".local"
       ".mozilla"
       ".var/app"
+      ".vscode-oss"
       "Documents"
       "Downloads"
       "Music"
