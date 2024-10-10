@@ -31,7 +31,8 @@ let
     ];
     files = [ ".bash_history" ".bashrc" ".gitconfig" ];
   };
-in {
+in
+{
   options.installconfig = {
     enable_impermanence = lib.mkEnableOption "Enable impermanence";
     users.allow_rad = lib.mkEnableOption "Adds radhulya as a normal user";
@@ -302,10 +303,11 @@ in {
         users.users.radhulya = {
           isNormalUser = true;
           description = "Radhulya Thirumalaisamy";
-          hashedPassword = if builtins.pathExists radpassFile then
-            lib.strings.fileContents radpassFile
-          else
-            null;
+          hashedPassword =
+            if builtins.pathExists radpassFile then
+              lib.strings.fileContents radpassFile
+            else
+              null;
         };
       })
 

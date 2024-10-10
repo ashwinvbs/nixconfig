@@ -6,7 +6,8 @@ let
     pkgs.writeShellScriptBin "setupfs" (lib.strings.fileContents ./setupfs.sh);
   setupnixos-script = pkgs.writeShellScriptBin "setupnixos"
     "nixos-install --no-root-passwd --option tarball-ttl 0";
-in {
+in
+{
   imports = [
     <nixpkgs/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix>
 

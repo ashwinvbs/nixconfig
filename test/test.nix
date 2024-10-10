@@ -7,7 +7,8 @@ let
     config.allowUnfree = true;
     overlays = [ ];
   };
-in pkgs.testers.runNixOSTest {
+in
+pkgs.testers.runNixOSTest {
   name = "Integration Test";
   nodes.machine = import ./sanity.nix;
   testScript = { nodes, ... }: ''
