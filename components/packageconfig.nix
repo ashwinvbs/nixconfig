@@ -150,6 +150,10 @@ in
           "DisableFirefoxStudies" = true;
           "DisablePocket" = true;
           "DisableTelemetry" = true;
+          "DNSOverHTTPS" = {
+            "Enabled" = false;
+            "Locked" = true;
+          };
           "EncryptedMediaExtensions" = { "Enabled" = true; };
           "ExtensionSettings" = {
             "*" = {
