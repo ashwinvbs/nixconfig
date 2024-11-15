@@ -117,6 +117,8 @@ in {
 
       # Enable firefox
       programs.firefox.enable = true;
+      # Enable chromium
+      programs.chromium.enable = true;
 
       # IDE configuration
       environment.systemPackages = with pkgs; [
