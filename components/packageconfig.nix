@@ -197,11 +197,10 @@ in
       environment.systemPackages = with pkgs;
         [
           # programs.chromium.enable = true only enables policy o.0 :| ???
-          chromium
+          google-chrome
         ];
       nixpkgs.config = lib.mkDefault {
         allowUnfree = true;
-        chromium.enableWideVine = true;
       };
 
       programs.chromium.extraOpts = {
