@@ -208,7 +208,6 @@ in
         "AdvancedProtectionAllowed" = false;
         "AutofillAddressEnabled" = false;
         "AutofillCreditCardEnabled" = false;
-        "BrowserSignin" = 0;
         "CloudPrintProxyEnabled" = false;
         "HideWebStoreIcon" = true;
         "MetricsReportingEnabled" = false;
@@ -222,7 +221,6 @@ in
         "ShowAppsShortcutInBookmarkBar" = false;
         "ShowHomeButton" = false;
         "SpellCheckServiceEnabled" = false;
-        "SyncDisabled" = true;
 
         "ExtensionInstallForcelist" = [
           "nngceckbapebfimnlniiiahkandclblb" # Bitwarden
