@@ -204,27 +204,79 @@ in
       };
 
       programs.chromium.extraOpts = {
-        "AdvancedProtectionAllowed" = false;
-        "AutofillAddressEnabled" = false;
-        "AutofillCreditCardEnabled" = false;
-        "CloudPrintProxyEnabled" = false;
-        "HideWebStoreIcon" = true;
-        "MetricsReportingEnabled" = false;
-        "PasswordManagerEnabled" = false;
-        "PaymentMethodQueryEnabled" = false;
-        "ProfilePickerOnStartupAvailability" = 1;
-        "RemoteAccessHostAllowRemoteAccessConnections" = false;
-        "RemoteAccessHostAllowRemoteSupportConnections" = false;
-        "RemoteDebuggingAllowed" = false;
-        "SharedClipboardEnabled" = false;
-        "ShowAppsShortcutInBookmarkBar" = false;
-        "ShowHomeButton" = false;
-        "SpellCheckServiceEnabled" = false;
+        # Cloud reporting
+        "CloudExtensionRequestEnabled" = false;
+        "CloudProfileReportingEnabled" = false;
+        "CloudReportingEnabled" = false;
 
+        # TODO: Default Search Provider
+
+        # Extensions
+        "ExtensionInstallBlocklist" = [ "*" ];
         "ExtensionInstallForcelist" = [
           "nngceckbapebfimnlniiiahkandclblb" # Bitwarden
           "apjcbfpjihpedihablmalmbbhjpklbdf" # AdGuard AdBlocker
         ];
+
+        # TODO: Generative AI
+
+        # Google Cast
+        "EnableMediaRouter" = false;
+
+        # TODO: Legacy Browser Support - use for freetube
+
+        # Miscellaneous
+        "AdvancedProtectionAllowed" = false;
+        "AllowDinosaurEasterEgg" = false;
+        "AutofillAddressEnabled" = false;
+        "AutofillCreditCardEnabled" = false;
+        "BackgroundModeEnabled" = true;
+        "BlockThirdPartyCookies" = true;
+        "BrowserLabsEnabled" = false;
+        "BrowserNetworkTimeQueriesEnabled" = false;
+        "GoogleSearchSidePanelEnabled" = false;
+        "HideWebStoreIcon" = true;
+        "IntensiveWakeUpThrottlingEnabled" = true;
+        "MetricsReportingEnabled" = false;
+        "PaymentMethodQueryEnabled" = false;
+        "ProfilePickerOnStartupAvailability" = 1;
+        "PromotionsEnabled" = false;
+        "RemoteDebuggingAllowed" = false;
+        "SharedClipboardEnabled" = false;
+        "ShoppingListEnabled" = false;
+        "ShowAppsShortcutInBookmarkBar" = false;
+        "ShowFullUrlsInAddressBar" = true;
+        "SpellCheckServiceEnabled" = false;
+        "UrlKeyedAnonymizedDataCollectionEnabled" = false;
+
+        # Password manager
+        "PasswordManagerEnabled" = false;
+
+        # Printing
+        "CloudPrintProxyEnabled" = false;
+
+        # Privacy Sandbox policies
+        "PrivacySandboxAdMeasurementEnabled" = false;
+        "PrivacySandboxAdTopicsEnabled" = false;
+        "PrivacySandboxPromptEnabled" = false;
+        "PrivacySandboxSiteEnabledAdsEnabled" = false;
+
+        # Related Website Sets
+        "RelatedWebsiteSetsEnabled" = false;
+
+        # Remote access
+        "RemoteAccessHostAllowRemoteAccessConnections" = false;
+        "RemoteAccessHostAllowRemoteSupportConnections" = false;
+
+        # Safe Browsing
+        "SafeBrowsingDeepScanningEnabled" = false;
+        "SafeBrowsingExtendedReportingEnabled" = false;
+        "SafeBrowsingProtectionLevel" = 1;
+        "SafeBrowsingSurveysEnabled" = false;
+
+        # Startup, Home page and New Tab page
+        "HomepageIsNewTabPage" = true;
+        "ShowHomeButton" = false;
       };
     })
 
