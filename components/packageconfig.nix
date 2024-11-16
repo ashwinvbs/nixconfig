@@ -204,11 +204,6 @@ in
       };
 
       programs.chromium.extraOpts = {
-        # Cloud reporting
-        "CloudExtensionRequestEnabled" = false;
-        "CloudProfileReportingEnabled" = false;
-        "CloudReportingEnabled" = false;
-
         # TODO: Default Search Provider
 
         # Extensions
