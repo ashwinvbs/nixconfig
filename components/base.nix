@@ -115,8 +115,6 @@ in {
       # Enable flatpak on workstation machines.
       services.flatpak.enable = true;
 
-      # Enable firefox
-      programs.firefox.enable = true;
       # Enable chromium
       programs.chromium.enable = true;
 
