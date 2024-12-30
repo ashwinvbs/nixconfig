@@ -131,7 +131,7 @@ in
       services.gnome.core-utilities.enable = false;
       environment.systemPackages = with pkgs; [
         gnome-console
-        gnome.nautilus
+        nautilus
       ];
 
       programs.file-roller.enable = true;
