@@ -29,7 +29,7 @@
 
       environment.variables = { VDPAU_DRIVER = "va_gl"; };
 
-      hardware.opengl = {
+      hardware.graphics = {
         enable = true;
         extraPackages = with pkgs; [
           vaapiIntel
@@ -45,10 +45,12 @@
       boot.initrd.kernelModules = [ "amdgpu" ];
       services.xserver.videoDrivers = [ "amdgpu" ];
 
-      hardware.opengl = {
+      hardware.graphics = {
         enable = true;
-        driSupport = true;
-        extraPackages = with pkgs; [ rocm-opencl-icd rocm-opencl-runtime ];
+        extraPackages = with pkgs; [
+          rocm-opencl-icd
+          rocm-opencl-runtime
+        ];
       };
     })
   ];
