@@ -71,6 +71,34 @@ in
       };
     })
 
+    (lib.mkIf config.system.autoUpgrade.enable (lib.mkMerge [
+      ({
+        system.autoUpgrade = {
+          randomizedDelaySec = "30min";
+          flags = [
+            "--option"
+            "tarball-ttl"
+            "0"
+          ];
+          dates = "daily";
+        };
+      })
+
+      (lib.mkIf config.installconfig.workstation_components {
+        system.autoUpgrade.operation = "boot";
+      })
+
+      (lib.mkIf (!config.installconfig.workstation_components) {
+        system.autoUpgrade = {
+          allowReboot = true;
+          rebootWindow = {
+            lower = "01:00";
+            upper = "03:00";
+          };
+        };
+      })
+    ]))
+
     (lib.mkIf config.services.openssh.enable {
       services.openssh.settings = {
         PasswordAuthentication = false;

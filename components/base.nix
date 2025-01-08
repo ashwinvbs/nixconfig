@@ -38,6 +38,8 @@ in {
       # Default programs and services
       #################################################################################################
 
+      system.autoUpgrade.enable = true;
+
       services = {
         # Networking/remote access services
         openssh.enable = true;
