@@ -35,7 +35,6 @@ let
 in
 {
   options.installconfig = {
-    enable_impermanence = lib.mkEnableOption "Enable impermanence";
     users.allow_rad = lib.mkEnableOption "Adds radhulya as a normal user";
   };
 
@@ -311,7 +310,7 @@ in
       users.groups.libvirtd.members = [ "ashwin" ];
     })
 
-    (lib.mkIf config.installconfig.enable_impermanence (lib.mkMerge [
+    (lib.mkMerge [
       ({
         # File system defines
         fileSystems."/".options = [ "defaults" "size=2G" "mode=755" ];
@@ -368,26 +367,22 @@ in
         systemd.tmpfiles.rules =
           [ "d /nix/state/var/lib/tailscale 0700 root root" ];
       })
-    ]))
+    ])
 
-    (lib.mkIf config.installconfig.users.allow_rad (lib.mkMerge [
-      ({
-        users.users.radhulya = {
-          isNormalUser = true;
-          description = "Radhulya Thirumalaisamy";
-          hashedPassword =
-            if builtins.pathExists radpassFile then
-              lib.strings.fileContents radpassFile
-            else
-              null;
-        };
-      })
+    (lib.mkIf config.installconfig.users.allow_rad {
+      users.users.radhulya = {
+        isNormalUser = true;
+        description = "Radhulya Thirumalaisamy";
+        hashedPassword =
+          if builtins.pathExists radpassFile then
+            lib.strings.fileContents radpassFile
+          else
+            null;
+      };
 
-      (lib.mkIf config.installconfig.enable_impermanence {
-        environment.persistence."/nix/state" = {
-          users.radhulya = homePermanence;
-        };
-      })
-    ]))
+      environment.persistence."/nix/state" = {
+        users.radhulya = homePermanence;
+      };
+    })
   ];
 }

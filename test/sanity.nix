@@ -10,7 +10,6 @@
 
   installconfig = {
     auto_timezone = true;
-    enable_impermanence = true;
     hardware = {
       intel = true;
       amdgpu = true;

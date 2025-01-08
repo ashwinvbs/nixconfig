@@ -12,7 +12,6 @@
 
     (lib.mkIf (config.networking.hostName == "nuc") {
       installconfig = {
-        enable_impermanence = true;
         hardware.intel = true;
       };
     })
@@ -20,7 +19,6 @@
     (lib.mkIf (config.networking.hostName == "xps") {
       installconfig = {
         auto_timezone = true;
-        enable_impermanence = true;
         hardware.intel = true;
         workstation_components = true;
         users.allow_rad = true;
@@ -29,7 +27,6 @@
 
     (lib.mkIf (config.networking.hostName == "rig") {
       installconfig = {
-        enable_impermanence = true;
         hardware = {
           intel = true;
           amdgpu = true;
@@ -41,7 +38,6 @@
     (lib.mkIf (config.networking.hostName == "fw") {
       installconfig = {
         auto_timezone = true;
-        enable_impermanence = true;
         hardware.intel = true;
         workstation_components = true;
       };
