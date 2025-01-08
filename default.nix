@@ -54,5 +54,9 @@
       '';
       hardware.acpilight.enable = true;
     })
+
+    (lib.mkIf (config.networking.hostName == "rpi4") {
+      installconfig.hardware.rpi4 = true;
+    })
   ];
 }
