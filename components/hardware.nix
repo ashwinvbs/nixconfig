@@ -24,10 +24,6 @@
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
 
-      # CPU configuration
-      hardware.cpu.intel.updateMicrocode =
-        config.hardware.enableRedistributableFirmware;
-
       # GPU configuration
       boot.initrd.kernelModules = [ "i915" ];
 
