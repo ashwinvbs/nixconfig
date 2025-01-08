@@ -16,8 +16,7 @@ in {
       #################################################################################################
 
       # Boot configuration
-      boot.loader.systemd-boot.enable = true;
-      boot.loader.efi.canTouchEfiVariables = true;
+      boot.loader.grub.enable = false;
 
       # Default timezone and locale
       time.timeZone = lib.mkDefault "America/New_York";

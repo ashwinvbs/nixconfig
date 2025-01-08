@@ -20,6 +20,10 @@
     })
 
     (lib.mkIf config.installconfig.hardware.intel {
+      # Boot configuration
+      boot.loader.systemd-boot.enable = true;
+      boot.loader.efi.canTouchEfiVariables = true;
+
       # CPU configuration
       hardware.cpu.intel.updateMicrocode =
         config.hardware.enableRedistributableFirmware;
