@@ -1,12 +1,10 @@
 { config, lib, pkgs, ... }:
 
 {
-  options.installconfig = {
-    hardware = {
-      intel = lib.mkEnableOption "Enable driver support for intel cpu/gpu";
-      amdgpu = lib.mkEnableOption "Enable driver support for amdgpu";
-      rpi4 = lib.mkEnableOption "Enable driver and boot support for Raspberry pi 4";
-    };
+  options.installconfig.hardware = {
+    intel = lib.mkEnableOption "Enable driver support for intel cpu/gpu";
+    amdgpu = lib.mkEnableOption "Enable driver support for amdgpu";
+    rpi4 = lib.mkEnableOption "Enable driver and boot support for Raspberry pi 4";
   };
 
   config = lib.mkMerge [
