@@ -120,9 +120,25 @@ in {
       programs.chromium.enable = true;
 
       # IDE configuration
-      environment.systemPackages = with pkgs; [
-        vscodium
-      ];
+      environment.systemPackages = with pkgs; [(vscode-with-extensions.override {
+        vscode = vscodium;
+        vscodeExtensions = with vscode-extensions; [
+          alefragnani.bookmarks
+
+          jnoortheen.nix-ide
+
+          vadimcn.vscode-lldb
+
+          rust-lang.rust-analyzer
+        ] ++ vscode-utils.extensionsFromVscodeMarketplace [
+          {
+            name = "gitstash";
+            publisher = "arturock";
+            version = "5.1.0";
+            sha256 = "sha256-T8uagDYIRdqHxsSjJ2M8LKrWwearKmHYFXx4lopoa9s=";
+          }
+        ];
+      })];
 
       #################################################################################################
       # Misc peripheral configuration
