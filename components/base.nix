@@ -7,6 +7,11 @@ in {
       lib.mkEnableOption "Enable network based setting of timezone";
     workstation_components =
       lib.mkEnableOption "Configure the machine to be a workstation";
+    devtools = {
+      cpp = lib.mkEnableOption "Tools for c/cpp development";
+      nix = lib.mkEnableOption "Tools for nix development";
+      rust = lib.mkEnableOption "Tools for rust development";
+    };
   };
 
   config = lib.mkMerge [
@@ -95,6 +100,14 @@ in {
       };
     })
 
+    (lib.mkIf config.installconfig.devtools.cpp {
+      environment.systemPackages = with pkgs; [ clang gtest meson ninja pkg-config ];
+    })
+
+    (lib.mkIf config.installconfig.devtools.rust {
+      environment.systemPackages = with pkgs; [ cargo pkg-config rustc ];
+    })
+
     (lib.mkIf config.installconfig.workstation_components {
       services.xserver = {
         # Enable the X11 windowing system.
@@ -120,25 +133,28 @@ in {
       programs.chromium.enable = true;
 
       # IDE configuration
-      environment.systemPackages = with pkgs; [(vscode-with-extensions.override {
-        vscode = vscodium;
-        vscodeExtensions = with vscode-extensions; [
-          alefragnani.bookmarks
-
-          jnoortheen.nix-ide
-
-          vadimcn.vscode-lldb
-
-          rust-lang.rust-analyzer
-        ] ++ vscode-utils.extensionsFromVscodeMarketplace [
-          {
-            name = "gitstash";
-            publisher = "arturock";
-            version = "5.1.0";
-            sha256 = "sha256-T8uagDYIRdqHxsSjJ2M8LKrWwearKmHYFXx4lopoa9s=";
-          }
-        ];
-      })];
+      environment.systemPackages = with pkgs; [
+        (vscode-with-extensions.override {
+          vscode = vscodium;
+          vscodeExtensions = with vscode-extensions; [
+            alefragnani.bookmarks
+          ] ++ vscode-utils.extensionsFromVscodeMarketplace [
+            {
+              name = "gitstash";
+              publisher = "arturock";
+              version = "5.1.0";
+              sha256 = "sha256-T8uagDYIRdqHxsSjJ2M8LKrWwearKmHYFXx4lopoa9s=";
+            }
+          ] ++ lib.optionals config.installconfig.devtools.nix [
+            vscode-extensions.jnoortheen.nix-ide
+          ] ++ lib.optionals config.installconfig.devtools.cpp [
+            vscode-extensions.vadimcn.vscode-lldb
+          ] ++ lib.optionals config.installconfig.devtools.rust [
+            vscode-extensions.vadimcn.vscode-lldb
+            vscode-extensions.rust-lang.rust-analyzer
+          ];
+        })
+      ];
 
       #################################################################################################
       # Misc peripheral configuration
