@@ -48,21 +48,18 @@ in
     (lib.mkIf config.nix.enable {
       nix = {
         ## Cleanup operations
-        # Specify size constraints for nix store
-        # Free upto 1G when free space falls below 100M
+        # Specify size constraints for nix store in terms of main partition free space
+        # Free upto 4G when free space falls below 1G
         extraOptions = ''
-          min-free = ${toString (100 * 1024 * 1024)}
-          max-free = ${toString (1024 * 1024 * 1024)}
+          min-free = ${toString (1 * 1024 * 1024 * 1024)}
+          max-free = ${toString (4 * 1024 * 1024 * 1024)}
         '';
 
-        # Clean up week old packages
-        # NOTE: It is possible that too many initrd disks are created and /boot runs out of space.
-        # I suspect the logs wont have any indication of the error. Newer generations would just stop appearing.
-        # If this happens, start manually deleting generations.
+        # Clean up 2 day old packages. We can afford short cleanup duration as we rely on daily updates
         gc = {
           automatic = true;
           dates = "daily";
-          options = "--delete-older-than 7d";
+          options = "--delete-older-than 2d";
         };
 
         # Enable flakes system-wide
