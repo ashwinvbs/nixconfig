@@ -15,14 +15,10 @@ in {
   config = lib.mkMerge [
     ({
       #################################################################################################
-      # Boot and timezone configuration
+      # Boot configuration
       #################################################################################################
 
-      # Boot configuration
       boot.loader.grub.enable = false;
-
-      # Autotimezone
-      services.automatic-timezoned.enable = true;
 
       #################################################################################################
       # Network configuration
