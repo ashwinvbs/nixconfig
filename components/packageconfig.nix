@@ -316,7 +316,7 @@ in
           ({
             hideMounts = true;
             directories = [ "/etc/nixos" "/var/lib/nixos" "/var/log" ];
-            files = [ "/etc/machine-id" "/etc/localtime" ];
+            files = [ "/etc/machine-id" ];
             users.ashwin = homePermanence;
           })
 

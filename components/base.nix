@@ -15,10 +15,11 @@ in {
   config = lib.mkMerge [
     ({
       #################################################################################################
-      # Boot configuration
+      # Boot and timezone configuration
       #################################################################################################
 
       boot.loader.grub.enable = false;
+      time.timeZone = lib.mkDefault "America/New_York";
 
       #################################################################################################
       # Network configuration
