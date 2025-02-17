@@ -21,6 +21,9 @@ in {
       # Boot configuration
       boot.loader.grub.enable = false;
 
+      # Autotimezone
+      services.automatic-timezoned.enable = true;
+
       #################################################################################################
       # Network configuration
       #################################################################################################
@@ -166,27 +169,6 @@ in {
 
       # Add keyd for misc keyboard configuration
       services.keyd.enable = true;
-
-      #################################################################################################
-      # Autotimezone configuration
-      #################################################################################################
-      systemd.services.tzupdate = {
-        description =
-          "attempts updating timezone, fails if network is unavailable";
-        serviceConfig = {
-          Type = "oneshot";
-          ExecStart =
-            "${pkgs.tzupdate}/bin/tzupdate -z /etc/zoneinfo -d /dev/null";
-        };
-      };
-      systemd.timers.tzupdate = {
-        wantedBy = [ "timers.target" ];
-        timerConfig = {
-          OnBootSec = "1m";
-          OnUnitActiveSec = "10m";
-          Unit = "tzupdate.service";
-        };
-      };
     })
   ];
 }
