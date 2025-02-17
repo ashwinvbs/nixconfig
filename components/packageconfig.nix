@@ -143,6 +143,7 @@ in
       services.gnome.gnome-user-share.enable = false;
       services.gnome.rygel.enable = false;
       services.system-config-printer.enable = false;
+      services.avahi.enable = false;
 
       environment.gnome.excludePackages = with pkgs; [
         gnome-tour
