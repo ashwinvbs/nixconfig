@@ -3,8 +3,6 @@
 let ashpassFile = "/etc/nixos/secrets/ashpass.txt";
 in {
   options.installconfig = {
-    auto_timezone =
-      lib.mkEnableOption "Enable network based setting of timezone";
     workstation_components =
       lib.mkEnableOption "Configure the machine to be a workstation";
     devtools = {
@@ -22,9 +20,6 @@ in {
 
       # Boot configuration
       boot.loader.grub.enable = false;
-
-      # Default timezone and locale
-      time.timeZone = lib.mkDefault "America/New_York";
 
       #################################################################################################
       # Network configuration
@@ -171,9 +166,7 @@ in {
 
       # Add keyd for misc keyboard configuration
       services.keyd.enable = true;
-    })
 
-    (lib.mkIf config.installconfig.auto_timezone {
       #################################################################################################
       # Autotimezone configuration
       #################################################################################################

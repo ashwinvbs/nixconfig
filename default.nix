@@ -18,7 +18,6 @@
 
     (lib.mkIf (config.networking.hostName == "xps") {
       installconfig = {
-        auto_timezone = true;
         hardware.intel = true;
         workstation_components = true;
         users.allow_rad = true;
@@ -37,7 +36,6 @@
 
     (lib.mkIf (config.networking.hostName == "fw") {
       installconfig = {
-        auto_timezone = true;
         hardware.intel = true;
         workstation_components = true;
       };
