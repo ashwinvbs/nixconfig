@@ -160,6 +160,9 @@ in {
       # Allow workstations to pass usb devices to virtual machines
       virtualisation.spiceUSBRedirection.enable = true;
 
+      # Enable razer configurator for Viper V3 Hyperspeed mouse
+      hardware.openrazer.enable = true;
+
       # This config is required to enable function keys in Keychron K1 keyboard
       environment.etc."modprobe.d/keychron.conf".text =
         "options hid_apple fnmode=0";
