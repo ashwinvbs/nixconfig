@@ -2,7 +2,7 @@
 
 {
   options.installconfig.hardware = {
-    intel = lib.mkEnableOption "Enable driver support for intel cpu/gpu";
+    intelgpu = lib.mkEnableOption "Enable driver support for intel gpu";
     amdgpu = lib.mkEnableOption "Enable driver support for amdgpu";
     rpi4 = lib.mkEnableOption "Enable driver and boot support for Raspberry pi 4";
   };
@@ -18,12 +18,15 @@
       };
     })
 
-    (lib.mkIf config.installconfig.hardware.intel {
-      # Boot configuration
+    (lib.mkIf pkgs.stdenv.hostPlatform.isEfi {
+      # Default boot configuration for UEFI systems
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
+    })
 
-      # GPU configuration
+    (lib.mkIf config.installconfig.hardware.intelgpu {
+      environment.systemPackages = with pkgs; [ intel-gpu-tools ];
+
       boot.initrd.kernelModules = [ "i915" ];
 
       environment.variables = { VDPAU_DRIVER = "va_gl"; };
@@ -41,11 +44,12 @@
     (lib.mkIf config.installconfig.hardware.amdgpu {
       environment.systemPackages = with pkgs; [ radeontop ];
 
-      boot.initrd.kernelModules = [ "amdgpu" ];
-      services.xserver.videoDrivers = [ "amdgpu" ];
+      services.xserver.videoDrivers = lib.mkDefault [ "modesetting" ];
+      hardware.amdgpu.initrd.enable = true;
 
       hardware.graphics = {
         enable = true;
+        enable32Bit = true;
         extraPackages = with pkgs; [
           rocmPackages.clr.icd
         ];

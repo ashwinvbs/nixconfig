@@ -12,13 +12,13 @@
 
     (lib.mkIf (config.networking.hostName == "nuc") {
       installconfig = {
-        hardware.intel = true;
+        hardware.intelgpu = true;
       };
     })
 
     (lib.mkIf (config.networking.hostName == "xps") {
       installconfig = {
-        hardware.intel = true;
+        hardware.intelgpu = true;
         workstation_components = true;
         users.allow_rad = true;
       };
@@ -26,17 +26,14 @@
 
     (lib.mkIf (config.networking.hostName == "rig") {
       installconfig = {
-        hardware = {
-          intel = true;
-          amdgpu = true;
-        };
+        hardware.amdgpu = true;
         workstation_components = true;
       };
     })
 
     (lib.mkIf (config.networking.hostName == "fw") {
       installconfig = {
-        hardware.intel = true;
+        hardware.intelgpu = true;
         workstation_components = true;
       };
 
