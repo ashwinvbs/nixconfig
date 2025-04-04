@@ -99,7 +99,7 @@ in {
     })
 
     (lib.mkIf config.installconfig.devtools.rust {
-      environment.systemPackages = with pkgs; [ cargo clang pkg-config rustc ];
+      environment.systemPackages = with pkgs; [ clang pkg-config rustup ];
     })
 
     (lib.mkIf config.installconfig.workstation_components {

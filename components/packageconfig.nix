@@ -19,6 +19,7 @@ let
       ".config"
       ".local"
       ".mozilla"
+      ".rustup"
       ".var/app"
       ".vscode-oss"
       "Documents"
