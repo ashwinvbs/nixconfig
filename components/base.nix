@@ -5,11 +5,7 @@ in {
   options.installconfig = {
     workstation_components =
       lib.mkEnableOption "Configure the machine to be a workstation";
-    devtools = {
-      cpp = lib.mkEnableOption "Tools for c/cpp development";
-      nix = lib.mkEnableOption "Tools for nix development";
-      rust = lib.mkEnableOption "Tools for rust development";
-    };
+    devtools = lib.mkEnableOption "Tools for development";
   };
 
   config = lib.mkMerge [
@@ -94,12 +90,16 @@ in {
       };
     })
 
-    (lib.mkIf config.installconfig.devtools.cpp {
-      environment.systemPackages = with pkgs; [ clang gtest meson ninja pkg-config ];
-    })
-
-    (lib.mkIf config.installconfig.devtools.rust {
-      environment.systemPackages = with pkgs; [ clang pkg-config rustup ];
+    (lib.mkIf config.installconfig.devtools {
+      environment.systemPackages = with pkgs; [
+        clang
+        deno
+        gtest
+        meson
+        ninja
+        pkg-config
+        rustup
+      ];
     })
 
     (lib.mkIf config.installconfig.workstation_components {
@@ -139,13 +139,12 @@ in {
               version = "5.1.0";
               sha256 = "sha256-T8uagDYIRdqHxsSjJ2M8LKrWwearKmHYFXx4lopoa9s=";
             }
-          ] ++ lib.optionals config.installconfig.devtools.nix [
+          ] ++ lib.optionals config.installconfig.devtools [
+
+            vscode-extensions.denoland.vscode-deno
             vscode-extensions.jnoortheen.nix-ide
-          ] ++ lib.optionals config.installconfig.devtools.cpp [
-            vscode-extensions.vadimcn.vscode-lldb
-          ] ++ lib.optionals config.installconfig.devtools.rust [
-            vscode-extensions.vadimcn.vscode-lldb
             vscode-extensions.rust-lang.rust-analyzer
+            vscode-extensions.vadimcn.vscode-lldb
           ];
         })
       ];
