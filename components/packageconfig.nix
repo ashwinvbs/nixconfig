@@ -42,6 +42,7 @@ in
   config = lib.mkMerge [
     (lib.mkIf config.security.sudo.enable {
       security.sudo.extraConfig = ''
+        Defaults        env_keep+=SSH_AUTH_SOCK
         Defaults        lecture=never
       '';
     })
