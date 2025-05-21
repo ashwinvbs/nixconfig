@@ -12,33 +12,8 @@ let
       inode/directory=nautilus.desktop;org.gnome.Nautilus.desktop
     '';
   };
-  radpassFile = "/etc/nixos/secrets/radpass.txt";
-  homePermanence = {
-    directories = [
-      ".android"
-      ".config"
-      ".local"
-      ".mozilla"
-      ".rustup"
-      ".var/app"
-      ".vscode-oss"
-      "Documents"
-      "Downloads"
-      "Music"
-      "Workspaces"
-      {
-        directory = ".ssh";
-        mode = "0700";
-      }
-    ];
-    files = [ ".bash_history" ".bashrc" ".gitconfig" ];
-  };
 in
 {
-  options.installconfig = {
-    users.allow_rad = lib.mkEnableOption "Adds radhulya as a normal user";
-  };
-
   config = lib.mkMerge [
     (lib.mkIf config.security.sudo.enable {
       security.sudo.extraConfig = ''
@@ -326,13 +301,6 @@ in
         fileSystems."/".options = [ "defaults" "size=2G" "mode=755" ];
 
         environment.persistence."/nix/state" = lib.mkMerge [
-          ({
-            hideMounts = true;
-            directories = [ "/etc/nixos" "/var/lib/nixos" "/var/log" ];
-            files = [ "/etc/machine-id" ];
-            users.ashwin = homePermanence;
-          })
-
           (lib.mkIf config.virtualisation.libvirtd.enable {
             directories = [ "/var/lib/libvirt" ];
           })
@@ -378,21 +346,5 @@ in
           [ "d /nix/state/var/lib/tailscale 0700 root root" ];
       })
     ])
-
-    (lib.mkIf config.installconfig.users.allow_rad {
-      users.users.radhulya = {
-        isNormalUser = true;
-        description = "Radhulya Thirumalaisamy";
-        hashedPassword =
-          if builtins.pathExists radpassFile then
-            lib.strings.fileContents radpassFile
-          else
-            null;
-      };
-
-      environment.persistence."/nix/state" = {
-        users.radhulya = homePermanence;
-      };
-    })
   ];
 }

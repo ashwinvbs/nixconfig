@@ -1,7 +1,29 @@
 { config, lib, pkgs, ... }:
 
-let ashpassFile = "/etc/nixos/secrets/ashpass.txt";
-in {
+let
+  ashpassFile = "/etc/nixos/secrets/ashpass.txt";
+  homePermanence = {
+    directories = [
+      ".android"
+      ".config"
+      ".local"
+      ".mozilla"
+      ".rustup"
+      ".var/app"
+      ".vscode-oss"
+      "Documents"
+      "Downloads"
+      "Music"
+      "Workspaces"
+      {
+        directory = ".ssh";
+        mode = "0700";
+      }
+    ];
+    files = [ ".bash_history" ".bashrc" ".gitconfig" ];
+  };
+in
+{
   options.installconfig = {
     workstation_components =
       lib.mkEnableOption "Configure the machine to be a workstation";
@@ -87,6 +109,13 @@ in {
             else
               null;
         };
+      };
+
+      environment.persistence."/nix/state" = {
+        hideMounts = true;
+        directories = [ "/etc/nixos" "/var/lib/nixos" "/var/log" ];
+        files = [ "/etc/machine-id" ];
+        users.ashwin = homePermanence;
       };
     })
 

@@ -20,7 +20,6 @@
       installconfig = {
         hardware.intelgpu = true;
         workstation_components = true;
-        users.allow_rad = true;
       };
     })
 

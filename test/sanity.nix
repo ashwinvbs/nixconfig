@@ -13,7 +13,6 @@
       intelgpu = true;
       amdgpu = true;
     };
-    users.allow_rad = true;
     workstation_components = true;
   };
 
