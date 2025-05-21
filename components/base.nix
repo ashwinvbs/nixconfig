@@ -1,29 +1,9 @@
 { config, lib, pkgs, ... }:
-
-let
-  ashpassFile = "/etc/nixos/secrets/ashpass.txt";
-  homePermanence = {
-    directories = [
-      ".android"
-      ".config"
-      ".local"
-      ".mozilla"
-      ".rustup"
-      ".var/app"
-      ".vscode-oss"
-      "Documents"
-      "Downloads"
-      "Music"
-      "Workspaces"
-      {
-        directory = ".ssh";
-        mode = "0700";
-      }
-    ];
-    files = [ ".bash_history" ".bashrc" ".gitconfig" ];
-  };
-in
 {
+  imports = [
+    (import ../utils/adduser.nix {shortname = "ashwin"; fullname = "Ashwin Balasubramaniyan"; })
+  ];
+
   options.installconfig = {
     workstation_components =
       lib.mkEnableOption "Configure the machine to be a workstation";
@@ -97,17 +77,10 @@ in
         mutableUsers = false;
 
         users.ashwin = {
-          isNormalUser = true;
-          description = "Ashwin Balasubramaniyan";
           extraGroups = [ "wheel" ];
           openssh.authorizedKeys.keys = [
             "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBovRDhgavqQPYZYMg70tBP3Ibs1o2qSHSAgz4nW89BQwaosDYvmSK0QvT+J8hDVyvIXyaaHMzHONGavMDLVPhUwe1xt6XzrrFNfpZmquLyP9xMRZkxca/c1ZQpD3pL+n7yvY8DMn+6o6B3LPkwYZqbxPlernS1BYQjQbVBMFrkbMzFtacc+GM+fwku2BueOQuNMlrAKdQBTuDLaMlUQyws0CI9PgbB2NSzsmWWohz/r2nWYZmtVAYAjjdRDuoWgL+sUrCQiiDawctHVNHFfkHK1stY3ywD6FOxnm0tvdX8J0ojdCGZdC/LxdxAfdpbN7VmBM9Gw+uyg/ha6LAXaMFEENTYE6JgaWROJNIULHFq2184lSH0P5MVltcywRSvblZZ1vzVwMFrt5HCrJpRa+ROP/HnSUjzN1BmfJMepEAPQTiXSzRQgo0ymX14Oft95w5m+Q5dV0uhuXtSO6ao66EAXcqgSMChUuqqX7MBIu9xxErezfRgesTJOgvRJrtvUk="
           ];
-          hashedPassword =
-            if builtins.pathExists ashpassFile then
-              lib.strings.fileContents ashpassFile
-            else
-              null;
         };
       };
 
@@ -115,7 +88,6 @@ in
         hideMounts = true;
         directories = [ "/etc/nixos" "/var/lib/nixos" "/var/log" ];
         files = [ "/etc/machine-id" ];
-        users.ashwin = homePermanence;
       };
     })
 

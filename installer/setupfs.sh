@@ -50,7 +50,7 @@ post_disk_ready() {
     popd
 
     echo 'Enter password for user ashwin'
-    mkpasswd -m sha-512 >/mnt/etc/nixos/secrets/ashpass.txt
+    mkpasswd -m sha-512 >/mnt/etc/nixos/secrets/ashwin_pass.txt
 
     nixos-generate-config --root /mnt
 
