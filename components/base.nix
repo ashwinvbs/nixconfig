@@ -103,6 +103,9 @@ in {
     })
 
     (lib.mkIf config.installconfig.workstation_components {
+      # Enable auto updating timezone information
+      services.tzupdate.enable = true;
+
       services.xserver = {
         # Enable the X11 windowing system.
         enable = true;

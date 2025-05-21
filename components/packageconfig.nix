@@ -169,6 +169,17 @@ in
       environment.sessionVariables.XDG_DATA_DIRS = [ "${mimeAppsList}/share" ];
     })
 
+    (lib.mkIf config.services.tzupdate.enable {
+      systemd.timers.tzupdate = {
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnBootSec = "1m";
+          OnUnitActiveSec = "10m";
+          Unit = "tzupdate.service";
+        };
+      };
+    })
+
     (lib.mkIf config.programs.firefox.enable {
       programs.firefox = {
         languagePacks = [ "en-US" ];
