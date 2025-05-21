@@ -9,16 +9,15 @@
   networking.hostName = "testing";
 
   installconfig = {
-    auto_timezone = true;
     hardware = {
-      intel = true;
+      intelgpu = true;
       amdgpu = true;
     };
     users.allow_rad = true;
     workstation_components = true;
   };
 
-  programs.chromium.enable = true;
+  programs.firefox.enable = true;
   services.fprintd.enable = true;
   virtualisation = {
     docker.enable = true;
