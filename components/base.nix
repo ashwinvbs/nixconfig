@@ -67,6 +67,7 @@
           reboot_to_firmware = "systemctl reboot --firmware-setup";
           debug_kernel_interrupts =
             "watch -n0.1 -d --no-title cat /proc/interrupts";
+          nixos-update = "nixos-rebuild boot --upgrade --option tarball-ttl 10";
         };
 
         # TODO: Attempt to do this with options instead of explicit packages
