@@ -128,8 +128,8 @@ in
         orca
       ];
 
-      # disable gnome.core-utilities and include minimal replacements
-      services.gnome.core-utilities.enable = false;
+      # disable gnome.core-apps and include minimal replacements
+      services.gnome.core-apps.enable = false;
       environment.systemPackages = with pkgs; [
         gnome-console
         nautilus
