@@ -1,4 +1,11 @@
 { config, lib, pkgs, ... }:
+let
+  updatescript =
+    pkgs.writeShellScriptBin "nixos-update"
+    "nixos-rebuild boot --upgrade --option tarball-ttl 10";
+  upgradescript = pkgs.writeShellScriptBin "nixos-upgrade"
+    "nix-channel --add https://channels.nixos.org/nixos-$1 nixos";
+in
 {
   imports = [
     (import ../utils/adduser.nix {shortname = "ashwin"; fullname = "Ashwin Balasubramaniyan"; })
@@ -67,11 +74,16 @@
           reboot_to_firmware = "systemctl reboot --firmware-setup";
           debug_kernel_interrupts =
             "watch -n0.1 -d --no-title cat /proc/interrupts";
-          nixos-update = "sudo nixos-rebuild boot --upgrade --option tarball-ttl 10";
         };
 
-        # TODO: Attempt to do this with options instead of explicit packages
-        systemPackages = with pkgs; [ pinentry yadm ];
+        systemPackages = with pkgs; [
+          # Utility update/upgrade scripts
+          updatescript
+          upgradescript
+          # Packages for dotfile management
+          pinentry
+          yadm
+        ];
       };
 
       users = {
