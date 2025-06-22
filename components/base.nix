@@ -149,22 +149,23 @@ in
       environment.systemPackages = with pkgs; [
         (vscode-with-extensions.override {
           vscode = vscodium;
-          vscodeExtensions = with vscode-extensions; [
-            alefragnani.bookmarks
-          ] ++ vscode-utils.extensionsFromVscodeMarketplace [
-            {
+          vscodeExtensions = (
+            [
+              vscode-extensions.alefragnani.bookmarks
+            ] ++ vscode-utils.extensionsFromVscodeMarketplace [{
               name = "gitstash";
               publisher = "arturock";
-              version = "5.1.0";
-              sha256 = "sha256-T8uagDYIRdqHxsSjJ2M8LKrWwearKmHYFXx4lopoa9s=";
-            }
-          ] ++ lib.optionals config.installconfig.devtools [
-
-            vscode-extensions.denoland.vscode-deno
-            vscode-extensions.jnoortheen.nix-ide
-            vscode-extensions.rust-lang.rust-analyzer
-            vscode-extensions.vadimcn.vscode-lldb
-          ];
+              version = "5.2.0";
+              sha256 = "sha256-IVWb4tXD+5YbqJv4Ajp0c3UvYdMzh83NlyiYpndclEY=";
+            }]
+          ) ++ lib.optionals config.installconfig.devtools (
+            [
+              vscode-extensions.denoland.vscode-deno
+              vscode-extensions.jnoortheen.nix-ide
+              vscode-extensions.rust-lang.rust-analyzer
+              vscode-extensions.vadimcn.vscode-lldb
+            ]
+          );
         })
       ];
 
