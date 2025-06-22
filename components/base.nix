@@ -164,7 +164,12 @@ in
               vscode-extensions.jnoortheen.nix-ide
               vscode-extensions.rust-lang.rust-analyzer
               vscode-extensions.vadimcn.vscode-lldb
-            ]
+            ] ++ vscode-utils.extensionsFromVscodeMarketplace [{
+              name = "geminicodeassist";
+              publisher = "Google";
+              version = "2.37.0";
+              sha256 = "sha256-oJmWxdEN2uTo5Ms3WFrTbosd+DKQq4jrOtPChQjaWe0=";
+            }]
           );
         })
       ];
