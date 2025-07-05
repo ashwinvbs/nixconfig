@@ -186,7 +186,6 @@ in
 
       # Enable razer configurator for Viper V3 Hyperspeed mouse
       hardware.openrazer.enable = true;
-      users.groups.openrazer.members = [ "ashwin" ];
 
       # This config is required to enable function keys in Keychron K1 keyboard
       environment.etc."modprobe.d/keychron.conf".text =
