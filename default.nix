@@ -3,7 +3,7 @@
 {
   imports = [
     ./components
-    (import ../utils/adduser.nix {shortname = "ashwin"; fullname = "Ashwin Balasubramaniyan"; isAdmin = true;})
+    (import ../utils/adduser.nix { shortname = "ashwin"; fullname = "Ashwin Balasubramaniyan"; isAdmin = true; })
   ];
 
   config = lib.mkMerge [

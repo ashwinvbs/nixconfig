@@ -296,7 +296,7 @@ in
       };
     })
 
-    (lib.mkIf config.installconfig.impermanence ( lib.mkMerge [
+    (lib.mkIf config.installconfig.impermanence (lib.mkMerge [
       ({
         # File system defines
         fileSystems."/".options = [ "defaults" "size=2G" "mode=755" ];

@@ -2,7 +2,7 @@
 let
   updatescript =
     pkgs.writeShellScriptBin "nixos-update"
-    "nixos-rebuild boot --upgrade --option tarball-ttl 10";
+      "nixos-rebuild boot --upgrade --option tarball-ttl 10";
   upgradescript = pkgs.writeShellScriptBin "nixos-upgrade"
     "nix-channel --add https://channels.nixos.org/nixos-$1 nixos";
 in
