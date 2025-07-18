@@ -83,12 +83,6 @@ in
       };
 
       users.mutableUsers = false;
-
-      environment.persistence."/nix/state" = {
-        hideMounts = true;
-        directories = [ "/etc/nixos" "/var/lib/nixos" "/var/log" ];
-        files = [ "/etc/machine-id" ];
-      };
     })
 
     (lib.mkIf config.installconfig.devtools {

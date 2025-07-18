@@ -300,6 +300,12 @@ in
         fileSystems."/".options = [ "defaults" "size=2G" "mode=755" ];
 
         environment.persistence."/nix/state" = lib.mkMerge [
+          ({
+            hideMounts = true;
+            directories = [ "/etc/nixos" "/var/lib/nixos" "/var/log" ];
+            files = [ "/etc/machine-id" ];
+          })
+
           (lib.mkIf config.virtualisation.libvirtd.enable {
             directories = [ "/var/lib/libvirt" ];
           })
