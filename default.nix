@@ -1,13 +1,20 @@
 { config, lib, ... }:
 
 {
-  imports = [ ./components ];
+  imports = [
+    ./components
+    (import ../utils/adduser.nix {shortname = "ashwin"; fullname = "Ashwin Balasubramaniyan"; isAdmin = true;})
+  ];
 
   config = lib.mkMerge [
     ({
       # TODO: Figure our how to move this to components.
       # For now keep here as this conflicts with test framework.
       nixpkgs.config.allowUnfree = true;
+
+      users.users.ashwin.openssh.authorizedKeys.keys = [
+        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBovRDhgavqQPYZYMg70tBP3Ibs1o2qSHSAgz4nW89BQwaosDYvmSK0QvT+J8hDVyvIXyaaHMzHONGavMDLVPhUwe1xt6XzrrFNfpZmquLyP9xMRZkxca/c1ZQpD3pL+n7yvY8DMn+6o6B3LPkwYZqbxPlernS1BYQjQbVBMFrkbMzFtacc+GM+fwku2BueOQuNMlrAKdQBTuDLaMlUQyws0CI9PgbB2NSzsmWWohz/r2nWYZmtVAYAjjdRDuoWgL+sUrCQiiDawctHVNHFfkHK1stY3ywD6FOxnm0tvdX8J0ojdCGZdC/LxdxAfdpbN7VmBM9Gw+uyg/ha6LAXaMFEENTYE6JgaWROJNIULHFq2184lSH0P5MVltcywRSvblZZ1vzVwMFrt5HCrJpRa+ROP/HnSUjzN1BmfJMepEAPQTiXSzRQgo0ymX14Oft95w5m+Q5dV0uhuXtSO6ao66EAXcqgSMChUuqqX7MBIu9xxErezfRgesTJOgvRJrtvUk="
+      ];
     })
 
     (lib.mkIf (config.networking.hostName == "nuc") {

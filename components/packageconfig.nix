@@ -287,21 +287,10 @@ in
       };
     })
 
-    (lib.mkIf config.virtualisation.docker.enable {
-      users.groups.docker.members = [ "ashwin" ];
-    })
-
-    (lib.mkIf config.virtualisation.libvirtd.enable {
-      users.groups.libvirtd.members = [ "ashwin" ];
-    })
-
     (lib.mkIf config.hardware.openrazer.enable {
-      hardware.openrazer = {
-        batteryNotifier = {
-          percentage = 2;
-          frequency = 3600;
-        };
-        users = [ "ashwin" ];
+      hardware.openrazer.batteryNotifier = {
+        percentage = 2;
+        frequency = 3600;
       };
     })
 
