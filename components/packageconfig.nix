@@ -14,6 +14,8 @@ let
   };
 in
 {
+  options.installconfig.impermanence = lib.mkEnableOption "Enable impermanence";
+
   config = lib.mkMerge [
     (lib.mkIf config.security.sudo.enable {
       security.sudo.extraConfig = ''
@@ -294,7 +296,7 @@ in
       };
     })
 
-    (lib.mkMerge [
+    (lib.mkIf config.installconfig.impermanence ( lib.mkMerge [
       ({
         # File system defines
         fileSystems."/".options = [ "defaults" "size=2G" "mode=755" ];
@@ -350,6 +352,6 @@ in
         systemd.tmpfiles.rules =
           [ "d /nix/state/var/lib/tailscale 0700 root root" ];
       })
-    ])
+    ]))
   ];
 }
