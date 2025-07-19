@@ -2,15 +2,11 @@
 let
   updatescript =
     pkgs.writeShellScriptBin "nixos-update"
-    "nixos-rebuild boot --upgrade --option tarball-ttl 10";
+      "nixos-rebuild boot --upgrade --option tarball-ttl 10";
   upgradescript = pkgs.writeShellScriptBin "nixos-upgrade"
     "nix-channel --add https://channels.nixos.org/nixos-$1 nixos";
 in
 {
-  imports = [
-    (import ../utils/adduser.nix {shortname = "ashwin"; fullname = "Ashwin Balasubramaniyan"; })
-  ];
-
   options.installconfig = {
     workstation_components =
       lib.mkEnableOption "Configure the machine to be a workstation";
@@ -86,22 +82,7 @@ in
         ];
       };
 
-      users = {
-        mutableUsers = false;
-
-        users.ashwin = {
-          extraGroups = [ "wheel" ];
-          openssh.authorizedKeys.keys = [
-            "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBovRDhgavqQPYZYMg70tBP3Ibs1o2qSHSAgz4nW89BQwaosDYvmSK0QvT+J8hDVyvIXyaaHMzHONGavMDLVPhUwe1xt6XzrrFNfpZmquLyP9xMRZkxca/c1ZQpD3pL+n7yvY8DMn+6o6B3LPkwYZqbxPlernS1BYQjQbVBMFrkbMzFtacc+GM+fwku2BueOQuNMlrAKdQBTuDLaMlUQyws0CI9PgbB2NSzsmWWohz/r2nWYZmtVAYAjjdRDuoWgL+sUrCQiiDawctHVNHFfkHK1stY3ywD6FOxnm0tvdX8J0ojdCGZdC/LxdxAfdpbN7VmBM9Gw+uyg/ha6LAXaMFEENTYE6JgaWROJNIULHFq2184lSH0P5MVltcywRSvblZZ1vzVwMFrt5HCrJpRa+ROP/HnSUjzN1BmfJMepEAPQTiXSzRQgo0ymX14Oft95w5m+Q5dV0uhuXtSO6ao66EAXcqgSMChUuqqX7MBIu9xxErezfRgesTJOgvRJrtvUk="
-          ];
-        };
-      };
-
-      environment.persistence."/nix/state" = {
-        hideMounts = true;
-        directories = [ "/etc/nixos" "/var/lib/nixos" "/var/log" ];
-        files = [ "/etc/machine-id" ];
-      };
+      users.mutableUsers = false;
     })
 
     (lib.mkIf config.installconfig.devtools {
@@ -179,8 +160,6 @@ in
       #################################################################################################
       hardware.steam-hardware.enable = true;
       services.udev.packages = [ pkgs.android-udev-rules ];
-      # Above rule spams journal if adbusers group does not exist
-      users.groups.adbusers.members = [ "ashwin" ];
       # Allow workstations to pass usb devices to virtual machines
       virtualisation.spiceUSBRedirection.enable = true;
 

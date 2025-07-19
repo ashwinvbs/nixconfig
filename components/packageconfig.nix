@@ -14,6 +14,8 @@ let
   };
 in
 {
+  options.installconfig.impermanence = lib.mkEnableOption "Enable impermanence";
+
   config = lib.mkMerge [
     (lib.mkIf config.security.sudo.enable {
       security.sudo.extraConfig = ''
@@ -287,30 +289,25 @@ in
       };
     })
 
-    (lib.mkIf config.virtualisation.docker.enable {
-      users.groups.docker.members = [ "ashwin" ];
-    })
-
-    (lib.mkIf config.virtualisation.libvirtd.enable {
-      users.groups.libvirtd.members = [ "ashwin" ];
-    })
-
     (lib.mkIf config.hardware.openrazer.enable {
-      hardware.openrazer = {
-        batteryNotifier = {
-          percentage = 2;
-          frequency = 3600;
-        };
-        users = [ "ashwin" ];
+      hardware.openrazer.batteryNotifier = {
+        percentage = 2;
+        frequency = 3600;
       };
     })
 
-    (lib.mkMerge [
+    (lib.mkIf config.installconfig.impermanence (lib.mkMerge [
       ({
         # File system defines
         fileSystems."/".options = [ "defaults" "size=2G" "mode=755" ];
 
         environment.persistence."/nix/state" = lib.mkMerge [
+          ({
+            hideMounts = true;
+            directories = [ "/etc/nixos" "/var/lib/nixos" "/var/log" ];
+            files = [ "/etc/machine-id" ];
+          })
+
           (lib.mkIf config.virtualisation.libvirtd.enable {
             directories = [ "/var/lib/libvirt" ];
           })
@@ -355,6 +352,6 @@ in
         systemd.tmpfiles.rules =
           [ "d /nix/state/var/lib/tailscale 0700 root root" ];
       })
-    ])
+    ]))
   ];
 }

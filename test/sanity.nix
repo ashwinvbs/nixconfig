@@ -23,4 +23,6 @@
     docker.enable = true;
     libvirtd.enable = true;
   };
+
+  users.users.testuser.isNormalUser = true;
 }
