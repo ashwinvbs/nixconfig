@@ -10,7 +10,10 @@
     ({
       # TODO: Figure our how to move this to components.
       # For now keep here as this conflicts with test framework.
-      nixpkgs.config.allowUnfree = true;
+      nixpkgs.config = {
+        allowUnfree = true;
+        android_sdk.accept_license = true;
+      };
 
       installconfig.impermanence = true;
       users.users.ashwin.openssh.authorizedKeys.keys = [
