@@ -41,7 +41,10 @@ in
     })
 
     (lib.mkIf isAdmin {
-      users.users."${shortname}".extraGroups = [ "wheel" ];
+      users.users."${shortname}".extraGroups = [
+        "dialout"
+        "wheel"
+      ];
       users.groups.adbusers.members = [ "${shortname}" ];
     })
 
