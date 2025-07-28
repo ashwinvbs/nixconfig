@@ -104,7 +104,10 @@ in
           # This dir should be added to permanence
           ANDROID_HOME = "$HOME/.android";
         };
-        systemPackages = [ "godot" "sdkmanager" ];
+        systemPackages = with pkgs; [
+          godot
+          sdkmanager
+        ];
       };
 
       programs.java = {
