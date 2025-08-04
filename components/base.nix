@@ -11,6 +11,7 @@ in
     workstation_components =
       lib.mkEnableOption "Configure the machine to be a workstation";
     devtools = lib.mkEnableOption "Tools for development";
+    godotdev = lib.mkEnableOption "Tools for godot app development";
   };
 
   config = lib.mkMerge [
@@ -95,6 +96,24 @@ in
         pkg-config
         rustup
       ];
+    })
+
+    (lib.mkIf config.installconfig.godotdev {
+      environment = {
+        sessionVariables = rec {
+          # This dir should be added to permanence
+          ANDROID_HOME = "$HOME/.android";
+        };
+        systemPackages = with pkgs; [
+          godot
+          sdkmanager
+        ];
+      };
+
+      programs.java = {
+        enable = true;
+        package = pkgs.jdk17;
+      };
     })
 
     (lib.mkIf config.installconfig.workstation_components {
