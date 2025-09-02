@@ -85,6 +85,7 @@ in
     (lib.mkIf config.installconfig.devtools {
       environment.systemPackages = with pkgs; [
         clang
+        clang-tools
         deno
         gtest
         meson
@@ -160,6 +161,7 @@ in
               vscode-extensions.jnoortheen.nix-ide
               vscode-extensions.rust-lang.rust-analyzer
               vscode-extensions.vadimcn.vscode-lldb
+              vscode-extensions.llvm-vs-code-extensions.vscode-clangd
             ] ++ vscode-utils.extensionsFromVscodeMarketplace [{
               name = "geminicodeassist";
               publisher = "Google";
