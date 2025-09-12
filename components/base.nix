@@ -27,10 +27,6 @@ in
       # Network configuration
       #################################################################################################
 
-      # Disable IPV6 https://github.com/NixOS/nixpkgs/issues/87802
-      boot.kernelParams = [ "ipv6.disable=1" ];
-      networking.enableIPv6 = false;
-
       # Default nameservers
       networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
 
