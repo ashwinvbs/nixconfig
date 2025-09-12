@@ -1,7 +1,7 @@
-{ shortname, fullname, isAdmin ? false }:
-{ config, lib, pkgs, ... }:
-let
-  homePermanence = {
+{ shortname
+, fullname
+, isAdmin ? false
+, persist ? {
     directories = [
       ".android"
       ".config"
@@ -20,8 +20,9 @@ let
       }
     ];
     files = [ ".bash_history" ".bashrc" ".gitconfig" ];
-  };
-in
+  }
+}:
+{ config, lib, pkgs, ... }:
 {
   config = lib.mkMerge [
     ({
@@ -36,7 +37,7 @@ in
       };
 
       environment.persistence."/nix/state" = {
-        users."${shortname}" = homePermanence;
+        users."${shortname}" = persist;
       };
     })
 
