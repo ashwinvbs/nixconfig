@@ -39,7 +39,7 @@ in
       services = {
         # Networking/remote access services
         openssh.enable = true;
-        tailscale.enable = true;
+        # tailscale.enable = true;
       };
 
       programs = {
