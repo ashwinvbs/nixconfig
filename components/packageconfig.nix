@@ -316,6 +316,10 @@ in
             directories = [ "/var/lib/fprint" ];
           })
 
+          (lib.mkIf config.services.ollama.enable {
+            directories = [ "/var/lib/private/ollama/models" ];
+          })
+
           (lib.mkIf config.services.flatpak.enable {
             directories = [ "/var/lib/flatpak" ];
           })
