@@ -126,16 +126,6 @@ in
         desktopManager.gnome.enable = true;
       };
 
-      # disable pulseaudio and enable pipewire
-      services = {
-        pulseaudio.enable = lib.mkForce false;
-        pipewire = {
-          enable = true;
-          pulse.enable = true;
-          alsa.enable = true;
-        };
-      };
-
       # Enable flatpak on workstation machines.
       services.flatpak.enable = true;
 
