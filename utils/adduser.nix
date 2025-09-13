@@ -1,5 +1,5 @@
 { shortname
-, fullname
+, fullname ? shortname
 , isAdmin ? false
 , persist ? {
     directories = [
