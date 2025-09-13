@@ -44,11 +44,13 @@
     (lib.mkIf config.installconfig.hardware.amdgpu {
       environment.systemPackages = with pkgs; [ radeontop ];
 
-      services.xserver.videoDrivers = lib.mkDefault [ "modesetting" ];
-      hardware.amdgpu = {
-        initrd.enable = true;
-        opencl.enable = true;
-      };
+      # services.xserver.videoDrivers = lib.mkDefault [ "modesetting" ];
+      # hardware.amdgpu = {
+      #   initrd.enable = true;
+      #   opencl.enable = true;
+      # };
+
+      services.xserver.videoDrivers = [ "amdgpu" ];
 
       hardware.graphics = {
         enable = true;
