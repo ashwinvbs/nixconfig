@@ -296,6 +296,14 @@ in
       };
     })
 
+    (lib.mkIf config.services.ollama.enable {
+      services.ollama = {
+        user = "ollama";
+        group = "ollama";
+        models = "/var/lib/ollama-models";
+      };
+    })
+
     (lib.mkIf config.installconfig.impermanence (lib.mkMerge [
       ({
         # File system defines
@@ -318,6 +326,14 @@ in
 
           (lib.mkIf config.services.flatpak.enable {
             directories = [ "/var/lib/flatpak" ];
+          })
+
+          (lib.mkIf config.services.ollama.enable {
+            directories = [{
+              directory = config.services.ollama.models;
+              user = config.services.ollama.user;
+              group = config.services.ollama.group;
+            }];
           })
 
           (lib.mkIf config.virtualisation.docker.enable {
