@@ -317,7 +317,7 @@ in
           })
 
           (lib.mkIf config.services.ollama.enable {
-            directories = [ "/var/lib/private/ollama/models" ];
+            directories = [ config.services.ollama.models ];
           })
 
           (lib.mkIf config.services.flatpak.enable {
