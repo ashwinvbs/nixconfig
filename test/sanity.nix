@@ -24,5 +24,9 @@
     libvirtd.enable = true;
   };
 
-  users.users.testuser.isNormalUser = true;
+  users.users.testuser = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" ];
+    password = "testpass";
+  };
 }
