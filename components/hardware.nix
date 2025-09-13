@@ -45,7 +45,10 @@
       environment.systemPackages = with pkgs; [ radeontop ];
 
       services.xserver.videoDrivers = lib.mkDefault [ "modesetting" ];
-      hardware.amdgpu.initrd.enable = true;
+      hardware.amdgpu = {
+        initrd.enable = true;
+        opencl.enable = true;
+      };
 
       hardware.graphics = {
         enable = true;
