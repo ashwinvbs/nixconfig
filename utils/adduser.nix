@@ -1,5 +1,6 @@
 { shortname
 , fullname ? shortname
+, passprefix ? shortname
 , isAdmin ? false
 , persist ? {
     directories = [
@@ -30,8 +31,8 @@
         isNormalUser = true;
         description = fullname;
         hashedPassword =
-          if builtins.pathExists "/etc/nixos/secrets/${shortname}_pass.txt" then
-            lib.strings.fileContents "/etc/nixos/secrets/${shortname}_pass.txt"
+          if builtins.pathExists "/etc/nixos/secrets/${passprefix}_pass.txt" then
+            lib.strings.fileContents "/etc/nixos/secrets/${passprefix}_pass.txt"
           else
             null;
       };
