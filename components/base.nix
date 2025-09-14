@@ -42,6 +42,13 @@ in
         tailscale.enable = true;
       };
 
+      # Disable offline documentation. their value is limited
+      documentation = {
+        doc.enable = false;
+        info.enable = false;
+      };
+
+
       programs = {
         # Git is required for pulling nix configuration
         git = {
@@ -114,6 +121,9 @@ in
     })
 
     (lib.mkIf config.installconfig.workstation_components {
+      # Disable speech services. Include this config here as its installed for all graphics-desktops.
+      services.speechd.enable = false;
+
       # Enable auto updating timezone information
       services.tzupdate.enable = true;
 
@@ -167,7 +177,6 @@ in
       #################################################################################################
       hardware = {
         keyboard.qmk.enable = true;
-        openrazer.enable = true;
         steam-hardware.enable = true;
       };
 

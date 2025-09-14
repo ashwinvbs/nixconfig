@@ -111,10 +111,10 @@ in
     (lib.mkIf config.services.xserver.desktopManager.gnome.enable {
       # gnome.core-os-services overrides
       services.gnome.gnome-online-accounts.enable = false;
+      services.gnome.evolution-data-server.enable = lib.mkForce true;
+
       # Would like to disable but cannot
       # services.gnome.at-spi2-core.enable = true;
-      # services.gnome.evolution-data-server.enable = true;
-      # services.gnome.gnome-online-miners.enable = true;
 
       # gnome.core-shell overrides
       services.gnome.gnome-initial-setup.enable = false;
