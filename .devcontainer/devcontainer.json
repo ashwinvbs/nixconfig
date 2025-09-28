@@ -1,6 +1,0 @@
-{
-	"name": "Nix",
-	"build": {
-		"dockerfile": "Dockerfile"
-	}
-}
