@@ -57,9 +57,5 @@
     (lib.mkIf (isAdmin && config.virtualisation.libvirtd.enable) {
       users.groups.libvirtd.members = [ "${shortname}" ];
     })
-
-    (lib.mkIf (isAdmin && config.hardware.openrazer.enable) {
-      hardware.openrazer.users = [ "${shortname}" ];
-    })
   ];
 }
