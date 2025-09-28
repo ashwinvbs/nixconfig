@@ -3,8 +3,8 @@
 {
   imports = [
     ./base.nix
-    ./hardware.nix
-    ./packageconfig.nix
+    ./hardware
+    ./packageconfig
 
     "${
       builtins.fetchTarball {

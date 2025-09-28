@@ -5,7 +5,7 @@
 { ... }:
 
 {
-  imports = [ ../components ];
+  imports = [ ../default.nix ];
   networking.hostName = "testing";
 
   installconfig = {
