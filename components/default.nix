@@ -3,14 +3,10 @@
 {
   imports = [
     ./base.nix
+    ./custom_commands.nix
+    ./workstation.nix
+
     ./hardware
     ./packageconfig
-
-    "${
-      builtins.fetchTarball {
-        url =
-          "https://github.com/nix-community/impermanence/archive/master.tar.gz";
-      }
-    }/nixos.nix"
   ];
 }
