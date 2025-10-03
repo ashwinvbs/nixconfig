@@ -20,7 +20,7 @@
         mode = "0700";
       }
     ];
-    files = [ ".bash_history" ".bashrc" ".gitconfig" ];
+    files = [ ".bash_history" ".gitconfig" ];
   }
 }:
 { config, lib, pkgs, ... }:
