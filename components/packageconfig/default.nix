@@ -16,6 +16,7 @@
     ./chromium.nix
     ./devtools.nix
     ./firefox.nix
+    ./git.nix
     ./gnome.nix
     ./misc_impermanence.nix
     ./nix.nix
