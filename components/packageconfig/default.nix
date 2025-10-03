@@ -12,6 +12,7 @@
     }/nixos.nix"
 
     ./autoupgrade.nix
+    ./bash.nix
     ./chromium.nix
     ./devtools.nix
     ./firefox.nix
