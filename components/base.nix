@@ -49,19 +49,11 @@
       gnupg.agent.enable = true;
     };
 
-    environment = {
-      sessionVariables = {
-        # Make running non installed commands interactive and painless
-        NIX_AUTO_RUN = 1;
-        NIX_AUTO_RUN_INTERACTIVE = 1;
-      };
-
-      systemPackages = with pkgs; [
-        # Packages for dotfile management
-        pinentry
-        yadm
-      ];
-    };
+    environment.systemPackages = with pkgs; [
+      # Packages for dotfile management
+      pinentry
+      yadm
+    ];
 
     users.mutableUsers = false;
   };
