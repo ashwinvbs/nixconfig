@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  config.programs.firefox = lib.mkIf config.programs.firefox.enable {
+  config.programs.firefox = {
     languagePacks = [ "en-US" ];
     policies = {
       "DisableFirefoxStudies" = true;

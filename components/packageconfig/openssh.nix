@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  config = lib.mkIf config.services.openssh.enable (lib.mkMerge [
+  config = lib.mkMerge [
     ({
       services.openssh.settings = {
         PasswordAuthentication = false;
@@ -10,7 +10,7 @@
       };
     })
 
-    (lib.mkIf config.installconfig.impermanence {
+    (lib.mkIf (config.services.openssh.enable && config.installconfig.impermanence) {
       environment.persistence."/nix/state".files = [
         "/etc/ssh/ssh_host_rsa_key"
         "/etc/ssh/ssh_host_rsa_key.pub"
@@ -18,5 +18,5 @@
         "/etc/ssh/ssh_host_ed25519_key.pub"
       ];
     })
-  ]);
+  ];
 }

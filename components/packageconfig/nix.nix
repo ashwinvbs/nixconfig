@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  config.nix = lib.mkIf config.nix.enable {
+  config.nix = {
     ## Cleanup operations
     # Specify size constraints for nix store in terms of main partition free space
     # Free upto 4G when free space falls below 1G

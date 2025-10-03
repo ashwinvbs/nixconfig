@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  config = lib.mkIf config.services.ollama.enable (lib.mkMerge [
+  config = lib.mkMerge [
     ({
       services.ollama = {
         user = "ollama";
@@ -10,12 +10,12 @@
       };
     })
 
-    (lib.mkIf config.installconfig.impermanence {
+    (lib.mkIf (config.services.ollama.enable && config.installconfig.impermanence) {
       environment.persistence."/nix/state".directories = [{
         directory = config.services.ollama.models;
         user = config.services.ollama.user;
         group = config.services.ollama.group;
       }];
     })
-  ]);
+  ];
 }

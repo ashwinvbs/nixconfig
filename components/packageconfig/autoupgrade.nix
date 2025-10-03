@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  config.system.autoUpgrade = lib.mkIf config.system.autoUpgrade.enable (lib.mkMerge [
+  config.system.autoUpgrade = lib.mkMerge [
     ({
       randomizedDelaySec = "30min";
       flags = [
@@ -23,5 +23,5 @@
         upper = "03:00";
       };
     })
-  ]);
+  ];
 }

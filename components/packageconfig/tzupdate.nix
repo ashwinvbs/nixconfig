@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  config.systemd.timers.tzupdate = lib.mkIf config.services.tzupdate.enable {
+  config.systemd.timers.tzupdate = {
     wantedBy = [ "timers.target" ];
     timerConfig = {
       OnBootSec = "1m";

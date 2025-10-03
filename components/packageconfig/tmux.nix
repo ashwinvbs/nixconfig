@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  config.programs.tmux = lib.mkIf config.programs.tmux.enable {
+  config.programs.tmux = {
     shortcut = "k";
     aggressiveResize = true;
     baseIndex = 1;
