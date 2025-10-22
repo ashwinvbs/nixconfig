@@ -47,6 +47,13 @@
         workstation_components = true;
       };
 
+      # Add 16G swap to make up for low ram
+      swapDevices = [{
+        device = "/nix/swapfile";
+        size = 1024 * 16;
+        randomEncryption.enable = true; 
+      }];
+
       # From https://github.com/NixOS/nixos-hardware/blob/master/framework/12th-gen-intel/default.nix
       boot.kernelParams =
         [ "mem_sleep_default=deep" "nvme.noacpi=1" "i915.enable_psr=1" ];

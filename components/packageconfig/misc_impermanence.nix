@@ -3,7 +3,7 @@
 {
   config = lib.mkIf config.installconfig.impermanence ({
     # File system defines
-    fileSystems."/".options = [ "defaults" "size=2G" "mode=755" ];
+    fileSystems."/".options = [ "defaults" "size=8G" "mode=755" ];
 
     environment.persistence."/nix/state" = lib.mkMerge [
       ({
