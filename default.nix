@@ -32,6 +32,13 @@
         hardware.intelgpu = true;
         workstation_components = true;
       };
+
+      # Add 16G swap to make up for low ram
+      swapDevices = [{
+        device = "/nix/swapfile";
+        size = 1024 * 16;
+        randomEncryption.enable = true; 
+      }];
     })
 
     (lib.mkIf (config.networking.hostName == "rig") {
