@@ -37,7 +37,6 @@
       swapDevices = [{
         device = "/nix/swapfile";
         size = 1024 * 16;
-        randomEncryption.enable = true; 
       }];
     })
 
