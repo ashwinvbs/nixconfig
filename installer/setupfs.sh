@@ -21,7 +21,7 @@ partition_disks() {
 format_and_mount_boot() {
     mkfs.fat -F 32 -n nixboot /dev/disk/by-partlabel/nixboot
 
-    mount /dev/disk/by-partlabel/nixboot /mnt/boot
+    mount -o uid=0,gid=0,fmask=0077,dmask=0077 /dev/disk/by-partlabel/nixboot /mnt/boot
 }
 
 format_and_mount_nix_plain() {
