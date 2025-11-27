@@ -56,11 +56,18 @@ post_disk_ready() {
 
     cat >|/mnt/etc/nixos/configuration.nix <<EOL
 { ... }:
+let
+nixconfig = builtins.fetchGit {
+  url = "https://github.com/ashwinvbs/nixconfig.git";
+  ref = "main";
+};
+in
 {
 imports =
   [
     ./hardware-configuration.nix
-    "\${builtins.fetchGit { url = "https://github.com/ashwinvbs/nixconfig.git"; ref = "main"; }}"
+    "\${nixconfig}"
+    # (import "\${nixconfig}/utils/adduser.nix" { shortname = "user"; fullname = "User user"; persist = { directories = [ "." ]; }; })
   ];
   networking.hostName = "$MACHINE";
 }
