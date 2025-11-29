@@ -51,7 +51,7 @@
 
     environment.systemPackages = with pkgs; [
       # Packages for dotfile management
-      pinentry
+      pinentry-all
       yadm
     ];
 
