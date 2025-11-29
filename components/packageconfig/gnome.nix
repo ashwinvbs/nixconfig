@@ -41,8 +41,6 @@ in
       nautilus
     ];
 
-    programs.file-roller.enable = true;
-
     # VTE shell integration for gnome-console
     programs.bash.vteIntegration = true;
 
