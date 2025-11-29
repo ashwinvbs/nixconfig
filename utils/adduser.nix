@@ -47,7 +47,6 @@
         "dialout"
         "wheel"
       ];
-      users.groups.adbusers.members = [ "${shortname}" ];
     })
 
     (lib.mkIf (isAdmin && config.virtualisation.docker.enable) {

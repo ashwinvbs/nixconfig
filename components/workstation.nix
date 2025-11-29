@@ -31,9 +31,6 @@
       steam-hardware.enable = true;
     };
 
-    # Android device rules
-    services.udev.packages = [ pkgs.android-udev-rules ];
-
     # Allow workstations to pass usb devices to virtual machines
     virtualisation.spiceUSBRedirection.enable = true;
 
