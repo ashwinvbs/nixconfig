@@ -12,7 +12,7 @@ let
   };
 in
 {
-  config = lib.mkIf config.services.xserver.desktopManager.gnome.enable {
+  config = lib.mkIf config.services.desktopManager.gnome.enable {
     # gnome.core-os-services overrides
     services.gnome.gnome-online-accounts.enable = false;
     services.gnome.evolution-data-server.enable = lib.mkForce true;
