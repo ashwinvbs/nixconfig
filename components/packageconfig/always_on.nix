@@ -22,7 +22,7 @@
             [
               "org.freedesktop.login1.reboot",
               "org.freedesktop.login1.reboot-multiple-sessions",
-              "org.freedesktop.login1.reboot-ignore-inhibit"
+              "org.freedesktop.login1.reboot-ignore-inhibit",
               "org.freedesktop.login1.power-off",
               "org.freedesktop.login1.power-off-multiple-sessions",
               "org.freedesktop.login1.power-off-ignore-inhibit",
