@@ -40,6 +40,7 @@ format_and_mount_nix_password() {
 
 post_disk_ready() {
     mkdir -p /mnt/nix/state/etc/nixos/secrets
+    chmod 0700 /mnt/nix/state/etc/nixos/secrets
     # Need this to sidestep impermanence
     pushd /mnt/etc/
     ln -sf ../nix/state/etc/nixos
