@@ -3,7 +3,7 @@
 {
   options.installconfig.always_on = lib.mkEnableOption "Configures a system to be always on";
 
-  config = lib.mkMerge [
+  config = lib.mkIf config.installconfig.always_on (lib.mkMerge [
     ({
       systemd.sleep.extraConfig = ''
         AllowSuspend=no
@@ -33,5 +33,5 @@
         });
       '';
     })
-  ];
+  ]);
 }
