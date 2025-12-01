@@ -13,9 +13,9 @@
     hardware.graphics = {
       enable = true;
       extraPackages = with pkgs; [
-        vaapiIntel
-        libvdpau-va-gl
         intel-media-driver
+        intel-vaapi-driver
+        libvdpau-va-gl
       ];
     };
   };
