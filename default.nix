@@ -23,6 +23,7 @@
 
     (lib.mkIf (config.networking.hostName == "nuc") {
       installconfig = {
+        always_on = true;
         hardware.intelgpu = true;
       };
     })
