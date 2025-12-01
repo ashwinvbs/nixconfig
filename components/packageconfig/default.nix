@@ -11,6 +11,7 @@
       }
     }/nixos.nix"
 
+    ./always_on.nix
     ./autoupgrade.nix
     ./bash.nix
     ./chromium.nix
