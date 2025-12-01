@@ -16,20 +16,16 @@
     (lib.mkIf config.security.polkit.enable {
       # IDE configuration
       security.polkit.extraConfig = ''
-        polkit.addRule(function (action, subject) {
-          if (
-            !subject.isInGroup("wheel") &&
-            [
-              "org.freedesktop.login1.reboot",
-              "org.freedesktop.login1.reboot-multiple-sessions",
-              "org.freedesktop.login1.reboot-ignore-inhibit",
-              "org.freedesktop.login1.power-off",
-              "org.freedesktop.login1.power-off-multiple-sessions",
-              "org.freedesktop.login1.power-off-ignore-inhibit",
-            ].indexOf(action.id) !== -1
-          ) {
-            return polkit.Result.NO;
-          }
+        polkit.addRule(function(action, subject) {
+            if (action.id == "org.freedesktop.login1.reboot" ||
+                action.id == "org.freedesktop.login1.reboot-multiple-sessions" ||
+                action.id == "org.freedesktop.login1.reboot-ignore-inhibit" ||
+                action.id == "org.freedesktop.login1.power-off" ||
+                action.id == "org.freedesktop.login1.power-off-multiple-sessions" ||
+                action.id == "org.freedesktop.login1.power-off-ignore-inhibit")
+            {
+                return polkit.Result.NO;
+            }
         });
       '';
     })
