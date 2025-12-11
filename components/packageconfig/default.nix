@@ -27,5 +27,6 @@
     ./tailscale.nix
     ./tmux.nix
     ./tzupdate.nix
+    ./waydroid.nix
   ];
 }
