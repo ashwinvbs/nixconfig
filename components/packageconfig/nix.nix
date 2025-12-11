@@ -2,6 +2,7 @@
 
 {
   config = {
+    programs.command-not-found.enable = true;
     environment.sessionVariables = {
       # Make running non installed commands interactive and painless
       NIX_AUTO_RUN = 1;
