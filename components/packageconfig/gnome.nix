@@ -16,6 +16,10 @@ in
     # gnome.core-os-services overrides
     services.gnome.gnome-online-accounts.enable = false;
     services.gnome.evolution-data-server.enable = lib.mkForce true;
+    
+    # gcr-ssh-agent doesnt seem to work with yubikeys :(
+    # and programs.ssh.startAgent conflicts with it.
+    services.gnome.gcr-ssh-agent.enable = lib.mkForce false;
 
     # Would like to disable but cannot
     # services.gnome.at-spi2-core.enable = true;

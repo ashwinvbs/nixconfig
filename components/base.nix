@@ -47,6 +47,11 @@
 
       # Enable gnupg
       gnupg.agent.enable = true;
+
+      ssh = {
+        startAgent = true;
+        enableAskPassword = true;
+      };
     };
 
     environment.systemPackages = with pkgs; [
