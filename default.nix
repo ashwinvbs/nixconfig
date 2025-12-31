@@ -58,7 +58,7 @@
       swapDevices = [{
         device = "/nix/swapfile";
         size = 1024 * 16;
-        randomEncryption.enable = true; 
+        randomEncryption.enable = true;
       }];
 
       # From https://github.com/NixOS/nixos-hardware/blob/master/framework/12th-gen-intel/default.nix
