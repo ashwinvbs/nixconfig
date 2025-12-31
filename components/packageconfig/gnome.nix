@@ -50,5 +50,27 @@ in
 
     # Override default mimeapps for nautilus
     environment.sessionVariables.XDG_DATA_DIRS = [ "${mimeAppsList}/share" ];
+
+    services.desktopManager.gnome = {
+      extraGSettingsOverrides = ''
+        [org.gnome.desktop.interface]
+        color-scheme='prefer-dark'
+
+        [org.gnome.mutter]
+        dynamic-workspaces=true
+        edge-tiling=true
+        workspaces-only-on-primary=true
+
+        [org.gnome.shell]
+        favorite-apps=[]
+        welcome-dialog-last-shown-version='9999999999'
+      '';
+
+      extraGSettingsOverridePackages = with pkgs; [
+        gsettings-desktop-schemas # for org.gnome.desktop
+        mutter # for org.gnome.mutter
+        gnome-shell # for org.gnome.shell
+      ];
+    };
   };
 }
