@@ -10,7 +10,7 @@
       };
     })
 
-    (lib.mkIf (config.services.openssh.enable && config.installconfig.impermanence) {
+    (lib.mkIf (config.services.openssh.enable && config.installconfig.impermanence.enable) {
       environment.persistence."/nix/state".files = [
         "/etc/ssh/ssh_host_rsa_key"
         "/etc/ssh/ssh_host_rsa_key.pub"

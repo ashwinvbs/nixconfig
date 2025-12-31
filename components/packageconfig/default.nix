@@ -1,7 +1,10 @@
 { config, lib, pkgs, ... }:
 
 {
-  options.installconfig.impermanence = lib.mkEnableOption "Enable impermanence";
+  options.installconfig.impermanence = {
+    enable = lib.mkEnableOption "Enable impermanence";
+    retainLogs = lib.mkEnableOption "Retain logs over reboots";
+  };
 
   imports = [
     "${

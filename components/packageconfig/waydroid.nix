@@ -13,7 +13,7 @@
       };
     })
 
-    (lib.mkIf config.installconfig.impermanence {
+    (lib.mkIf config.installconfig.impermanence.enable {
       environment.persistence."/nix/state".directories = [ "/var/lib/waydroid" ];
     })
   ]);

@@ -10,7 +10,7 @@
       };
     })
 
-    (lib.mkIf (config.services.ollama.enable && config.installconfig.impermanence) {
+    (lib.mkIf (config.services.ollama.enable && config.installconfig.impermanence.enable) {
       environment.persistence."/nix/state".directories = [{
         directory = config.services.ollama.models;
         user = config.services.ollama.user;

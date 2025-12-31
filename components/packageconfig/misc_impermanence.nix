@@ -1,15 +1,19 @@
 { config, lib, pkgs, ... }:
 
 {
-  config = lib.mkIf config.installconfig.impermanence ({
+  config = lib.mkIf config.installconfig.impermanence.enable ({
     # File system defines
     fileSystems."/".options = [ "defaults" "size=8G" "mode=755" ];
 
     environment.persistence."/nix/state" = lib.mkMerge [
       ({
         hideMounts = true;
-        directories = [ "/etc/nixos" "/var/lib/nixos" "/var/log" ];
+        directories = [ "/etc/nixos" "/var/lib/nixos" ];
         files = [ "/etc/machine-id" ];
+      })
+
+      (lib.mkIf config.installconfig.impermanence.retainLogs {
+        directories = [ "/var/log" ];
       })
 
       (lib.mkIf config.virtualisation.libvirtd.enable {
