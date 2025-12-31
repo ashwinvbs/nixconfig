@@ -7,7 +7,6 @@
       ".android"
       ".config"
       ".local"
-      ".mozilla"
       ".rustup"
       ".var/app"
       ".vscode-oss"
