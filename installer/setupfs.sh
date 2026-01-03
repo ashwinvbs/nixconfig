@@ -5,6 +5,7 @@ set -o pipefail -o noclobber -o nounset
 
 prepare_fake_root() {
     mount -t tmpfs none /mnt
+    chmod 755 /mnt
     mkdir -p /mnt/{boot,nix,etc}
 }
 
