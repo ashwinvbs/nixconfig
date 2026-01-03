@@ -16,10 +16,6 @@
         directories = [ "/var/log" ];
       })
 
-      (lib.mkIf config.virtualisation.libvirtd.enable {
-        directories = [ "/var/lib/libvirt" ];
-      })
-
       (lib.mkIf config.services.fprintd.enable {
         directories = [ "/var/lib/fprint" ];
       })

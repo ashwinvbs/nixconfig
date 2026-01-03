@@ -22,6 +22,7 @@
     ./firefox.nix
     ./git.nix
     ./gnome.nix
+    ./libvirt.nix
     ./misc_impermanence.nix
     ./nix.nix
     ./ollama.nix
