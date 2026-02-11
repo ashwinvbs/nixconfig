@@ -41,11 +41,7 @@
     # TODO: Make this configurable
     (lib.mkIf config.installconfig.workstation_components {
       # IDE configuration
-      programs.vscode = {
-        enable = true;
-        package = pkgs.vscodium.fhs;
-        defaultEditor = true;
-      };
+      environment.systemPackages = with pkgs; [ vscodium.fhs ];
     })
   ];
 }
