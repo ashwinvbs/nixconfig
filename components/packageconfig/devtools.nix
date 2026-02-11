@@ -43,7 +43,7 @@
       # IDE configuration
       programs.vscode = {
         enable = true;
-        package = pkgs.vscodium;
+        package = pkgs.vscodium-fhs;
         defaultEditor = true;
       };
     })
