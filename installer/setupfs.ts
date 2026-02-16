@@ -37,6 +37,18 @@ function sleep(s: number) {
     return new Promise((resolve) => setTimeout(resolve, s * 1000));
 }
 
+async function check_block_device(path: string, timeout: number = 0) {
+    const start_timer = Date.now();
+    while (!Deno.statSync(path).isBlockDevice) {
+        if (Date.now() - start_timer > timeout * 1000) {
+            await $`partprobe -s`.noThrow();
+            throw new Error(`Timed out waiting for block device ${path}`);
+        }
+        await sleep(0.5);
+        await $`partprobe`.noThrow().quiet();
+    }
+}
+
 // Installer steps
 async function prepare_fake_root() {
     throbber_message = "Preparing fake root";
@@ -60,8 +72,8 @@ interface PartTypeFlags {
     skip_format_and_mount: boolean;
     format_command: string;
     volume_label_flag: string;
-    additional_flags: string;
-    mount_flags: string;
+    additional_flags: Array<string>;
+    mount_flags: Array<string>;
 }
 
 const partition_properties: Record<string, PartTypeFlags> = {
@@ -69,22 +81,22 @@ const partition_properties: Record<string, PartTypeFlags> = {
         skip_format_and_mount: false,
         format_command: "fat",
         volume_label_flag: "-n",
-        additional_flags: "32",
-        mount_flags: "-ouid=0,gid=0,fmask=0077,dmask=0077",
+        additional_flags: ["32"],
+        mount_flags: ["-o", "uid=0,gid=0,fmask=0077,dmask=0077"],
     },
     "8200": {
         skip_format_and_mount: true,
         format_command: "",
         volume_label_flag: "",
-        additional_flags: "",
-        mount_flags: "",
+        additional_flags: [],
+        mount_flags: [],
     },
     "8300": {
         skip_format_and_mount: false,
         format_command: "ext4",
         volume_label_flag: "-L",
-        additional_flags: "",
-        mount_flags: "",
+        additional_flags: [],
+        mount_flags: [],
     },
 };
 
@@ -99,16 +111,14 @@ async function partition_disks(
         throbber_message = `Partitioning and mounting ${partition.label}`;
 
         await $`sgdisk -n 0:0:${partition.size} -t 0:${partition.type} -c 0:${partition.label} ${disk}`;
-        await sleep(10);
         const pp = partition_properties[partition.type];
-
-        await $`partprobe`.noThrow();
 
         if (pp.skip_format_and_mount) {
             continue;
         }
 
         let partition_path = `/dev/disk/by-partlabel/${partition.label}`;
+        await check_block_device(partition_path, 10);
         if (partition.cryptpass) {
             await $`cryptsetup luksFormat ${partition_path} -`
                 .stdinText(partition.cryptpass);
@@ -119,11 +129,10 @@ async function partition_disks(
         }
 
         await $`mkfs.${pp.format_command} -F ${pp.additional_flags} ${pp.volume_label_flag} ${partition.label} ${partition_path}`;
-        await sleep(10);
+        await sleep(2);
 
         Deno.mkdir("/mnt/" + partition.mount_path, { recursive: true });
         await $`mount ${pp.mount_flags} ${partition_path} /mnt/${partition.mount_path}`;
-        await sleep(10);
     }
 }
 
@@ -182,7 +191,7 @@ function get_password(context: string): string {
 if (Deno.uid() != 0) {
     throw new Error("Script requires root privileges");
 }
-await $`umount -R /mnt`;
+await $`umount -Rq /mnt`.noThrow();
 
 // Parse args
 const flags = parseArgs(Deno.args, {
@@ -196,7 +205,7 @@ const hostname: string = flags.machine?.toString() || "";
 const disk: string = flags.disk.toString();
 const encrypt: boolean = flags.encrypt;
 
-if (!Deno.statSync(disk).isBlockDevice) {
+if (!check_block_device(disk)) {
     throw new Error("Invalid disk path.");
 }
 if (hostname.length == 0) {
