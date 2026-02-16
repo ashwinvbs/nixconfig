@@ -5,7 +5,7 @@
 
 import $ from "jsr:@david/dax";
 import { parseArgs } from "jsr:@std/cli/parse-args";
-import { promptSecret } from "@std/cli";
+import { promptSecret } from "jsr:@std/cli";
 
 // Utils
 let throbber_message = "";
@@ -69,8 +69,8 @@ const partition_properties: Record<string, PartTypeFlags> = {
         skip_format_and_mount: false,
         format_command: "fat",
         volume_label_flag: "-n",
-        additional_flags: "-F 32",
-        mount_flags: "-o uid=0,gid=0,fmask=0077,dmask=0077",
+        additional_flags: "32",
+        mount_flags: "-ouid=0,gid=0,fmask=0077,dmask=0077",
     },
     "8200": {
         skip_format_and_mount: true,
@@ -102,14 +102,18 @@ async function partition_disks(
         await sleep(10);
         const pp = partition_properties[partition.type];
 
+        await $`partprobe`.noThrow();
+
         if (pp.skip_format_and_mount) {
             continue;
         }
 
         let partition_path = `/dev/disk/by-partlabel/${partition.label}`;
         if (partition.cryptpass) {
-            await $`printf "${partition.cryptpass}" | cryptsetup luksFormat ${partition_path} -`;
-            await $`printf "${partition.cryptpass}" | cryptsetup luksOpen ${partition_path} ${partition.label} -`;
+            await $`cryptsetup luksFormat ${partition_path} -`
+                .stdinText(partition.cryptpass);
+            await $`cryptsetup luksOpen ${partition_path} ${partition.label} -`
+                .stdinText(partition.cryptpass);
 
             partition_path = `/dev/mapper/${partition.label}`;
         }
@@ -135,7 +139,9 @@ async function post_disk_ready(userpass: string) {
     // Need this so we can have absolute paths for secrets
     Deno.symlink("../../mnt/nix/state/etc/nixos/secrets", "/etc/nixos/secrets");
 
-    await $`printf "${userpass}" | mkpasswd -m sha-512 > /mnt/etc/nixos/secrets/ashwin_pass.txt`;
+    await $`mkpasswd -m sha-512`
+        .stdinText(userpass)
+        .stdout($.path("/mnt/etc/nixos/secrets/ashwin_pass.txt"));
 
     await $`nixos-generate-config --root /mnt`;
 
@@ -176,6 +182,7 @@ function get_password(context: string): string {
 if (Deno.uid() != 0) {
     throw new Error("Script requires root privileges");
 }
+await $`umount -R /mnt`;
 
 // Parse args
 const flags = parseArgs(Deno.args, {
