@@ -39,13 +39,23 @@ function sleep(s: number) {
 
 async function check_block_device(path: string, timeout: number = 0) {
     const start_timer = Date.now();
-    while (!Deno.statSync(path).isBlockDevice) {
+    await $`partprobe`.noThrow().quiet();
+
+    const timeout_check = async () => {
         if (Date.now() - start_timer > timeout * 1000) {
-            await $`partprobe -s`.noThrow();
             throw new Error(`Timed out waiting for block device ${path}`);
         }
         await sleep(0.5);
-        await $`partprobe`.noThrow().quiet();
+    };
+
+    while (true) {
+        try {
+            const realpath = await Deno.realPath(path);
+            if (Deno.statSync(realpath).isBlockDevice) return;
+        } catch (err) {
+            if (!(err instanceof Deno.errors.NotFound)) throw err;
+        }
+        await timeout_check();
     }
 }
 
@@ -113,9 +123,7 @@ async function partition_disks(
         await $`sgdisk -n 0:0:${partition.size} -t 0:${partition.type} -c 0:${partition.label} ${disk}`;
         const pp = partition_properties[partition.type];
 
-        if (pp.skip_format_and_mount) {
-            continue;
-        }
+        if (pp.skip_format_and_mount) continue;
 
         let partition_path = `/dev/disk/by-partlabel/${partition.label}`;
         await check_block_device(partition_path, 10);
@@ -136,19 +144,22 @@ async function partition_disks(
     }
 }
 
-async function post_disk_ready(userpass: string) {
+async function post_disk_ready(userpass: string, hostname: string) {
     throbber_message = "Finishing setup";
 
-    Deno.mkdir("/mnt/nix/state/etc/nixos/secrets", { recursive: true });
-    Deno.chmod("/mnt/nix/state/etc/nixos/secrets", 0o0700);
+    await Deno.mkdir("/mnt/nix/state/etc/nixos/secrets", { recursive: true });
+    await Deno.chmod("/mnt/nix/state/etc/nixos/secrets", 0o0700);
 
     // Need this to sidestep impermanence
-    Deno.symlink("../nix/state/etc/nixos", "/mnt/etc/nixos");
+    await Deno.symlink("../nix/state/etc/nixos", "/mnt/etc/nixos");
 
     // Need this so we can have absolute paths for secrets
-    Deno.symlink("../../mnt/nix/state/etc/nixos/secrets", "/etc/nixos/secrets");
+    await Deno.symlink(
+        "../../mnt/nix/state/etc/nixos/secrets",
+        "/etc/nixos/secrets",
+    );
 
-    await $`mkpasswd -m sha-512`
+    await $`mkpasswd -s -m sha-512`
         .stdinText(userpass)
         .stdout($.path("/mnt/etc/nixos/secrets/ashwin_pass.txt"));
 
@@ -169,7 +180,7 @@ imports =
     "\${nixconfig}"
     # (import "\${nixconfig}/utils/adduser.nix" { shortname = "user"; fullname = "User user"; persist = { directories = [ "." ]; }; })
   ];
-  networking.hostName = "$MACHINE";
+  networking.hostName = "${hostname}";
 }
 `;
 
@@ -188,10 +199,15 @@ function get_password(context: string): string {
 }
 
 // Script start, preparation steps
-if (Deno.uid() != 0) {
-    throw new Error("Script requires root privileges");
-}
+if (Deno.uid() != 0) throw new Error("Script requires root privileges");
+
+// Cleanup previous attempts if necessary
 await $`umount -Rq /mnt`.noThrow();
+try {
+    await Deno.remove("/etc/nixos/secrets");
+} catch (err) {
+    if (!(err instanceof Deno.errors.NotFound)) throw err;
+}
 
 // Parse args
 const flags = parseArgs(Deno.args, {
@@ -205,16 +221,10 @@ const hostname: string = flags.machine?.toString() || "";
 const disk: string = flags.disk.toString();
 const encrypt: boolean = flags.encrypt;
 
-if (!check_block_device(disk)) {
-    throw new Error("Invalid disk path.");
-}
-if (hostname.length == 0) {
-    throw new Error("Empty machine name provided");
-}
+if (!check_block_device(disk)) throw new Error("Invalid disk path.");
+if (hostname.length == 0) throw new Error("Empty machine name provided");
 const swapsize = parseInt(flags.swapsize?.toString() || "-1");
-if (swapsize < 0) {
-    throw new Error("Invalid swap size provided");
-}
+if (swapsize < 0) throw new Error("Invalid swap size provided");
 
 // Gather passwords
 const cryptpass: string | undefined = encrypt
@@ -229,7 +239,7 @@ if (encrypt && (!cryptpass || cryptpass.length < 5)) {
 const userpass: string = get_password("user account");
 
 // Call into main steps of setupfs
-start_throbber();
+const throbber = start_throbber();
 
 await prepare_fake_root();
 
@@ -258,4 +268,6 @@ await partition_disks(disk, [
     },
 ]);
 
-await post_disk_ready(userpass);
+await post_disk_ready(userpass, hostname);
+
+clearInterval(throbber);
