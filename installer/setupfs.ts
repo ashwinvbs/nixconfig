@@ -115,6 +115,9 @@ async function partition_disks(
     partitions: Array<Partition>,
 ) {
     throbber_message = "Partitioning disks";
+    for (const partition of partitions) {
+        await $`cryptsetup luksClose ${partition.label}`.noThrow().quiet();
+    }
 
     await $`sgdisk -Zog ${disk}`;
     for (const partition of partitions) {
