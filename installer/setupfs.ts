@@ -258,7 +258,7 @@ await partition_disks(disk, [
         ? [{
             label: "swap",
             type: "8200",
-            size: "+4G",
+            size: `+${swapsize}G`,
             mount_path: "/swap",
         }]
         : []),
