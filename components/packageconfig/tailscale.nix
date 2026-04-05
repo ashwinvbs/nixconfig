@@ -9,5 +9,10 @@
     # Ensure that /nix/state/var/lib/tailscale exists.
     systemd.tmpfiles.rules =
       [ "d /nix/state/var/lib/tailscale 0700 root root" ];
+
+    # Configure blocky to resolve Tailscale names by forwarding to Tailscale's IP
+    services.blocky.settings.conditional.mapping = {
+      "ts.net" = "100.100.100.100";
+    };
   };
 }
