@@ -18,11 +18,10 @@
     # Network configuration
     #################################################################################################
 
-    # Default nameservers
-    networking.nameservers = [
-      "1.1.1.1"
-      "8.8.8.8"
-    ];
+    services.resolved.enable = true;
+    # Force the system to look at Blocky first
+    networking.nameservers = [ "127.0.0.1" ];
+    services.blocky.enable = true;
 
     #################################################################################################
     # Default programs and services
