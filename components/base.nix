@@ -25,6 +25,9 @@
       # 'domains' with '~.' makes this the "default route" for all DNS
       domains = [ "~." ];
       fallbackDns = [ ]; # Disable fallbacks to ensure it only hits Blocky
+      extraConfig = ''
+        DNSStubListener=no
+      '';
     };
     # Force the system to look at Blocky first
     networking.nameservers = [ "127.0.0.1" ];
