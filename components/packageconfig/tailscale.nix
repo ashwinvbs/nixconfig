@@ -16,5 +16,8 @@
     services.blocky.settings.conditional.mapping = {
       "ts.net" = "100.100.100.100";
     };
+
+    # Disable implicit dns resolution using Tailscale
+    services.tailscale.extraUpFlags = [ "--accept-dns=false" ];
   };
 }

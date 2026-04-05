@@ -18,7 +18,14 @@
     # Network configuration
     #################################################################################################
 
-    services.resolved.enable = true;
+    # Force the Global config to have the highest priority
+    services.resolved = {
+      enable = true;
+      # 'nameservers' sets the Global DNS
+      # 'domains' with '~.' makes this the "default route" for all DNS
+      domains = [ "~." ];
+      fallbackDns = [ ]; # Disable fallbacks to ensure it only hits Blocky
+    };
     # Force the system to look at Blocky first
     networking.nameservers = [ "127.0.0.1" ];
     services.blocky.enable = true;
