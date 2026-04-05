@@ -13,6 +13,7 @@
     systemd.tmpfiles.rules = [ "d /nix/state/var/lib/tailscale 0700 root root" ];
 
     # Configure blocky to resolve Tailscale names by forwarding to Tailscale's IP
+    # TODO: Look into moving this to a separate config file. This is very account specific.
     services.blocky.settings.conditional.mapping = {
       "ts.net" = "100.100.100.100";
     };
