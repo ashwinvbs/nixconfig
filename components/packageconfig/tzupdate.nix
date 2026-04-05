@@ -1,4 +1,7 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  ...
+}:
 
 {
   config.systemd.timers.tzupdate = {

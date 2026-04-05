@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   config = {
@@ -14,7 +19,10 @@
     #################################################################################################
 
     # Default nameservers
-    networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
+    networking.nameservers = [
+      "1.1.1.1"
+      "8.8.8.8"
+    ];
 
     #################################################################################################
     # Default programs and services
@@ -33,7 +41,6 @@
       doc.enable = false;
       info.enable = false;
     };
-
 
     programs = {
       # Git is required for pulling nix configuration

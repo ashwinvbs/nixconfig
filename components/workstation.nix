@@ -1,8 +1,11 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 
 {
-  options.installconfig.workstation_components =
-    lib.mkEnableOption "Configure the machine to be a workstation";
+  options.installconfig.workstation_components = lib.mkEnableOption "Configure the machine to be a workstation";
 
   config = lib.mkIf config.installconfig.workstation_components {
     # Disable speech services. Include this config here as its installed for all graphics-desktops.
@@ -35,7 +38,6 @@
     virtualisation.spiceUSBRedirection.enable = true;
 
     # This config is required to enable function keys in Keychron K1 keyboard
-    environment.etc."modprobe.d/keychron.conf".text =
-      "options hid_apple fnmode=0";
+    environment.etc."modprobe.d/keychron.conf".text = "options hid_apple fnmode=0";
   };
 }

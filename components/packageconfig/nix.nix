@@ -1,4 +1,7 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  ...
+}:
 
 {
   config = {
@@ -26,7 +29,10 @@
       };
 
       # Enable flakes system-wide
-      settings.experimental-features = [ "nix-command" "flakes" ];
+      settings.experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
     };
   };
 }

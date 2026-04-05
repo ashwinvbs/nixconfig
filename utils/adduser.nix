@@ -1,8 +1,9 @@
-{ shortname
-, fullname ? shortname
-, passprefix ? shortname
-, isAdmin ? false
-, persist ? {
+{
+  shortname,
+  fullname ? shortname,
+  passprefix ? shortname,
+  isAdmin ? false,
+  persist ? {
     directories = [
       ".android"
       ".config"
@@ -19,10 +20,18 @@
         mode = "0700";
       }
     ];
-    files = [ ".bash_history" ".gitconfig" ];
-  }
+    files = [
+      ".bash_history"
+      ".gitconfig"
+    ];
+  },
 }:
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   config = lib.mkMerge [
     ({

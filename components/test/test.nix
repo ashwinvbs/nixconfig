@@ -11,8 +11,10 @@ in
 pkgs.testers.runNixOSTest {
   name = "Integration Test";
   nodes.machine = import ./sanity.nix;
-  testScript = { nodes, ... }: ''
-    machine.wait_for_unit("default.target")
-    machine.succeed("su -- testuser -c 'which google-chrome-stable'")
-  '';
+  testScript =
+    { nodes, ... }:
+    ''
+      machine.wait_for_unit("default.target")
+      machine.succeed("su -- testuser -c 'which google-chrome-stable'")
+    '';
 }

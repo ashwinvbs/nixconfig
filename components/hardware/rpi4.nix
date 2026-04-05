@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   options.installconfig.hardware.rpi4 = lib.mkEnableOption "Enable driver and boot support for Raspberry pi 4";

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   options.installconfig.hardware.amdgpu = lib.mkEnableOption "Enable driver support for amdgpu";

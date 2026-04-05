@@ -1,13 +1,17 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   config = lib.mkIf config.programs.chromium.enable {
     # TODO: emit unmaintained warning
-    environment.systemPackages = with pkgs;
-      [
-        # programs.chromium.enable = true only enables policy o.0 :| ???
-        google-chrome
-      ];
+    environment.systemPackages = with pkgs; [
+      # programs.chromium.enable = true only enables policy o.0 :| ???
+      google-chrome
+    ];
     nixpkgs.config = lib.mkDefault {
       allowUnfree = true;
     };

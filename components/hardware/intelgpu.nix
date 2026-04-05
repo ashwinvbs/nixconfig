@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   options.installconfig.hardware.intelgpu = lib.mkEnableOption "Enable driver support for intel gpu";
@@ -8,7 +13,9 @@
 
     boot.initrd.kernelModules = [ "i915" ];
 
-    environment.variables = { VDPAU_DRIVER = "va_gl"; };
+    environment.variables = {
+      VDPAU_DRIVER = "va_gl";
+    };
 
     hardware.graphics = {
       enable = true;

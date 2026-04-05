@@ -1,4 +1,7 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  ...
+}:
 
 {
   config.programs.firefox = {
@@ -11,22 +14,21 @@
         "Enabled" = false;
         "Locked" = true;
       };
-      "EncryptedMediaExtensions" = { "Enabled" = true; };
+      "EncryptedMediaExtensions" = {
+        "Enabled" = true;
+      };
       "ExtensionSettings" = {
         "*" = {
-          "blocked_install_message" =
-            "Extension installation blocked, contact administrator!";
+          "blocked_install_message" = "Extension installation blocked, contact administrator!";
           "installation_mode" = "blocked";
         };
         "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
           "installation_mode" = "force_installed";
-          "install_url" =
-            "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
+          "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
         };
         "uBlock0@raymondhill.net" = {
           "installation_mode" = "force_installed";
-          "install_url" =
-            "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+          "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
         };
       };
       "FirefoxHome" = {
@@ -45,6 +47,8 @@
         "FeatureRecommendations" = false;
       };
     };
-    preferences = { "browser.cache.disk.enable" = false; };
+    preferences = {
+      "browser.cache.disk.enable" = false;
+    };
   };
 }

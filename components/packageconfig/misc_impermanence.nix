@@ -1,14 +1,25 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 
 {
   config = lib.mkIf config.installconfig.impermanence.enable ({
     # File system defines
-    fileSystems."/".options = [ "defaults" "size=8G" "mode=755" ];
+    fileSystems."/".options = [
+      "defaults"
+      "size=8G"
+      "mode=755"
+    ];
 
     environment.persistence."/nix/state" = lib.mkMerge [
       ({
         hideMounts = true;
-        directories = [ "/etc/nixos" "/var/lib/nixos" ];
+        directories = [
+          "/etc/nixos"
+          "/var/lib/nixos"
+        ];
         files = [ "/etc/machine-id" ];
       })
 

@@ -3,7 +3,11 @@
 {
   imports = [
     ./components
-    (import ./utils/adduser.nix { shortname = "ashwin"; fullname = "Ashwin Balasubramaniyan"; isAdmin = true; })
+    (import ./utils/adduser.nix {
+      shortname = "ashwin";
+      fullname = "Ashwin Balasubramaniyan";
+      isAdmin = true;
+    })
   ];
 
   config = lib.mkMerge [
@@ -35,10 +39,12 @@
       };
 
       # Add 16G swap to make up for low ram
-      swapDevices = [{
-        device = "/nix/swapfile";
-        size = 1024 * 16;
-      }];
+      swapDevices = [
+        {
+          device = "/nix/swapfile";
+          size = 1024 * 16;
+        }
+      ];
     })
 
     (lib.mkIf (config.networking.hostName == "rig") {
@@ -55,11 +61,13 @@
       };
 
       # Add 16G swap to make up for low ram
-      swapDevices = [{
-        device = "/nix/swapfile";
-        size = 1024 * 16;
-        randomEncryption.enable = true;
-      }];
+      swapDevices = [
+        {
+          device = "/nix/swapfile";
+          size = 1024 * 16;
+          randomEncryption.enable = true;
+        }
+      ];
 
       # From https://github.com/NixOS/nixos-hardware/blob/master/framework/12th-gen-intel/default.nix
       boot.kernelParams = [ "nvme.noacpi=1" ];
