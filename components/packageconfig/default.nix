@@ -16,7 +16,6 @@
       }
     }/nixos.nix"
 
-    ./adblock.nix
     ./always_on.nix
     ./autoupgrade.nix
     ./bash.nix
