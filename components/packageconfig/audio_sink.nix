@@ -17,6 +17,8 @@
             args = {
               "source.name" = "remote soundcard";
               "source.props.node.name" = "roc-source";
+              # Might need tuning if crackling/stuttering is observed
+              "sess.latency.msec" = "40";
             };
           }
         ];
