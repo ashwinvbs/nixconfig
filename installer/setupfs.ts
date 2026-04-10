@@ -75,7 +75,7 @@ interface Partition {
     type: string;
     size: string;
     cryptpass?: string;
-    mount_path: string;
+    mount_path?: string;
 }
 
 interface PartTypeFlags {
@@ -142,8 +142,10 @@ async function partition_disks(
         await $`mkfs.${pp.format_command} -F ${pp.additional_flags} ${pp.volume_label_flag} ${partition.label} ${partition_path}`;
         await sleep(2);
 
-        Deno.mkdir("/mnt/" + partition.mount_path, { recursive: true });
-        await $`mount ${pp.mount_flags} ${partition_path} /mnt/${partition.mount_path}`;
+        if (partition.mount_path) {
+            Deno.mkdir("/mnt/" + partition.mount_path, { recursive: true });
+            await $`mount ${pp.mount_flags} ${partition_path} /mnt/${partition.mount_path}`;
+        }
     }
 }
 
@@ -259,7 +261,6 @@ await partition_disks(disk, [
             label: "swap",
             type: "8200",
             size: `+${swapsize}G`,
-            mount_path: "/swap",
         }]
         : []),
     {
