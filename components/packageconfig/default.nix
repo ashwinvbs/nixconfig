@@ -17,6 +17,7 @@
     }/nixos.nix"
 
     ./always_on.nix
+    ./audio_sink.nix
     ./autoupgrade.nix
     ./bash.nix
     ./chromium.nix
