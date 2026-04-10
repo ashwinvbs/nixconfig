@@ -15,6 +15,7 @@
       intelgpu = true;
       amdgpu = true;
     };
+    enable_paper_server = true;
     workstation_components = true;
   };
 
