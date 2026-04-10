@@ -19,5 +19,10 @@
       # SSD management service
       fstrim.enable = true;
     };
+
+    swapDevices = [{
+      device = "/dev/disk/by-partlabel/swap";
+      randomEncryption.enable = true;
+    }];
   };
 }
