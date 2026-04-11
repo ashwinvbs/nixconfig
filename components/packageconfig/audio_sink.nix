@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   options.installconfig.enable_audio_sink = lib.mkEnableOption "Listen on network for roc audio streams";
 
@@ -18,7 +23,7 @@
               "source.name" = "remote soundcard";
               "source.props.node.name" = "roc-source";
               # Might need tuning if crackling/stuttering is observed
-              "sess.latency.msec" = "64";
+              "sess.latency.msec" = "100";
             };
           }
         ];
