@@ -29,10 +29,7 @@ in
     })
 
     (lib.mkIf (config.networking.hostName == "nuc") {
-      installconfig = {
-        always_on = true;
-        hardware.intelgpu = true;
-      };
+      installconfig.hardware.intelgpu = true;
     })
 
     (lib.mkIf (config.networking.hostName == "xps") {
