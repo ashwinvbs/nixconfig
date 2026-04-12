@@ -1,5 +1,9 @@
 { config, lib, ... }:
-
+let
+  authorizedKeys = [
+    "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIO4lFenwqE4JN51v/7H6wB/QUtiSKbC52rMEjT/zWu5+AAAACHNzaDpja2V5"
+  ];
+in
 {
   imports = [
     ./components
@@ -20,9 +24,8 @@
       };
 
       installconfig.impermanence.enable = true;
-      users.users.ashwin.openssh.authorizedKeys.keys = [
-        "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIO4lFenwqE4JN51v/7H6wB/QUtiSKbC52rMEjT/zWu5+AAAACHNzaDpja2V5"
-      ];
+      users.users.ashwin.openssh.authorizedKeys.keys = authorizedKeys;
+      boot.initrd.network.ssh.authorizedKeys = authorizedKeys;
     })
 
     (lib.mkIf (config.networking.hostName == "nuc") {
