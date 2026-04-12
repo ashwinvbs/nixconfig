@@ -22,5 +22,9 @@
         "/etc/ssh/ssh_host_ed25519_key.pub"
       ];
     })
+
+    (lib.mkIf (config.boot.initrd.network.ssh.enable) {
+      boot.initrd.network.enable = true;
+    })
   ];
 }
