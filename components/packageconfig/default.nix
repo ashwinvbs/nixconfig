@@ -30,7 +30,6 @@
     ./nix.nix
     ./ollama.nix
     ./openssh.nix
-    ./paper_server.nix
     ./sudo.nix
     ./tailscale.nix
     ./tmux.nix
