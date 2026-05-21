@@ -26,7 +26,6 @@
   ];
 
   config = {
-    services.microvm.enable = true;
     microvm.vms."${vmname}" = {
       autostart = autostart;
 
