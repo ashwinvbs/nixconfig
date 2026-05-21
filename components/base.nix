@@ -47,10 +47,7 @@
     };
 
     # Disable offline documentation. their value is limited
-    documentation = {
-      doc.enable = false;
-      info.enable = false;
-    };
+    documentation.enable = false;
 
     programs = {
       # Git is required for pulling nix configuration
