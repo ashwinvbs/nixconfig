@@ -54,15 +54,9 @@
       users.users."${shortname}".extraGroups = [
         "dialout"
         "wheel"
-      ];
-    })
-
-    (lib.mkIf (isAdmin && config.virtualisation.docker.enable) {
-      users.groups.docker.members = [ "${shortname}" ];
-    })
-
-    (lib.mkIf (isAdmin && config.virtualisation.libvirtd.enable) {
-      users.groups.libvirtd.members = [ "${shortname}" ];
+      ] 
+      ++ lib.optional config.virtualisation.docker.enable "docker"
+      ++ lib.optional config.virtualisation.libvirtd.enable "libvirtd";
     })
   ];
 }
