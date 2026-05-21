@@ -51,12 +51,13 @@
     })
 
     (lib.mkIf isAdmin {
-      users.users."${shortname}".extraGroups = [
-        "dialout"
-        "wheel"
-      ] 
-      ++ lib.optional config.virtualisation.docker.enable "docker"
-      ++ lib.optional config.virtualisation.libvirtd.enable "libvirtd";
+      users.users."${shortname}".extraGroups =
+        [
+          "dialout"
+          "wheel"
+        ]
+        ++ lib.optional config.virtualisation.docker.enable "docker"
+        ++ lib.optional config.virtualisation.libvirtd.enable "libvirtd";
     })
   ];
 }
