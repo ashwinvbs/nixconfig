@@ -56,6 +56,8 @@
           "dialout"
           "wheel"
         ]
+        ++ lib.optional config.hardware.sane.enable "scanner"
+        ++ lib.optional config.services.printing.enable "lp"
         ++ lib.optional config.virtualisation.docker.enable "docker"
         ++ lib.optional config.virtualisation.libvirtd.enable "libvirtd";
     })
