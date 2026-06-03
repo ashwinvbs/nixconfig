@@ -6,7 +6,9 @@
   persist ? {
     directories = [
       ".android"
+      ".antigravity"
       ".config"
+      ".gemini"
       ".local"
       ".rustup"
       ".var/app"
