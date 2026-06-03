@@ -16,7 +16,6 @@
       "Downloads"
       "Music"
       "Projects"
-      "Workspaces"
       {
         directory = ".ssh";
         mode = "0700";
