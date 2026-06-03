@@ -46,7 +46,7 @@
     # TODO: Make this configurable
     (lib.mkIf config.installconfig.workstation_components {
       # IDE configuration
-      environment.systemPackages = with pkgs; [ vscodium.fhs ];
+      environment.systemPackages = with pkgs; [ antigravity ];
     })
   ];
 }

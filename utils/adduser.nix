@@ -10,10 +10,10 @@
       ".local"
       ".rustup"
       ".var/app"
-      ".vscode-oss"
       "Documents"
       "Downloads"
       "Music"
+      "Projects"
       "Workspaces"
       {
         directory = ".ssh";
