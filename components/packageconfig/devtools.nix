@@ -43,9 +43,7 @@
       };
     })
 
-    # TODO: Make this configurable
-    (lib.mkIf config.installconfig.workstation_components {
-      # IDE configuration
+    (lib.mkIf (config.installconfig.devtools && config.installconfig.workstation_components) {
       environment.systemPackages = with pkgs; [ antigravity-fhs ];
     })
   ];
