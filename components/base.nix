@@ -21,12 +21,14 @@
     # Default nameservers
     services.resolved = {
       enable = true;
-      domains = [ "~." ];
-      fallbackDns = [
-        "1.1.1.1#one.one.one.one"
-        "1.0.0.1#one.one.one.one"
-      ];
-      dnsovertls = "true";
+      settings.Resolve = {
+        Domains = [ "~." ];
+        FallbackDNS = [
+          "[IP_ADDRESS]#one.one.one.one"
+          "[IP_ADDRESS]#one.one.one.one"
+        ];
+        DNSOverTLS = "true";
+      };
     };
 
     networking.nameservers = [
