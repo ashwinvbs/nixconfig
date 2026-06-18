@@ -9,14 +9,14 @@
 
   config = lib.mkIf config.installconfig.always_on (
     lib.mkMerge [
-      ({
-        systemd.sleep.extraConfig = ''
-          AllowSuspend=no
-          AllowHibernation=no
-          AllowHybridSleep=no
-          AllowSuspendThenHibernate=no
-        '';
-      })
+      # ({
+      #   systemd.sleep.extraConfig = ''
+      #     AllowSuspend=no
+      #     AllowHibernation=no
+      #     AllowHybridSleep=no
+      #     AllowSuspendThenHibernate=no
+      #   '';
+      # })
 
       (lib.mkIf config.security.polkit.enable {
         # IDE configuration
