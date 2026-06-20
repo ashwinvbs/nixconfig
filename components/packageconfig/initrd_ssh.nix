@@ -7,16 +7,16 @@
 {
   config = lib.mkMerge [
     (lib.mkIf (config.boot.initrd.network.ssh.enable) {
-      boot.initrd.network = {
-        enable = true;
-
-        # Use the following commands to generate the keys. This is mandatory
-        # ssh-keygen -t rsa -N "" -f /etc/nixos/secrets/initrd/ssh_host_rsa_key
-        # ssh-keygen -t ed25519 -N "" -f /etc/nixos/secrets/initrd/ssh_host_ed25519_key
-        ssh.hostKeys = [
+      # This is a hack. When ssh in initrd is enabled, we force disable networkmanager.
+      # This makes wifi configuration hard, but it kinda works because any machine
+      # that is sshable into boot is meant to be wired in.
+      networking.networkmanager.enable = lib.mkForce false;
+      boot.initrd = {
+        network.ssh.hostKeys = [
           "/etc/nixos/secrets/initrd/ssh_host_rsa_key"
           "/etc/nixos/secrets/initrd/ssh_host_ed25519_key"
         ];
+        systemd.network.enable = true;
       };
     })
   ];
