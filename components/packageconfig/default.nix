@@ -25,6 +25,7 @@
     ./firefox.nix
     ./git.nix
     ./gnome.nix
+    ./initrd_ssh.nix
     ./libvirt.nix
     ./misc_impermanence.nix
     ./nix.nix

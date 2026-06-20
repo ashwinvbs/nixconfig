@@ -2,11 +2,19 @@
 # nix-build '<nixpkgs/nixos>' -A vm -I nixpkgs=channel:nixos-26.05 -I nixos-config=./sanity.nix
 # Ref: https://nix.dev/tutorials/nixos/nixos-configuration-on-vm
 
-{ ... }:
+{ lib, ... }:
 
 {
   imports = [ ../default.nix ];
   networking.hostName = "testing";
+
+  boot.initrd = {
+    network.ssh = {
+      enable = true;
+      authorizedKeys = [ "" ];
+    };
+    secrets = lib.mkForce { };
+  };
 
   installconfig = {
     always_on = true;
