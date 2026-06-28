@@ -12,9 +12,6 @@
       # programs.chromium.enable = true only enables policy o.0 :| ???
       google-chrome
     ];
-    nixpkgs.config = lib.mkDefault {
-      allowUnfree = true;
-    };
 
     programs.chromium.extraOpts = {
       # TODO: Default Search Provider
