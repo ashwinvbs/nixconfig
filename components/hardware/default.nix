@@ -9,7 +9,6 @@
     ./eficonfig.nix
     ./intelgpu.nix
     ./print_and_scan.nix
-    ./rpi4.nix
   ];
 
   config = {
