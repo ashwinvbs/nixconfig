@@ -21,6 +21,7 @@
       "ExtensionInstallForcelist" = [
         "nngceckbapebfimnlniiiahkandclblb" # Bitwarden
         "apjcbfpjihpedihablmalmbbhjpklbdf" # AdGuard AdBlocker
+        "ghbmnnjooekpmoecnnnilnnbdlolhkhi" # Google Drive
       ];
 
       # TODO: Generative AI
