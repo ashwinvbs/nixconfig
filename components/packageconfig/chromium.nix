@@ -22,6 +22,7 @@
         "nngceckbapebfimnlniiiahkandclblb" # Bitwarden
         "apjcbfpjihpedihablmalmbbhjpklbdf" # AdGuard AdBlocker
         "ghbmnnjooekpmoecnnnilnnbdlolhkhi" # Google Drive
+        "pbanhockgagggenencehbnadejlgchfc" # Simplify
       ];
 
       # TODO: Generative AI
