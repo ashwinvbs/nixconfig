@@ -24,6 +24,7 @@
       amdgpu = true;
     };
     workstation_components = true;
+    enable_virtual_camera = true;
   };
 
   programs.firefox.enable = true;

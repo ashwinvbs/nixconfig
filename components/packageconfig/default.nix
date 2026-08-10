@@ -35,6 +35,7 @@
     ./tailscale.nix
     ./tmux.nix
     ./tzupdate.nix
+    ./virtual_camera.nix
     ./waydroid.nix
   ];
 }
