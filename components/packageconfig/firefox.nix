@@ -8,7 +8,6 @@
     languagePacks = [ "en-US" ];
     policies = {
       "DisableFirefoxStudies" = true;
-      "DisablePocket" = true;
       "DisableTelemetry" = true;
       "DNSOverHTTPS" = {
         "Enabled" = false;
@@ -34,10 +33,10 @@
       "FirefoxHome" = {
         "Pocket" = false;
         "SponsoredPocket" = false;
+        "SponsoredStories" = false;
         "SponsoredTopSites" = false;
       };
       "FirefoxSuggest" = {
-        "WebSuggestions" = false;
         "SponsoredSuggestions" = false;
         "ImproveSuggest" = false;
       };
