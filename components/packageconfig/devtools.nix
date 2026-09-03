@@ -43,8 +43,11 @@
       };
     })
 
-    (lib.mkIf (config.installconfig.devtools && config.installconfig.workstation_components) {
-      environment.systemPackages = with pkgs; [ zed-editor ];
+    # TODO: Make this configurable
+    (lib.mkIf config.installconfig.workstation_components {
+      # IDE configuration
+      environment.systemPackages = with pkgs; [ vscodium.fhs ];
+      programs.bash.shellAliases.code = "codium";
     })
   ];
 }
