@@ -93,8 +93,16 @@
             libnotify # Required to display flash progress alerts
           ];
 
-          # --- Device rules for camera app ---
-          services.udev.packages = [ pkgs.megapixels ];
+          # --- Hardware Permissions Fix (The NixOS Way) ---
+          services.udev.extraRules = ''
+            # Fix upstream hardcoded FHS paths for the Flash LED
+            ACTION=="add", SUBSYSTEM=="leds", KERNEL=="*flash", RUN+="${pkgs.coreutils}/bin/chgrp video /sys/class/leds/%k/brightness /sys/class/leds/%k/flash_strobe", RUN+="${pkgs.coreutils}/bin/chmod g+w /sys/class/leds/%k/brightness /sys/class/leds/%k/flash_strobe"
+
+            # Ensure direct access to all V4L2 and media subdevices
+            SUBSYSTEM=="v4l-subdev", GROUP="video", MODE="0660"
+            SUBSYSTEM=="media", GROUP="video", MODE="0660"
+            SUBSYSTEM=="video4linux", GROUP="video", MODE="0660"
+          '';
 
           # --- Flasher Sudo Bypass Rule (ashwin) ---
           security.sudo.extraRules = [
@@ -138,44 +146,6 @@
               Type = "oneshot";
               RemainAfterExit = true;
             };
-          };
-
-          # --- Dynamic Application Visibility ---
-          # 1. Watch /image for any filesystem changes
-          systemd.paths.image-watcher = {
-            wantedBy = [ "multi-user.target" ];
-            pathConfig = {
-              PathChanged = "/image";
-              MakeDirectory = true;
-            };
-          };
-
-          # 2. Trigger desktop entry creation or deletion
-          systemd.services.image-watcher = {
-            wantedBy = [ "multi-user.target" ];
-            after = [ "local-fs.target" ];
-            script = ''
-              DESKTOP_DIR="/home/ashwin/.local/share/applications"
-              DESKTOP_FILE="$DESKTOP_DIR/pinephone-flasher.desktop"
-
-              mkdir -p "$DESKTOP_DIR"
-              chown -R ashwin:users "/home/ashwin/.local"
-
-              if ls /image/*.img 1> /dev/null 2>&1; then
-                cat <<EOF > "$DESKTOP_FILE"
-              [Desktop Entry]
-              Name=Flash OS Image
-              Exec=sudo ${flasherScript}
-              Icon=drive-harddisk
-              Type=Application
-              Terminal=false
-              EOF
-                chown ashwin:users "$DESKTOP_FILE"
-              else
-                rm -f "$DESKTOP_FILE"
-              fi
-            '';
-            serviceConfig.Type = "oneshot";
           };
         };
 
