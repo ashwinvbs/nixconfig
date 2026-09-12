@@ -8,6 +8,7 @@
   config = lib.mkMerge [
     ({
       services.ollama = {
+        host = "0.0.0.0";
         user = "ollama";
         group = "ollama";
         models = "/var/lib/ollama-models";
