@@ -60,21 +60,7 @@
 
       # Custom settings are easier to apply if package is enabled systemwide
       tmux.enable = true;
-
-      # Enable gnupg
-      gnupg.agent.enable = true;
-
-      ssh = {
-        startAgent = true;
-        enableAskPassword = true;
-      };
     };
-
-    environment.systemPackages = with pkgs; [
-      # Packages for dotfile management
-      pinentry-all
-      yadm
-    ];
 
     users.mutableUsers = false;
   };

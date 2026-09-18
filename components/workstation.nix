@@ -26,6 +26,12 @@
     # Enable chromium
     programs.chromium.enable = true;
 
+    # Enable ssh agent and askpass
+    programs.ssh = {
+      startAgent = true;
+      enableAskPassword = true;
+    };
+
     #################################################################################################
     # Misc peripheral configuration
     #################################################################################################
