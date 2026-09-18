@@ -17,7 +17,6 @@
   };
 
   installconfig = {
-    always_on = true;
     devtools = true;
     hardware = {
       intelgpu = true;
