@@ -3,7 +3,8 @@
   pkgs,
   ...
 }:
-let# Upgrade scripts
+let
+  # Upgrade scripts
   nixos-update = pkgs.writeShellApplication {
     name = "nixos-update";
     runtimeInputs = [ pkgs.nixos-rebuild ];
