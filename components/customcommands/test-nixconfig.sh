@@ -37,10 +37,46 @@ echo "{ config, lib, pkgs, ... }:
   # Disable background indexing to prevent boot lockups
   services.gnome.localsearch.enable = lib.mkForce false;
 
-  services.xserver = {
+  services = {
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
   };
+
+  # gnome.core-os-services overrides
+  services.gnome.gnome-online-accounts.enable = false;
+  services.gnome.evolution-data-server.enable = lib.mkForce true;
+
+  # gcr-ssh-agent doesnt seem to work with yubikeys :(
+  # and programs.ssh.startAgent conflicts with it.
+  services.gnome.gcr-ssh-agent.enable = lib.mkForce false;
+
+  # Would like to disable but cannot
+  # services.gnome.at-spi2-core.enable = true;
+
+  # gnome.core-shell overrides
+  services.gnome.gnome-initial-setup.enable = false;
+  services.gnome.gnome-remote-desktop.enable = false;
+  services.gnome.gnome-user-share.enable = false;
+  services.gnome.rygel.enable = false;
+  services.system-config-printer.enable = false;
+  services.avahi.enable = false;
+
+  environment.gnome.excludePackages = with pkgs; [
+    gnome-tour
+    gnome-user-docs
+    orca
+  ];
+
+  # disable gnome.core-apps and include minimal replacements
+  services.gnome.core-apps.enable = false;
+  environment.systemPackages = with pkgs; [
+    epiphany
+    gnome-console
+    nautilus
+  ];
+
+  # VTE shell integration for gnome-console
+  programs.bash.vteIntegration = true;
 
   services.displayManager = {
     autoLogin.enable = true;
