@@ -12,6 +12,7 @@
         user = "ollama";
         group = "ollama";
         models = "/var/lib/ollama-models";
+        environmentVariables.OLLAMA_CONTEXT_LENGTH = "32768";
       };
     })
 
