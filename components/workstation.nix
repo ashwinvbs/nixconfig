@@ -40,6 +40,11 @@
       steam-hardware.enable = true;
     };
 
+    hardware.graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+
     # Allow workstations to pass usb devices to virtual machines
     virtualisation.spiceUSBRedirection.enable = true;
   };
