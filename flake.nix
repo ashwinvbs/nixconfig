@@ -38,6 +38,10 @@
       ...
     }:
     let
+      authorizedKeys = [
+        "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIO4lFenwqE4JN51v/7H6wB/QUtiSKbC52rMEjT/zWu5+AAAACHNzaDpja2V5"
+      ];
+
       # -------------------------------------------------------------------
       # Shared Disko Partitioning Scheme matching setupfs.ts
       # -------------------------------------------------------------------
@@ -113,10 +117,13 @@
           };
         };
 
-      # Helper function to construct host outputs cleanly
+      # -------------------------------------------------------------------
+      # Helper Function for Common System Configuration
+      # -------------------------------------------------------------------
       mkHost =
         {
           hostName,
+          extraModules ? [ ],
           system ? "x86_64-linux",
           device ? "/dev/nvme0n1",
           withSwap ? false,
@@ -127,44 +134,139 @@
           modules = [
             disko.nixosModules.disko
             impermanence.nixosModules.impermanence
-            ./default.nix
             (mkDiskoConfig { inherit device withSwap swapSizeG; })
-            {
-              networking.hostName = hostName;
-            }
-          ];
+            (
+              {
+                config,
+                lib,
+                pkgs,
+                ...
+              }:
+              {
+                imports = [
+                  ./components
+                  (import ./utils/adduser.nix {
+                    shortname = "ashwin";
+                    fullname = "Ashwin Balasubramaniyan";
+                    isAdmin = true;
+                  })
+                ];
+
+                networking.hostName = hostName;
+
+                nixpkgs.config = {
+                  allowUnfree = true;
+                  android_sdk.accept_license = true;
+                };
+
+                installconfig.impermanence.enable = true;
+                users.users.ashwin.openssh.authorizedKeys.keys = authorizedKeys;
+                boot.initrd.network.ssh.authorizedKeys = authorizedKeys;
+              }
+            )
+          ]
+          ++ extraModules;
         };
 
-      hosts = [
+      allHosts = [
         "nuc"
         "xps"
         "rig"
+        "fw"
       ];
 
       pkgs = import nixpkgs { system = "x86_64-linux"; };
     in
     {
       formatter.x86_64-linux = pkgs.nixfmt-tree;
-      # 1. Standard NixOS host configurations
+      # -------------------------------------------------------------------
+      # Host Configurations with Inlined Host-Specific Settings
+      # -------------------------------------------------------------------
       nixosConfigurations = {
-        nuc = mkHost { hostName = "nuc"; };
-        xps = mkHost { hostName = "xps"; };
-        rig = mkHost { hostName = "rig"; };
+        nuc = mkHost {
+          hostName = "nuc";
+          extraModules = [
+            {
+              installconfig.hardware.intelgpu = true;
+            }
+          ];
+        };
+
+        xps = mkHost {
+          hostName = "xps";
+          extraModules = [
+            {
+              installconfig = {
+                hardware.intelgpu = true;
+                workstation_components = true;
+              };
+            }
+          ];
+        };
+
+        rig = mkHost {
+          hostName = "rig";
+          extraModules = [
+            {
+              installconfig = {
+                hardware.amdgpu = true;
+                workstation_components = true;
+              };
+            }
+          ];
+        };
+
         fw = mkHost {
           hostName = "fw";
           withSwap = true;
           swapSizeG = 16;
+          extraModules = [
+            {
+              installconfig = {
+                hardware.intelgpu = true;
+                workstation_components = true;
+              };
+
+              boot.kernelParams = [ "nvme.noacpi=1" ];
+              services.udev.extraRules = ''
+                SUBSYSTEM=="pci", ATTR{vendor}=="0x8086", ATTR{device}=="0xa0e0", ATTR{power/control}="on"
+              '';
+              hardware.acpilight.enable = true;
+            }
+          ];
         };
       };
 
-      # 2. Nested Disko Apps mapped per host
-      apps.x86_64-linux = nixpkgs.lib.genAttrs (hosts ++ [ "fw" ]) (hostName: {
-        disko = {
-          type = "app";
-          program = "${
-            disko.lib.makeDiskoScript self.nixosConfigurations.${hostName}.config.disko.devices
-          }/bin/disko";
+      # -------------------------------------------------------------------
+      # Nested Disko App Execution Wrappers (#<host>.disko)
+      # -------------------------------------------------------------------
+      apps.x86_64-linux =
+        (nixpkgs.lib.genAttrs allHosts (hostName: {
+          disko = {
+            type = "app";
+            program = "${
+              disko.lib.makeDiskoScript self.nixosConfigurations.${hostName}.config.disko.devices
+            }/bin/disko";
+          };
+        }))
+        // {
+          default = {
+            type = "app";
+            program = "${nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "install-help" ''
+              echo "========================================================"
+              echo " NixOS Remote Installation Workflow"
+              echo "========================================================"
+              echo ""
+              echo "1. Run Disko partitioning and LUKS setup:"
+              echo "   sudo nix run .#<host>.disko"
+              echo ""
+              echo "2. Install NixOS system:"
+              echo "   sudo nixos-install --flake .#<host>"
+              echo ""
+              echo "Available hosts: ${nixpkgs.lib.concatStringsSep ", " allHosts}"
+              echo "========================================================"
+            ''}/bin/install-help";
+          };
         };
-      });
     };
 }
