@@ -51,14 +51,13 @@
     })
 
     (lib.mkIf isAdmin {
-      users.users."${shortname}".extraGroups =
-        [
-          "dialout"
-          "wheel"
-        ]
-        ++ lib.optional config.hardware.sane.enable "scanner"
-        ++ lib.optional config.services.printing.enable "lp"
-        ++ lib.optional config.virtualisation.libvirtd.enable "libvirtd";
+      users.users."${shortname}".extraGroups = [
+        "dialout"
+        "wheel"
+      ]
+      ++ lib.optional config.hardware.sane.enable "scanner"
+      ++ lib.optional config.services.printing.enable "lp"
+      ++ lib.optional config.virtualisation.libvirtd.enable "libvirtd";
     })
   ];
 }
