@@ -48,8 +48,7 @@
       mkDiskoConfig =
         {
           device ? "/dev/nvme0n1",
-          withSwap ? false,
-          swapSizeG ? 16,
+          swapSizeG ? 0,
         }:
         {
           disko.devices = {
@@ -76,7 +75,7 @@
                     };
 
                     # 2. Optional Swap Partition (8200 -> swap)
-                    swap = nixpkgs.lib.mkIf withSwap {
+                    swap = nixpkgs.lib.mkIf (swapSizeG > 0) {
                       size = "${toString swapSizeG}G";
                       type = "8200";
                       content = {
@@ -123,18 +122,16 @@
       mkHost =
         {
           hostName,
-          extraModules ? [ ],
+          systemModules ? [ ],
           system ? "x86_64-linux",
-          device ? "/dev/nvme0n1",
-          withSwap ? false,
-          swapSizeG ? 16,
+          diskoConfig ? { },
         }:
         nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
             disko.nixosModules.disko
             impermanence.nixosModules.impermanence
-            (mkDiskoConfig { inherit device withSwap swapSizeG; })
+            (mkDiskoConfig diskoConfig)
             (
               {
                 config,
@@ -165,7 +162,7 @@
               }
             )
           ]
-          ++ extraModules;
+          ++ systemModules;
         };
 
       allHosts = [
@@ -185,7 +182,7 @@
       nixosConfigurations = {
         nuc = mkHost {
           hostName = "nuc";
-          extraModules = [
+          systemModules = [
             {
               installconfig.hardware.intelgpu = true;
             }
@@ -194,7 +191,7 @@
 
         xps = mkHost {
           hostName = "xps";
-          extraModules = [
+          systemModules = [
             {
               installconfig = {
                 hardware.intelgpu = true;
@@ -206,7 +203,7 @@
 
         rig = mkHost {
           hostName = "rig";
-          extraModules = [
+          systemModules = [
             {
               installconfig = {
                 hardware.amdgpu = true;
@@ -218,9 +215,10 @@
 
         fw = mkHost {
           hostName = "fw";
-          withSwap = true;
-          swapSizeG = 16;
-          extraModules = [
+          diskoConfig = {
+            swapSizeG = 16;
+          };
+          systemModules = [
             {
               installconfig = {
                 hardware.intelgpu = true;
