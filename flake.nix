@@ -256,8 +256,10 @@
           disko = {
             type = "app";
             program = "${
-              disko.lib.disko {
-                disko = system.config.disko.devices;
+              disko.lib.createDiskoScript {
+                inherit pkgs;
+                lib = nixpkgs.lib;
+                diskoConfig = system.config.disko.devices;
               }
             }/bin/disko";
           };
