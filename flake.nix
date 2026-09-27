@@ -227,6 +227,25 @@
             }
           ];
         };
+
+        virt = mkHost {
+          hostName = "virt";
+          diskoConfig = {
+            swapSizeG = 16;
+          };
+          systemModules = [
+            {
+              boot.initrd.availableKernelModules = [
+                "virtio_pci"
+                "virtio_blk"
+                "virtio_scsi"
+              ];
+              installconfig = {
+                workstation_components = true;
+              };
+            }
+          ];
+        };
       };
 
       # -------------------------------------------------------------------
