@@ -252,22 +252,20 @@
       # Nested Disko App Execution Wrappers (#<host>.disko)
       # -------------------------------------------------------------------
       apps.x86_64-linux =
-        (nixpkgs.lib.mapAttrs (hostName: system: {
+        (nixpkgs.lib.mapAttrs (hostName: _system: {
           disko = {
             type = "app";
-            program = "${
-              disko.lib.createDiskoScript {
-                inherit pkgs;
-                lib = nixpkgs.lib;
-                diskoConfig = system.config.disko.devices;
-              }
-            }/bin/disko";
+            program = "${pkgs.writeShellScript "disko-${hostName}" ''
+              ${disko.packages.x86_64-linux.disko}/bin/disko \
+                --mode disko \
+                --flake ".#${hostName}"
+            ''}";
           };
         }) self.nixosConfigurations)
         // {
           default = {
             type = "app";
-            program = "${nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "install-help" ''
+            program = "${pkgs.writeShellScriptBin "install-help" ''
               echo "========================================================"
               echo " NixOS Remote Installation Workflow"
               echo "========================================================"
