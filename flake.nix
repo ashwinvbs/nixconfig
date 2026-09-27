@@ -255,7 +255,11 @@
         (nixpkgs.lib.mapAttrs (hostName: system: {
           disko = {
             type = "app";
-            program = "${disko.lib.makeDiskoScript system.config.disko.devices}/bin/disko";
+            program = "${
+              disko.lib.disko {
+                disko = system.config.disko.devices;
+              }
+            }/bin/disko";
           };
         }) self.nixosConfigurations)
         // {
