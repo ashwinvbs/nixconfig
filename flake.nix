@@ -165,17 +165,11 @@
           ++ systemModules;
         };
 
-      allHosts = [
-        "nuc"
-        "xps"
-        "rig"
-        "fw"
-      ];
-
       pkgs = import nixpkgs { system = "x86_64-linux"; };
     in
     {
       formatter.x86_64-linux = pkgs.nixfmt-tree;
+
       # -------------------------------------------------------------------
       # Host Configurations with Inlined Host-Specific Settings
       # -------------------------------------------------------------------
@@ -239,14 +233,12 @@
       # Nested Disko App Execution Wrappers (#<host>.disko)
       # -------------------------------------------------------------------
       apps.x86_64-linux =
-        (nixpkgs.lib.genAttrs allHosts (hostName: {
+        (nixpkgs.lib.mapAttrs (hostName: system: {
           disko = {
             type = "app";
-            program = "${
-              disko.lib.makeDiskoScript self.nixosConfigurations.${hostName}.config.disko.devices
-            }/bin/disko";
+            program = "${disko.lib.makeDiskoScript system.config.disko.devices}/bin/disko";
           };
-        }))
+        }) self.nixosConfigurations)
         // {
           default = {
             type = "app";
@@ -261,7 +253,7 @@
               echo "2. Install NixOS system:"
               echo "   sudo nixos-install --flake .#<host>"
               echo ""
-              echo "Available hosts: ${nixpkgs.lib.concatStringsSep ", " allHosts}"
+              echo "Available hosts: ${nixpkgs.lib.concatStringsSep ", " (nixpkgs.lib.attrNames self.nixosConfigurations)}"
               echo "========================================================"
             ''}/bin/install-help";
           };
