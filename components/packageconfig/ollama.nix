@@ -40,14 +40,23 @@ let
     fi
 
     if [ "$RENEW" -eq 1 ]; then
-      echo "Requesting certificate from Tailscale..."
+      echo "Resolving local Tailscale FQDN..."
+      
+      # Extract FQDN (e.g., "rig.taileb722.ts.net.") and strip the trailing dot
+      TS_BIN="${config.services.tailscale.package}/bin/tailscale"
+      FQDN=$($TS_BIN status --json | ${pkgs.jq}/bin/jq -r '.Self.DNSName | sed "s/\.$//"')
 
-      # Determine local tailnet FQDN dynamically or run 'tailscale cert'
-      # tailscale cert writes to the specified --cert-file and --key-file targets
-      if ${config.services.tailscale.package}/bin/tailscale cert \
+      if [ -z "$FQDN" ] || [ "$FQDN" = "null" ]; then
+        echo "ERROR: Could not resolve Tailscale FQDN. Is tailscaled running and authenticated?" >&2
+        exit 1
+      fi
+
+      echo "Requesting certificate for $FQDN..."
+      if $TS_BIN cert \
         --cert-file "$CERT" \
-        --key-file "$KEY"; then
-
+        --key-file "$KEY" \
+        "$FQDN"; then
+        
         echo "Successfully updated certificates."
 
         # Set permissions so nginx group can read the private key
@@ -55,7 +64,7 @@ let
         ${pkgs.coreutils}/bin/chmod 0640 "$KEY"
         ${pkgs.coreutils}/bin/chown root:nginx "$KEY"
       else
-        echo "ERROR: 'tailscale cert' failed (Tailscale may not be authenticated or online)." >&2
+        echo "ERROR: 'tailscale cert' failed." >&2
         exit 1
       fi
     else
