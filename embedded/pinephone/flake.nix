@@ -134,10 +134,10 @@
               if [[ $ROOT_DEV =~ ^(/dev/mmcblk[0-9]+)p([0-9]+)$ ]]; then
                 DISK="''${BASH_REMATCH[1]}"
                 PART="''${BASH_REMATCH[2]}"
-                
+
                 # Attempt to grow the partition table (returns 1 if already max size, ignored by || true)
                 growpart "$DISK" "$PART" || true
-                
+
                 # Resize the ext4 filesystem to match the new partition bounds
                 resize2fs "$ROOT_DEV" || true
               fi
