@@ -27,6 +27,7 @@
     ./initrd_ssh.nix
     ./libvirt.nix
     ./misc_impermanence.nix
+    ./nginx.nix
     ./nix.nix
     ./ollama.nix
     ./openssh.nix

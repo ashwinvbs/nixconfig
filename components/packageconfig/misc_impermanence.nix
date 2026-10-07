@@ -18,6 +18,7 @@
         hideMounts = true;
         directories = [
           "/etc/nixos"
+          "/etc/ssl"
           "/var/lib/nixos"
         ];
         files = [ "/etc/machine-id" ];
