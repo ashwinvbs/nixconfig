@@ -32,13 +32,6 @@ in
       installconfig.hardware.intelgpu = true;
     })
 
-    (lib.mkIf (config.networking.hostName == "xps") {
-      installconfig = {
-        hardware.intelgpu = true;
-        workstation_components = true;
-      };
-    })
-
     (lib.mkIf (config.networking.hostName == "rig") {
       installconfig = {
         hardware.amdgpu = true;
