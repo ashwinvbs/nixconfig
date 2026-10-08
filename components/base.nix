@@ -24,10 +24,10 @@
       settings.Resolve = {
         Domains = [ "~." ];
         FallbackDNS = [
-          "[IP_ADDRESS]#one.one.one.one"
-          "[IP_ADDRESS]#one.one.one.one"
+          "1.1.1.1#one.one.one.one"
+          "1.0.0.1#one.one.one.one"
         ];
-        DNSOverTLS = "true";
+        DNSOverTLS = true;
       };
     };
 
