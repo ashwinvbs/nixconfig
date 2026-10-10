@@ -27,7 +27,14 @@
   };
 
   programs.firefox.enable = true;
-  services.fprintd.enable = true;
+
+  services = {
+    fprintd.enable = true;
+    ollama.enable = true;
+    tailscale.enable = true;
+    nginx.enable = true;
+  };
+
   virtualisation = {
     docker.enable = true;
     libvirtd.enable = true;
