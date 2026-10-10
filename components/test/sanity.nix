@@ -32,6 +32,7 @@
     fprintd.enable = true;
     ollama.enable = true;
     tailscale.enable = true;
+    tailscale.provisionCert.enable = true;
     nginx.enable = true;
   };
 
