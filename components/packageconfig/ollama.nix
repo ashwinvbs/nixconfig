@@ -43,7 +43,7 @@ let
       
       # Extract FQDN (e.g., "rig.taileb722.ts.net.") and strip the trailing dot
       TS_BIN="${config.services.tailscale.package}/bin/tailscale"
-      FQDN=$($TS_BIN status --json | ${pkgs.jq}/bin/jq -r '.Self.DNSName | sed "s/\.$//"')
+      FQDN=$($TS_BIN status --json | ${pkgs.jq}/bin/jq -r '.Self.DNSName' | sed "s/\.$//")
 
       if [ -z "$FQDN" ] || [ "$FQDN" = "null" ]; then
         echo "ERROR: Could not resolve Tailscale FQDN. Is tailscaled running and authenticated?" >&2
