@@ -53,6 +53,7 @@ in
               }
             ];
 
+            onlySSL = true;
             sslCertificate = certPath;
             sslCertificateKey = keyPath;
 
