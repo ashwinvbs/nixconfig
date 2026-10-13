@@ -5,9 +5,9 @@
   ...
 }:
 {
-  options.installconfig.enable_audio_sink = lib.mkEnableOption "Listen on network for roc audio streams";
+  options.installconfig.enableAudioSink = lib.mkEnableOption "Listen on network for roc audio streams";
 
-  config = lib.mkIf config.installconfig.enable_audio_sink {
+  config = lib.mkIf config.installconfig.enableAudioSink {
     services.pipewire = {
       enable = true;
       systemWide = true; # Handles the service user and systemd units for you

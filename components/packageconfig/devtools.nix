@@ -44,14 +44,14 @@
     })
 
     # TODO: Make this configurable
-    (lib.mkIf config.installconfig.workstation_components {
+    (lib.mkIf config.installconfig.workstationComponents {
       # IDE configuration
       environment.systemPackages = with pkgs; [ vscodium.fhs ];
       programs.bash.shellAliases.code = "codium";
     })
 
     # TODO: make this user independent.
-    (lib.mkIf (!config.installconfig.workstation_components) {
+    (lib.mkIf (!config.installconfig.workstationComponents) {
       services.code-server = {
         enable = true;
         user = "ashwin";

@@ -5,9 +5,9 @@
   ...
 }:
 {
-  options.installconfig.enable_virtual_camera = lib.mkEnableOption "Enable v4l2loopback virtual camera";
+  options.installconfig.enableVirtualCamera = lib.mkEnableOption "Enable v4l2loopback virtual camera";
 
-  config = lib.mkIf config.installconfig.enable_virtual_camera {
+  config = lib.mkIf config.installconfig.enableVirtualCamera {
     # Kernel module setup
     boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
     boot.kernelModules = [ "v4l2loopback" ];

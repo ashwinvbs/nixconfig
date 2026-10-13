@@ -21,7 +21,7 @@ Read [`README.md`](./README.md) for the user-facing install/maintenance instruct
 | `default.nix` | Root module. Imports `./components` + `utils/adduser.nix`; applies host-specific overrides keyed on `networking.hostName`. |
 | `components/default.nix` | Aggregates `base.nix`, `workstation.nix`, `customcommands/`, `hardware/`, `packageconfig/`. **Register new component dirs here.** |
 | `components/base.nix` | Baseline system: boot, `resolved` DNS, timezone, `autoUpgrade`, openssh, tailscale, git, tmux, `mutableUsers = false`. |
-| `components/workstation.nix` | Desktop extras behind `installconfig.workstation_components` (GNOME, flatpak, chromium, graphics, qmk, steam-hw, spice). |
+| `components/workstation.nix` | Desktop extras behind `installconfig.workstationComponents` (GNOME, flatpak, chromium, graphics, qmk, steam-hw, spice). |
 | `components/hardware/` | GPU drivers, `fwupd`, `fstrim`, swap, EFI config, printing/scanning. Registered in `components/hardware/default.nix`. |
 | `components/packageconfig/` | One module per service/tool area (git, nix, gnome, firefox, chromium, tailscale, ollama, libvirt, waydroid, nginx, sudo, ...). Registered in `components/packageconfig/default.nix`. |
 | `components/customcommands/` | Defines custom CLI commands (`nixos-update`, `nixos-upgrade-branch`, `ssh-forward`, `ssh-keepalive`, `reboot-to-firmware`, `debug-kernel-interrupts`, `test-nixconfig`). |
@@ -46,8 +46,8 @@ Known hostnames used in `default.nix`:
 | `networking.hostName` | Applied config |
 | --- | --- |
 | `nuc` | `installconfig.hardware.intelgpu` |
-| `rig` | `installconfig.hardware.amdgpu` + `installconfig.workstation_components` |
-| `fw` | `installconfig.hardware.intelgpu` + `installconfig.workstation_components` (Framework kernel params, `acpilight`) |
+| `rig` | `installconfig.hardware.amdgpu` + `installconfig.workstationComponents` |
+| `fw` | `installconfig.hardware.intelgpu` + `installconfig.workstationComponents` (Framework kernel params, `acpilight`) |
 | `testing` | Test host, defined in `components/test/sanity.nix` |
 
 ## The component convention (important)
@@ -81,19 +81,22 @@ Rules and conventions:
 
 | Option | Module |
 | --- | --- |
-| `installconfig.workstation_components` | `components/workstation.nix` |
+| `installconfig.workstationComponents` | `components/workstation.nix` |
 | `installconfig.impermanence.enable` | `components/packageconfig/default.nix` |
 | `installconfig.impermanence.retainLogs` | `components/packageconfig/default.nix` |
 | `installconfig.hardware.intelgpu` | `components/hardware/intelgpu.nix` |
 | `installconfig.hardware.amdgpu` | `components/hardware/amdgpu.nix` |
 | `installconfig.devtools` | `components/packageconfig/devtools.nix` |
 | `installconfig.godotdev` | `components/packageconfig/devtools.nix` |
-| `installconfig.enable_audio_sink` | `components/packageconfig/audio_sink.nix` |
-| `installconfig.enable_virtual_camera` | `components/packageconfig/virtual_camera.nix` |
+| `installconfig.enableAudioSink` | `components/packageconfig/audio_sink.nix` |
+| `installconfig.enableVirtualCamera` | `components/packageconfig/virtual_camera.nix` |
 
-Note: naming is inconsistent — some options are grouped under `hardware.`, others are
-flat and snake_cased. Match the surrounding file's style; don't rename existing options
-without updating `default.nix`, `sanity.nix`, and the embedded flakes that reference them.
+Style: option names are **camelCase** (no underscores), matching upstream NixOS
+conventions; brand/acronym tokens stay lowercase and unsplit (`devtools`, `godotdev`,
+`intelgpu`, `amdgpu`, mirroring upstream `hardware.amdgpu`). Grouping is still split:
+GPU options live under `installconfig.hardware.*`, everything else is flat. Don't rename
+options without updating every call site — `default.nix`, `components/test/sanity.nix`,
+and the embedded flakes (`embedded/raspi4/flake.nix` uses `enableAudioSink`).
 
 ## Common tasks
 

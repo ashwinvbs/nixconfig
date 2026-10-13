@@ -16,11 +16,11 @@
       dates = "daily";
     })
 
-    (lib.mkIf config.installconfig.workstation_components {
+    (lib.mkIf config.installconfig.workstationComponents {
       operation = "boot";
     })
 
-    (lib.mkIf (!config.installconfig.workstation_components) {
+    (lib.mkIf (!config.installconfig.workstationComponents) {
       allowReboot = true;
       rebootWindow = {
         lower = "01:00";

@@ -210,7 +210,7 @@
               imports = [
                 ../../components/packageconfig/audio_sink.nix
               ];
-              installconfig.enable_audio_sink = true;
+              installconfig.enableAudioSink = true;
 
               networking.hostName = "raspi";
 

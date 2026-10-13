@@ -35,14 +35,14 @@ in
     (lib.mkIf (config.networking.hostName == "rig") {
       installconfig = {
         hardware.amdgpu = true;
-        workstation_components = true;
+        workstationComponents = true;
       };
     })
 
     (lib.mkIf (config.networking.hostName == "fw") {
       installconfig = {
         hardware.intelgpu = true;
-        workstation_components = true;
+        workstationComponents = true;
       };
 
       # From https://github.com/NixOS/nixos-hardware/blob/master/framework/12th-gen-intel/default.nix

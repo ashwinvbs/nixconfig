@@ -5,9 +5,9 @@
 }:
 
 {
-  options.installconfig.workstation_components = lib.mkEnableOption "Configure the machine to be a workstation";
+  options.installconfig.workstationComponents = lib.mkEnableOption "Configure the machine to be a workstation";
 
-  config = lib.mkIf config.installconfig.workstation_components {
+  config = lib.mkIf config.installconfig.workstationComponents {
     # Disable speech services. Include this config here as its installed for all graphics-desktops.
     services.speechd.enable = false;
 
