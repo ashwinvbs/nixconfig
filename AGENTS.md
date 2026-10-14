@@ -117,9 +117,31 @@ and the embedded flakes (`embedded/raspi4/flake.nix` uses `enableAudioSink`).
 | Format | `nix fmt` | `nixfmt-tree` from `flake.nix`. |
 | Quick VM | `test-nixconfig [path]` | Builds and runs a throwaway VM from a config file or a dir containing `default.nix` (defaults to `.`). |
 | Integration test | `nix-build ./components/test/test.nix` | `runNixOSTest`; expects `google-chrome-stable`. Pins nixpkgs `nixos-26.05`. |
-| Sanity VM | `nix-build '<nixpkgs/nixos>' -A vm -I nixpkgs=channel:nixos-26.05 -I nixos-config=./components/test/sanity.nix` | Boots the full config with most `installconfig.*` toggles on. |
+| Sanity VM | `nix-build '<nixpkgs/nixos>' -A vm -I nixpkgs=channel:nixos-26.05 -I nixos-config=./components/test/sanity.nix` | Boots the full config with all `installconfig.*` toggles on (see the coverage contract below). |
 | Installer ISO | `nix-build '<nixpkgs/nixos>' -A config.system.build.isoImage -I nixos-config=installer/installer-image.nix` | Produces the install medium. |
 | Embedded images | `nix build ./embedded/raspi4` (and `./embedded/pinephone`) | Independent flakes; `pinephone` also exposes a `nix run ./embedded/pinephone#vm` app. |
+
+### `components/test/sanity.nix` — coverage contract
+
+`sanity.nix` exists to give **full code coverage of everything under `./components`**:
+it must enable *every* `installconfig.*` option and turn on every upstream option that
+gates component config (e.g. `services.printing`, `hardware.sane`,
+`virtualisation.waydroid`, `networking.networkmanager`), so that each module's
+`lib.mkIf` branch is actually evaluated. **When you add a component, option, or
+`lib.mkIf` gate, add the matching toggle to `sanity.nix` in the same change** — an
+un-toggled branch is untested config.
+
+Deliberately untested (documented exceptions):
+
+- **ssh-in-initrd is not tested** — `boot.initrd.network.ssh.enable` is *not* set, because
+  enabling it forces `networking.networkmanager.enable = lib.mkForce false`
+  (see `components/packageconfig/initrd_ssh.nix`). **NetworkManager coverage is
+  prioritized over ssh-in-initrd.** Thus `initrd_ssh.nix` is only exercised by a host
+  that actually enables initrd SSH (no current machine does).
+- **`!installconfig.workstationComponents` branches** (`autoupgrade.nix`, and the
+  `code-server` arm of `devtools.nix`) and the `networking.hostName`-specific blocks in
+  `default.nix` (`nuc`/`rig`/`fw`) cannot both be covered by a single test host, since
+  `sanity.nix` pins `workstationComponents = true` and `hostName = "testing"`.
 
 Maintenance commands available on configured hosts: `nixos-update`,
 `nixos-upgrade-branch <version>`, `reboot-to-firmware`, `ssh-forward`, `ssh-keepalive`,
