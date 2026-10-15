@@ -25,7 +25,7 @@ Read [`README.md`](./README.md) for the user-facing install/maintenance instruct
 | `components/hardware/` | GPU drivers, `fwupd`, `fstrim`, swap, EFI config, printing/scanning. Registered in `components/hardware/default.nix`. |
 | `components/packageconfig/` | One module per service/tool area (git, nix, gnome, firefox, chromium, tailscale, ollama, libvirt, waydroid, nginx, sudo, ...). Registered in `components/packageconfig/default.nix`. |
 | `components/customcommands/` | Defines custom CLI commands (`nixos-update`, `nixos-upgrade-branch`, `ssh-forward`, `ssh-keepalive`, `reboot-to-firmware`, `debug-kernel-interrupts`, `test-nixconfig`). |
-| `components/test/` | VM-based tests: `test.nix` (integration test) and `sanity.nix` (a full test host config). |
+| `components/test/` | VM-based tests: `test_*.nix` (tests), `testvm.nix` (a full test host config) and related scripts. |
 | `utils/adduser.nix` | Declares a user + impermanence persistence + admin groups. Import it with an attrset, e.g. `(import ./utils/adduser.nix { shortname = "ashwin"; isAdmin = true; })`. |
 | `utils/addmicrovm.nix` | Declares a `microvm.nix` host-scoped guest; import with `{ vmname, ncpu, memsize, ... }`. |
 | `installer/` | `installer-image.nix` builds the install ISO; `setupfs.sh` (bash) and `setupfs.ts` (Deno) are the filesystem setup scripts. |
@@ -48,7 +48,7 @@ Known hostnames used in `default.nix`:
 | `nuc` | `installconfig.hardware.intelgpu` |
 | `rig` | `installconfig.hardware.amdgpu` + `installconfig.workstationComponents` |
 | `fw` | `installconfig.hardware.intelgpu` + `installconfig.workstationComponents` (Framework kernel params, `acpilight`) |
-| `testing` | Test host, defined in `components/test/sanity.nix` |
+| `testing` | Test host, defined in `components/test/testvm.nix` |
 
 ## The component convention (important)
 
@@ -95,7 +95,7 @@ Style: option names are **camelCase** (no underscores), matching upstream NixOS
 conventions; brand/acronym tokens stay lowercase and unsplit (`devtools`, `godotdev`,
 `intelgpu`, `amdgpu`, mirroring upstream `hardware.amdgpu`). Grouping is still split:
 GPU options live under `installconfig.hardware.*`, everything else is flat. Don't rename
-options without updating every call site — `default.nix`, `components/test/sanity.nix`,
+options without updating every call site — `default.nix`, `components/test/testvm.nix`,
 and the embedded flakes (`embedded/raspi4/flake.nix` uses `enableAudioSink`).
 
 ## Common tasks
@@ -116,19 +116,19 @@ and the embedded flakes (`embedded/raspi4/flake.nix` uses `enableAudioSink`).
 | --- | --- | --- |
 | Format | `nix fmt` | `nixfmt-tree` from `flake.nix`. |
 | Quick VM | `test-nixconfig [path]` | Builds and runs a throwaway VM from a config file or a dir containing `default.nix` (defaults to `.`). |
-| Integration test | `nix-build ./components/test/test.nix` | `runNixOSTest`; expects `google-chrome-stable`. Pins nixpkgs `nixos-26.05`. |
-| Sanity VM | `nix-build '<nixpkgs/nixos>' -A vm -I nixpkgs=channel:nixos-26.05 -I nixos-config=./components/test/sanity.nix` | Boots the full config with all `installconfig.*` toggles on (see the coverage contract below). |
+| Sanity Test | `nix-build ./components/test/test_sanity.nix` | `runNixOSTest`; expects `google-chrome-stable`. Pins nixpkgs `nixos-26.05`. |
+| Base VM for test | `nix-build '<nixpkgs/nixos>' -A vm -I nixpkgs=channel:nixos-26.05 -I nixos-config=./components/test/testvm.nix` | Boots the full config with all `installconfig.*` toggles on (see the coverage contract below). |
 | Installer ISO | `nix-build '<nixpkgs/nixos>' -A config.system.build.isoImage -I nixos-config=installer/installer-image.nix` | Produces the install medium. |
 | Embedded images | `nix build ./embedded/raspi4` (and `./embedded/pinephone`) | Independent flakes; `pinephone` also exposes a `nix run ./embedded/pinephone#vm` app. |
 
-### `components/test/sanity.nix` — coverage contract
+### `components/test/testvm.nix` — coverage contract
 
-`sanity.nix` exists to give **full code coverage of everything under `./components`**:
+`testvm.nix` exists to give **full code coverage of everything under `./components`**:
 it must enable *every* `installconfig.*` option and turn on every upstream option that
 gates component config (e.g. `services.printing`, `hardware.sane`,
 `virtualisation.waydroid`, `networking.networkmanager`), so that each module's
 `lib.mkIf` branch is actually evaluated. **When you add a component, option, or
-`lib.mkIf` gate, add the matching toggle to `sanity.nix` in the same change** — an
+`lib.mkIf` gate, add the matching toggle to `testvm.nix` in the same change** — an
 un-toggled branch is untested config.
 
 Deliberately untested (documented exceptions):
@@ -141,7 +141,7 @@ Deliberately untested (documented exceptions):
 - **`!installconfig.workstationComponents` branches** (`autoupgrade.nix`, and the
   `code-server` arm of `devtools.nix`) and the `networking.hostName`-specific blocks in
   `default.nix` (`nuc`/`rig`/`fw`) cannot both be covered by a single test host, since
-  `sanity.nix` pins `workstationComponents = true` and `hostName = "testing"`.
+  `testvm.nix` pins `workstationComponents = true` and `hostName = "testing"`.
 
 Maintenance commands available on configured hosts: `nixos-update`,
 `nixos-upgrade-branch <version>`, `reboot-to-firmware`, `ssh-forward`, `ssh-keepalive`,

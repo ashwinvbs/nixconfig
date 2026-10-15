@@ -1,4 +1,4 @@
-# To execute test, use the following command: nix-build ./test.nix
+# To execute test, use the following command: nix-build ./test_sanity.nix
 # Ref: https://nix.dev/tutorials/nixos/integration-testing-using-virtual-machines.html
 
 let
@@ -9,8 +9,8 @@ let
   };
 in
 pkgs.testers.runNixOSTest {
-  name = "Integration Test";
-  nodes.machine = import ./sanity.nix;
+  name = "Sanity Test";
+  nodes.machine = import ./testvm.nix;
   testScript =
     { nodes, ... }:
     ''
