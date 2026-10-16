@@ -13,6 +13,13 @@
       "mode=755"
     ];
 
+    # Fix the file mode for /etc/machine-id.
+    # Without this, impermanence sets the mode as 0644
+    systemd.tmpfiles.rules = [
+      # Type, Path, Mode, User, Group, Age, Argument
+      "z /etc/machine-id 0444 root root -"
+    ];
+
     environment.persistence."/nix/state" = lib.mkMerge [
       ({
         hideMounts = true;
@@ -28,7 +35,12 @@
       })
 
       (lib.mkIf config.services.fprintd.enable {
-        directories = [ "/var/lib/fprint" ];
+        directories = [
+          {
+            directory = "/var/lib/fprint";
+            mode = "0700";
+          }
+        ];
       })
 
       (lib.mkIf config.services.flatpak.enable {
@@ -40,7 +52,12 @@
       })
 
       (lib.mkIf config.hardware.bluetooth.enable {
-        directories = [ "/var/lib/bluetooth" ];
+        directories = [
+          {
+            directory = "/var/lib/bluetooth";
+            mode = "0700";
+          }
+        ];
       })
 
       (lib.mkIf config.networking.networkmanager.enable {

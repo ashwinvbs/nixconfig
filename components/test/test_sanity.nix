@@ -11,11 +11,9 @@ in
 pkgs.testers.runNixOSTest {
   name = "Sanity Test";
   nodes.machine = import ./testvm.nix;
-  testScript =
-    { nodes, ... }:
-    ''
-      machine.wait_for_unit("default.target")
-      machine.succeed("su -- testuser -c 'which google-chrome-stable'")
-      machine.succeed("findmnt --noheadings --output FSTYPE --target / | grep -qx tmpfs")
-    '';
+  testScript = ''
+    machine.wait_for_unit("default.target")
+    machine.succeed("su -- testuser -c 'which google-chrome-stable'")
+    machine.succeed("findmnt --noheadings --output FSTYPE --target / | grep -qx tmpfs")
+  '';
 }

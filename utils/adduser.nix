@@ -5,8 +5,6 @@
   isAdmin ? false,
   persist ? {
     directories = [
-      ".android"
-      ".config"
       ".local"
       ".rustup"
       ".var/app"
@@ -15,6 +13,14 @@
       "Downloads"
       "Music"
       "Projects"
+      {
+        directory = ".android";
+        mode = "0750";
+      }
+      {
+        directory = ".config";
+        mode = "0700";
+      }
       {
         directory = ".ssh";
         mode = "0700";
@@ -44,7 +50,9 @@
           else
             null;
       };
+    })
 
+    (lib.mkIf config.installconfig.impermanence.enable {
       environment.persistence."/nix/state" = {
         users."${shortname}" = persist;
       };

@@ -14,7 +14,6 @@ in
       services.ollama = {
         user = "ollama";
         group = "ollama";
-        models = "/var/lib/ollama-models";
         environmentVariables = {
           OLLAMA_CONTEXT_LENGTH = "32768";
           OLLAMA_FLASH_ATTENTION = "1";
@@ -29,6 +28,7 @@ in
           directory = config.services.ollama.models;
           user = config.services.ollama.user;
           group = config.services.ollama.group;
+          mode = "0700";
         }
       ];
     })

@@ -25,7 +25,7 @@ Read [`README.md`](./README.md) for the user-facing install/maintenance instruct
 | `components/hardware/` | GPU drivers, `fwupd`, `fstrim`, swap, EFI config, printing/scanning. Registered in `components/hardware/default.nix`. |
 | `components/packageconfig/` | One module per service/tool area (git, nix, gnome, firefox, chromium, tailscale, ollama, libvirt, waydroid, nginx, sudo, ...). Registered in `components/packageconfig/default.nix`. |
 | `components/customcommands/` | Defines custom CLI commands (`nixos-update`, `nixos-upgrade-branch`, `ssh-forward`, `ssh-keepalive`, `reboot-to-firmware`, `debug-kernel-interrupts`, `test-nixconfig`). |
-| `components/test/` | VM-based tests: `test_*.nix` (tests), `testvm.nix` (a full test host config) and related scripts. |
+| `components/test/` | VM-based tests: `test_sanity.nix`, `test_impermanence.nix`, `testvm.nix` (a full test host config). |
 | `utils/adduser.nix` | Declares a user + impermanence persistence + admin groups. Import it with an attrset, e.g. `(import ./utils/adduser.nix { shortname = "ashwin"; isAdmin = true; })`. |
 | `utils/addmicrovm.nix` | Declares a `microvm.nix` host-scoped guest; import with `{ vmname, ncpu, memsize, ... }`. |
 | `installer/` | `installer-image.nix` builds the install ISO; `setupfs.sh` (bash) and `setupfs.ts` (Deno) are the filesystem setup scripts. |
@@ -101,6 +101,9 @@ and the embedded flakes (`embedded/raspi4/flake.nix` uses `enableAudioSink`).
 ## Common tasks
 
 - **Format (do this before committing):** `nix fmt` (uses `nixfmt-tree`).
+- **Validate (mandatory for agents):** any diff implemented by an agent has to be
+  validated by running the tests (`nix-build ./components/test/test_*.nix`) — see
+  Build / test harnesses below.
 - **Add a service/tool:** create `components/packageconfig/<name>.nix` in the module
   shape above and add it to `components/packageconfig/default.nix`.
 - **Add hardware support:** create `components/hardware/<name>.nix` and add it to
@@ -112,11 +115,17 @@ and the embedded flakes (`embedded/raspi4/flake.nix` uses `enableAudioSink`).
 
 ## Build / test harnesses
 
+**Any diff implemented by an agent must be validated by running the tests.** Do not
+stop at `nix-instantiate --parse` or an eval check — run the relevant harness(es)
+below (typically `test_sanity.nix` and `test_impermanence.nix`) and confirm they pass
+before the change is considered complete.
+
 | Harness | Command | Notes |
 | --- | --- | --- |
 | Format | `nix fmt` | `nixfmt-tree` from `flake.nix`. |
 | Quick VM | `test-nixconfig [path]` | Builds and runs a throwaway VM from a config file or a dir containing `default.nix` (defaults to `.`). |
 | Sanity Test | `nix-build ./components/test/test_sanity.nix` | `runNixOSTest`; expects `google-chrome-stable`. Pins nixpkgs `nixos-26.05`. |
+| Impermanence Test | `nix-build ./components/test/test_impermanence.nix` | `runNixOSTest`; two nodes (impermanence on vs off); asserts owner/group/mode of every persisted directory match. On the reference node each directory must be created by its owning service/client app (`mkdir` forbidden). Pins nixpkgs `nixos-26.05`. |
 | Base VM for test | `nix-build '<nixpkgs/nixos>' -A vm -I nixpkgs=channel:nixos-26.05 -I nixos-config=./components/test/testvm.nix` | Boots the full config with all `installconfig.*` toggles on (see the coverage contract below). |
 | Installer ISO | `nix-build '<nixpkgs/nixos>' -A config.system.build.isoImage -I nixos-config=installer/installer-image.nix` | Produces the install medium. |
 | Embedded images | `nix build ./embedded/raspi4` (and `./embedded/pinephone`) | Independent flakes; `pinephone` also exposes a `nix run ./embedded/pinephone#vm` app. |

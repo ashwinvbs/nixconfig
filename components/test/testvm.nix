@@ -1,11 +1,26 @@
 # If building in isolation, build with the following command
-# nix-build '<nixpkgs/nixos>' -A vm -I nixpkgs=channel:nixos-26.05 -I nixos-config=./testvm.nix
+# NIXPKGS_ALLOW_UNFREE=1 nix-build '<nixpkgs/nixos>' -A vm -I nixpkgs=channel:nixos-26.05 -I nixos-config=./testvm.nix
 # Ref: https://nix.dev/tutorials/nixos/nixos-configuration-on-vm
 
-{ ... }:
+{ lib, ... }:
 
 {
-  imports = [ ../default.nix ];
+  imports = [
+    ../default.nix
+
+    (import ../../utils/adduser.nix {
+      shortname = "testuser";
+      fullname = "Test User";
+      isAdmin = true;
+      passprefix = "../../blarg";
+    })
+  ];
+
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "testuser";
+  };
+
   networking.hostName = "testing";
 
   installconfig = {
@@ -49,11 +64,5 @@
     docker.enable = true;
     libvirtd.enable = true;
     waydroid.enable = true;
-  };
-
-  users.users.testuser = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
-    password = "testpass";
   };
 }
