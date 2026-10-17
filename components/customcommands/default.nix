@@ -69,6 +69,24 @@ let
       exec ssh -t "$1" "systemd-inhibit --why='Remote SSH session' --what='sleep:idle' bash"
     '';
   };
+
+  fw-setchargelimit = pkgs.writeShellApplication {
+    name = "fw-setchargelimit";
+    runtimeInputs = [ pkgs.fw-ectool ];
+    text = ''
+      LIMIT="''${1:-100}"
+
+      # Validate that the argument is an integer between 40 and 100
+      if ! [[ "$LIMIT" =~ ^[0-9]+$ ]] || [ "$LIMIT" -lt 40 ] || [ "$LIMIT" -gt 100 ]; then
+        echo "Error: Charge limit must be an integer between 40 and 100." >&2
+        exit 1
+      fi
+
+      echo "Setting battery charge limit to ''${LIMIT}%..."
+      sudo ectool fwchargelimit "$LIMIT"
+    '';
+  };
+
   # Script to spin up a quick vm based on config passed in args
   test-nixconfig = pkgs.writeShellApplication {
     name = "test-nixconfig";
@@ -81,6 +99,7 @@ in
     nixos-update
     nixos-upgrade-branch
     debug-kernel-interrupts
+    fw-setchargelimit
     reboot-to-firmware
     ssh-forward
     ssh-keepalive

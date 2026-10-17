@@ -24,7 +24,7 @@ Read [`README.md`](./README.md) for the user-facing install/maintenance instruct
 | `components/workstation.nix` | Desktop extras behind `installconfig.workstationComponents` (GNOME, flatpak, chromium, graphics, qmk, steam-hw, spice). |
 | `components/hardware/` | GPU drivers, `fwupd`, `fstrim`, swap, EFI config, printing/scanning. Registered in `components/hardware/default.nix`. |
 | `components/packageconfig/` | One module per service/tool area (git, nix, gnome, firefox, chromium, tailscale, ollama, libvirt, waydroid, nginx, sudo, ...). Registered in `components/packageconfig/default.nix`. |
-| `components/customcommands/` | Defines custom CLI commands (`nixos-update`, `nixos-upgrade-branch`, `ssh-forward`, `ssh-keepalive`, `reboot-to-firmware`, `debug-kernel-interrupts`, `test-nixconfig`). |
+| `components/customcommands/` | Defines custom CLI commands (`nixos-update`, `nixos-upgrade-branch`, `ssh-forward`, `ssh-keepalive`, `reboot-to-firmware`, `debug-kernel-interrupts`, `test-nixconfig`, `fw-setchargelimit`). |
 | `components/test/` | VM-based tests: `test_sanity.nix`, `test_impermanence.nix`, `testvm.nix` (a full test host config). |
 | `utils/adduser.nix` | Declares a user + impermanence persistence + admin groups. Import it with an attrset, e.g. `(import ./utils/adduser.nix { shortname = "ashwin"; isAdmin = true; })`. |
 | `utils/addmicrovm.nix` | Declares a `microvm.nix` host-scoped guest; import with `{ vmname, ncpu, memsize, ... }`. |
@@ -154,7 +154,7 @@ Deliberately untested (documented exceptions):
 
 Maintenance commands available on configured hosts: `nixos-update`,
 `nixos-upgrade-branch <version>`, `reboot-to-firmware`, `ssh-forward`, `ssh-keepalive`,
-`debug-kernel-interrupts`.
+`debug-kernel-interrupts`, `fw-setchargelimit`.
 
 ## Gotchas
 
