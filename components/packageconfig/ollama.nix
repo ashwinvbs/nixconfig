@@ -14,6 +14,8 @@ in
       services.ollama = {
         user = "ollama";
         group = "ollama";
+        # The default path is managed by service, so we cant bind mount into it.
+        models = "/var/lib/ollama-models";
         environmentVariables = {
           OLLAMA_CONTEXT_LENGTH = "32768";
           OLLAMA_FLASH_ATTENTION = "1";

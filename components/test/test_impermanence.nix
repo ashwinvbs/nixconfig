@@ -55,9 +55,9 @@ pkgs.testers.runNixOSTest {
     reference.succeed("su - testuser -c 'adb kill-server'")
 
     # /var/lib/ollama-models : owned by the ollama service (services.ollama.models).
-    # Restarting the unit makes ollama create its models directory via its own code path.
-    reference.succeed("systemctl restart ollama.service")
-    reference.succeed("systemctl is-active ollama.service")
+    # This is a one-off hack. If we use a custom path, ollama service does not create this dir and fails to start.
+    # The default path, is managed by systemd and we cannot use impermanence to persist subdirs, hence the catch-22.
+    reference.succeed("install -dm 700 -o ollama -g ollama /var/lib/ollama-models")
 
     # /var/lib/flatpak : system-wide flatpak install root, initialized by the flatpak client.
     reference.succeed("flatpak --system remote-list")
