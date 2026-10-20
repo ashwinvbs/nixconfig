@@ -5,9 +5,8 @@
 
 {
   imports = [
-    ./amdgpu.nix
-    ./eficonfig.nix
-    ./intelgpu.nix
+    ./gpu.nix
+    ./hostplatform.nix
     ./print_and_scan.nix
   ];
 
