@@ -14,6 +14,9 @@ Intent: keep per-feature configuration small and composable, toggled through a s
 
 Read [`README.md`](./README.md) for the user-facing install/maintenance instructions.
 
+**This file must accurately reflect the design of the repository.** After any
+refactor to the repository, update `AGENTS.md` to reflect the refactor (if necessary).
+
 ## Repository map
 
 | Path | What it is / when you touch it |
