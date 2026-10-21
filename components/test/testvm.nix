@@ -52,6 +52,7 @@
     tailscale.enable = true;
     tailscale.provisionCert.enable = true;
     nginx.enable = true;
+    coder.enable = true;
   };
 
   virtualisation = {

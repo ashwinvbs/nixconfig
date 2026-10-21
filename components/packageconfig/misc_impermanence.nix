@@ -63,6 +63,10 @@
       (lib.mkIf config.networking.networkmanager.enable {
         directories = [ "/etc/NetworkManager/system-connections" ];
       })
+
+      (lib.mkIf config.services.postgresql.enable {
+        directories = [ config.services.postgresql.dataDir ];
+      })
     ];
   });
 }

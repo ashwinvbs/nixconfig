@@ -20,6 +20,7 @@
     ./autoupgrade.nix
     ./bash.nix
     ./chromium.nix
+    ./coder.nix
     ./devtools.nix
     ./firefox.nix
     ./git.nix

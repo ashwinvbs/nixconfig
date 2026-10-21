@@ -26,7 +26,7 @@ refactor to the repository, update `AGENTS.md` to reflect the refactor (if neces
 | `components/base.nix` | Baseline system: boot, `resolved` DNS, timezone, `autoUpgrade`, openssh, tailscale, git, tmux, `mutableUsers = false`. |
 | `components/workstation.nix` | Desktop extras behind `installconfig.workstationComponents` (GNOME, flatpak, chromium, graphics, qmk, steam-hw, spice). |
 | `components/hardware/` | GPU drivers (`gpu.nix`: `installconfig.hardware.{intelgpu,amdgpu}`), `fwupd`, `fstrim`, swap, host-platform config (`hostplatform.nix`: EFI boot, aarch64 binfmt emulation on x86_64), printing/scanning. Registered in `components/hardware/default.nix`. |
-| `components/packageconfig/` | One module per service/tool area (git, nix, gnome, firefox, chromium, tailscale, ollama, libvirt, waydroid, nginx, sudo, ...). Registered in `components/packageconfig/default.nix`. |
+| `components/packageconfig/` | One module per service/tool area (git, nix, gnome, firefox, chromium, coder, tailscale, ollama, libvirt, waydroid, nginx, sudo, ...). Registered in `components/packageconfig/default.nix`. |
 | `components/customcommands/` | Defines custom CLI commands (`nixos-update`, `nixos-upgrade-branch`, `ssh-forward`, `ssh-keepalive`, `reboot-to-firmware`, `debug-kernel-interrupts`, `test-nixconfig`, `fw-setchargelimit`). |
 | `components/test/` | VM-based tests: `test_sanity.nix`, `test_impermanence.nix`, `testvm.nix` (a full test host config). |
 | `utils/adduser.nix` | Declares a user + impermanence persistence + admin groups. Import it with an attrset, e.g. `(import ./utils/adduser.nix { shortname = "ashwin"; isAdmin = true; })`. |
