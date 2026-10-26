@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   authorizedKeys = [
     "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIO4lFenwqE4JN51v/7H6wB/QUtiSKbC52rMEjT/zWu5+AAAACHNzaDpja2V5"
@@ -30,6 +35,18 @@ in
 
     (lib.mkIf (config.networking.hostName == "nuc") {
       installconfig.hardware.intelgpu = true;
+
+      environment.systemPackages = [ pkgs.goose-cli ];
+
+      services = {
+        tailscale.provisionCert.enable = true;
+        code-server = {
+          enable = true;
+          user = "ashwin";
+          group = "users";
+        };
+        nginx.enable = true;
+      };
     })
 
     (lib.mkIf (config.networking.hostName == "rig") {
@@ -37,6 +54,24 @@ in
         hardware.amdgpu = true;
         workstationComponents = true;
       };
+
+      nixpkgs.config.rocmSupport = true;
+
+      services = {
+        tailscale.provisionCert.enable = true;
+        ollama.enable = true;
+        nginx.enable = true;
+      };
+
+      # Disable sleep. Seeing some weird issues on this desktop.
+      # System automatically wakes up and gets stuck in the sleep wakeup loop
+      systemd.targets = {
+        sleep.enable = false;
+        suspend.enable = false;
+        hibernate.enable = false;
+        "hybrid-sleep".enable = false;
+      };
+      services.displayManager.gdm.autoSuspend = false;
     })
 
     (lib.mkIf (config.networking.hostName == "fw") {
