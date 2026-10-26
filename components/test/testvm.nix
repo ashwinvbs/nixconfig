@@ -46,6 +46,11 @@
   };
 
   services = {
+    code-server = {
+      enable = true;
+      user = "testuser";
+      group = "users";
+    };
     fprintd.enable = true;
     ollama.enable = true;
     printing.enable = true;

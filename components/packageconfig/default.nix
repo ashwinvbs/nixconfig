@@ -21,6 +21,7 @@
     ./bash.nix
     ./chromium.nix
     ./coder.nix
+    ./code_server.nix
     ./devtools.nix
     ./firefox.nix
     ./git.nix

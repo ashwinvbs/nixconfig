@@ -43,9 +43,6 @@ in
         && config.services.nginx.enable
       )
       {
-        # Add service users to the tailscalecert group
-        users.users.nginx.extraGroups = [ "tailscalecert" ];
-
         # Configure Nginx
         services.nginx = {
           virtualHosts."ollama-proxy" = {
@@ -69,12 +66,6 @@ in
               proxyWebsockets = true;
             };
           };
-        };
-
-        # 3. Ensure Nginx depends strictly on the cert sync service
-        systemd.services.nginx = {
-          after = [ "tailscale-cert-sync.service" ];
-          requires = [ "tailscale-cert-sync.service" ];
         };
       }
     )
