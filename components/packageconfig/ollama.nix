@@ -64,6 +64,9 @@ in
             locations."/" = {
               proxyPass = "http://127.0.0.1:11434";
               proxyWebsockets = true;
+              extraConfig = ''
+                proxy_set_header Host localhost:11434;
+              '';
             };
           };
         };
