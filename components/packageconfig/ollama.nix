@@ -46,6 +46,7 @@ in
         # Configure Nginx
         services.nginx = {
           virtualHosts."ollama-proxy" = {
+            # Listen on port 11433 with SSL enabled
             listen = [
               {
                 # TODO: bind only to tailscale nic
@@ -55,7 +56,6 @@ in
               }
             ];
 
-            default = true;
             onlySSL = true;
             sslCertificate = certPath;
             sslCertificateKey = keyPath;

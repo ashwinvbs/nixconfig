@@ -99,7 +99,6 @@ in
               }
             ];
 
-            default = true;
             onlySSL = true;
             sslCertificate = certPath;
             sslCertificateKey = keyPath;
