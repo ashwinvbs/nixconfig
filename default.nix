@@ -36,8 +36,6 @@ in
     (lib.mkIf (config.networking.hostName == "nuc") {
       installconfig.hardware.intelgpu = true;
 
-      environment.systemPackages = [ pkgs.goose-cli ];
-
       services = {
         tailscale.provisionCert.enable = true;
         code-server = {
