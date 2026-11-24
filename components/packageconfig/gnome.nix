@@ -20,7 +20,7 @@ in
   config = lib.mkIf config.services.desktopManager.gnome.enable {
     # gnome.core-os-services overrides
     services.gnome.gnome-online-accounts.enable = false;
-    services.gnome.evolution-data-server.enable = false;
+    services.gnome.evolution-data-server.enable = lib.mkForce false;
 
     # gcr-ssh-agent doesnt seem to work with yubikeys :(
     # and programs.ssh.startAgent conflicts with it.
