@@ -26,6 +26,13 @@ in
     # and programs.ssh.startAgent conflicts with it.
     services.gnome.gcr-ssh-agent.enable = lib.mkForce false;
 
+    # disable search related packages
+    services.gnome.localsearch.enable = lib.mkForce false;
+    services.gnome.tinysparql.enable = lib.mkForce false;
+
+    # Unused media discovery/sharing
+    services.dleyna.enable = lib.mkForce false;
+
     # Would like to disable but cannot
     # services.gnome.at-spi2-core.enable = true;
 
